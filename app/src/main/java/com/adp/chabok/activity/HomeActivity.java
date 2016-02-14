@@ -1,5 +1,6 @@
 package com.adp.chabok.activity;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -251,6 +252,13 @@ public class HomeActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             currentPage = position;
+
+            if (position == 0) {
+
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
+
+            }
 
             if (position == 0 && new_messages > 0) {
                 updateInbox();

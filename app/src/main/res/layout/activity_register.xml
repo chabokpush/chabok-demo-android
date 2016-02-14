@@ -37,6 +37,7 @@
                     android:text="@string/anounce_register" />
 
                 <com.adp.chabok.ui.EditText
+                    android:nextFocusForward="@+id/companyEditText"
                     android:id="@+id/nameEditText"
                     style="@style/Text.SettingItem"
                     android:layout_width="fill_parent"

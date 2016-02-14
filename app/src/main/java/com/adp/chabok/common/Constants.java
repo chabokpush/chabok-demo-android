@@ -6,8 +6,8 @@ package com.adp.chabok.common;
  */
 public interface Constants {
 
-    boolean DEV_MODE = true;
-    //    boolean DEV_MODE = false;
+    //    boolean DEV_MODE = true;
+    boolean DEV_MODE = false;
 //
     String APP_ID = "chabok-demo/1085254472657";
 
@@ -17,7 +17,6 @@ public interface Constants {
     String PUSH_DATA = "data";
 
     String APPLICATION_FONT = "fonts/IRAN Sans.ttf";
-
     String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_NAME = "name";
 

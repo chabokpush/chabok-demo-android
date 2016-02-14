@@ -9,6 +9,7 @@
     <color name="textColorPrimary">#2b2b2b</color>
     <color name="textColorSecondary">#d5d5da</color>
     <color name="messageBackGround">#e6e7ec</color>
+    <color name="textHintColor">#acb0b4</color>
 
 
     <color name="textTitle">#003a6b</color>
@@ -36,7 +37,7 @@
     <color name="setting_done_key_background_color_darker_pressed">#008190</color>
 
     <color name="menu_item_text_color">#ffffff</color>
-    <color name="menu_item_hint_text_color">#b8bfc5</color>
+    <color name="menu_item_hint_text_color">#acb0b4</color>
     <color name="title_text_color">#ffffff</color>
 
     <color name="dotted_line_color">#d6dbe0</color>

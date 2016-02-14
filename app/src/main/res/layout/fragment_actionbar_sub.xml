@@ -48,7 +48,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="@string/action_offline"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/textHintColor"
             android:textSize="12dp" />
 
     </RelativeLayout>

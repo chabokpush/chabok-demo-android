@@ -1,6 +1,7 @@
 package com.adp.chabok.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -19,6 +20,7 @@ import com.adpdigital.push.PushMessage;
 public class ChabokApplication extends Application {
 
     public static BaseActivity currentActivity;
+    public static Context context;
     AdpPushClient adpPush = null;
     private SharedPreferences myPref;
 
@@ -52,10 +54,9 @@ public class ChabokApplication extends Application {
                             return false;
                         }
 
-                    if (HomeActivity.currentPage == 0) {
+                    if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
                         return false;    // user in message tab
                     }
-
 
                     return result;
                 }
@@ -84,6 +85,7 @@ public class ChabokApplication extends Application {
 
         // initialize push client on app start
         getPushClient(HomeActivity.class);
+        this.context = getApplicationContext();
 
 
     }

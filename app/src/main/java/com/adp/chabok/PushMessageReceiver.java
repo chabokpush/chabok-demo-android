@@ -29,6 +29,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
     public static final String TAG = PushMessageReceiver.class.getName();
 
     public LocalBroadcastManager broadcaster;
+    SharedPreferences myPreff = null;
 
     ChabokDAO dao;
 
@@ -52,7 +53,10 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         if (message.getData() != null) {
             temp = message.getData().toString();
         }
-        SharedPreferences myPreff = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.currentActivity);
+
+        myPreff = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.context);
+
+
         Log.i("MAHDI", message.getSenderId() + "==" + myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""));
 
         String senderId = "";
@@ -90,10 +94,10 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
         intent.putExtra(Constants.MSG_SAVED_2_DB_EXTRA, 1);
 
-        if (ChabokApplication.currentActivity != null) {
-            broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.currentActivity);
+//        if (ChabokApplication.currentActivity != null) {
+        broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.context);
             broadcaster.sendBroadcast(intent);
-        }
+//        }
 
     }
 }
