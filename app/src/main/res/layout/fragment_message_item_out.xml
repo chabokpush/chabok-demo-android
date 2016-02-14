@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_alignParentRight="false"
+            android:layout_margin="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/receiver_icon"
+            android:id="@+id/relativeLayout"
+            android:layout_alignParentLeft="true" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/relativeLayout">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.adp.chabok.ui.TextView
+                    android:padding="6dp"
+                    style="@style/Text.subtitle"
+                    android:id="@+id/inbox_item_sender_ame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="پیغام من"
+                    android:layout_alignParentRight="false"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true" />
+
+                <com.adp.chabok.ui.TextView
+                    android:layout_margin="6dp"
+                    android:padding="6dp"
+                    android:id="@+id/inbox_item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1394/11/15"
+                    android:layout_alignParentLeft="false"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_message_back"
+                android:layout_marginRight="16dp">
+
+                <com.adp.chabok.ui.TextView
+                    style="@style/Text.message"
+                    android:lineSpacingExtra="7dp"
+                    android:gravity="right"
+                    android:id="@+id/inbox_item_message_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد." />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

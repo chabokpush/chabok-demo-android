@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#007fe8</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="textColorPrimary">#2b2b2b</color>
+    <color name="textColorSecondary">#d5d5da</color>
+    <color name="messageBackGround">#e6e7ec</color>
+
+
+    <color name="textTitle">#003a6b</color>
+    <color name="colorBlue1">#007fe8</color>
+    <color name="colorBlue2">#525d7a</color>
+    <color name="colorBlue3">#ccdbe5</color>
+
+    <color name="colorViolet1">#65527a</color>
+    <color name="colorViolet2">#ddcce5</color>
+    <color name="colorViolet3">#632496</color>
+
+    <color name="colorGreen1">#01e3c1</color>
+    <color name="colorGreen2">#00325d</color>
+
+
+    <color name="menu_item_1_background_color">#787d81</color>
+    <color name="menu_item_1_background_color_pressed">#64696c</color>
+    <color name="menu_item_2_background_color">#6f7377</color>
+    <color name="menu_item_2_background_color_pressed">#5a5e61</color>
+
+    <color name="setting_phone_background_color">#8c9297</color>
+    <color name="setting_done_key_background_color">#00b6cb</color>
+    <color name="setting_done_key_background_color_pressed">#009daf</color>
+    <color name="setting_done_key_background_color_darker">#0097a8</color>
+    <color name="setting_done_key_background_color_darker_pressed">#008190</color>
+
+    <color name="menu_item_text_color">#ffffff</color>
+    <color name="menu_item_hint_text_color">#b8bfc5</color>
+    <color name="title_text_color">#ffffff</color>
+
+    <color name="dotted_line_color">#d6dbe0</color>
+
+    <color name="inbox_date_sent_color">#7c8185</color>
+    <color name="inbox_date_received_color">#acb0b4</color>
+    <color name="inbox_message_color">#56595c</color>
+
+    <color name="my_white">#ffffff</color>
+
+    <color name="button_text_color">#ffffff</color>
+
+    <color name="message_box_color_gray">#d6dbe0</color>
+    <color name="message_box_color_green">#d1dfdf</color>
+    <color name="message_box_color_red">#e8e2e2</color>
+
+    <color name="message_badge_text_color_red">#ffffff</color>
+    <color name="message_badge_color_red">#d12437</color>
+
+    <color name="new_message_color">#007fff</color>
+
+    <color name="message_color">#8c9297</color>
+    <color name="version_color">#6d7b8a</color>
+
+</resources>

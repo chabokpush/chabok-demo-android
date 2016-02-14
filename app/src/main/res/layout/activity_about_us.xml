@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/my_white"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView2">
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_chabok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2" />
+
+            <com.adp.chabok.ui.TextView
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                style="@style/Text.title" />
+
+            <com.adp.chabok.ui.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_app_description"
+                style="@style/Text.subtitle" />
+
+
+            <com.adp.chabok.ui.TextView
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginLeft="70dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_box"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/lbl_chabok_url"
+                style="@style/Text.content" />
+
+            <com.adp.chabok.ui.TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="70dp"
+                android:layout_marginLeft="70dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_box"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/lbl_chabok_phone"
+                style="@style/Text.content" />
+
+            <com.adp.chabok.ui.TextView
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_app_description"
+                style="@style/Text.subtitle" />
+
+            <com.adp.chabok.ui.TextView
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_chabok_address"
+                style="@style/Text.content"
+                android:layout_marginBottom="20dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

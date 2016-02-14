@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navad_diag_root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_launcher"
+                android:id="@+id/imageView6" />
+
+            <com.adp.chabok.ui.TextView
+                android:layout_margin="20dp"
+                style="@style/Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:id="@+id/error_fragment_title"
+                android:lineSpacingExtra="7dp"
+                android:text="@string/msg_error_in_connection" />
+
+            <com.adp.chabok.ui.Button
+                android:layout_marginTop="10dp"
+                android:id="@+id/confirmButton_error_fragment"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_style_done"
+                android:text="@string/action_confirm"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
