@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -94,9 +95,20 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             messageViewHolder.in_rll.setVisibility(View.VISIBLE);
             messageViewHolder.messageDate.setText(DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
                     + " " + DateUtil.getSolarDate(ChabokApplication.currentActivity, new Date(items.get(i).getReceivedDate().getTime()), false, false));
-
             messageViewHolder.messageText.setText(items.get(i).getMessage());
             messageViewHolder.senderName.setText(getSenderName(items.get(i)));
+
+            switch (items.get(i).getSendStatus()) {
+                case 0:
+                    messageViewHolder.sendStatus.setImageResource(R.drawable.ic_check_gray);
+                    break;
+                case 1:
+                    messageViewHolder.sendStatus.setImageResource(R.drawable.ic_check_blue);
+                    break;
+                default:
+                    messageViewHolder.sendStatus.setImageResource(R.drawable.ic_check_gray);
+                    break;
+            }
 
 //            Glide.with(this).load(R.drawable.intro_1).asGif().into(imgFrgament1);
 //
@@ -114,11 +126,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
             messageViewHolder.out_rll.setVisibility(View.VISIBLE);
             messageViewHolder.in_rll.setVisibility(View.GONE);
-            messageViewHolder.messageDate_out.setText(DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), true));
+            messageViewHolder.messageDate_out.setText(DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
+                    + " " + DateUtil.getSolarDate(ChabokApplication.currentActivity, new Date(items.get(i).getReceivedDate().getTime()), false, false));
             messageViewHolder.messageText_out.setText(items.get(i).getMessage());
             messageViewHolder.senderName_out.setText(getSenderName(items.get(i)));
         }
-
 
         final int count = i;
 
@@ -140,6 +152,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
         TextView senderName_out;
         TextView messageDate_out;
         TextView messageText_out;
+        ImageView sendStatus;
 
         MessageViewHolder(View itemView) {
             super(itemView);
@@ -152,6 +165,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             senderName_out = (TextView) itemView.findViewById(R.id.inbox_item_sender_ame_out);
             messageDate_out = (TextView) itemView.findViewById(R.id.inbox_item_date_out);
             messageText_out = (TextView) itemView.findViewById(R.id.inbox_item_message_text_out);
+            sendStatus = (ImageView) itemView.findViewById(R.id.imageView_mesage_send);
 //            personPhoto = (ImageView) itemView.findViewById(R.id.person_photo);
 
         }

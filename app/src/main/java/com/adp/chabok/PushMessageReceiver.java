@@ -64,6 +64,8 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         if (message.getSenderId() != null) {
             if (!message.getSenderId().trim().equals(myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) { // my own message that received
                 senderId = message.getSenderId();
+                Log.i("MAHDI", "(message.getId()=" + message.getId());
+                dao.updateSendStatus(message.getId());
                 its_my_own_message = false;
             } else {
                 its_my_own_message = true;
@@ -77,7 +79,8 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                 new Timestamp(new Date().getTime()),
                 false,
                 temp,
-                senderId
+                senderId,
+                0
         );
 
         if (!its_my_own_message) {

@@ -7,70 +7,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:padding="30dp">
 
-                <ProgressBar
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/progressBar"
-                    android:layout_margin="16dp"
-                    android:visibility="invisible" />
 
                 <com.adp.chabok.ui.TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/anounce_register" />
+                    android:text="@string/anounce_register"
+                    android:textSize="12dp" />
 
                 <com.adp.chabok.ui.EditText
-                    android:nextFocusForward="@+id/companyEditText"
                     android:id="@+id/nameEditText"
                     style="@style/Text.SettingItem"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:gravity="start"
                     android:hint="@string/hint_name"
                     android:inputType="textCapWords"
-                    android:maxLength="30" />
+                    android:maxLength="30"
+                    android:nextFocusForward="@+id/companyEditText" />
 
                 <com.adp.chabok.ui.EditText
                     android:id="@+id/companyEditText"
                     style="@style/Text.SettingItem"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:gravity="start"
                     android:hint="@string/hint_company"
                     android:inputType="textCapWords"
                     android:maxLength="30" />
 
                 <com.adp.chabok.ui.EditText
-                    style="@style/Text.SettingItem"
                     android:id="@+id/emailEditText"
+                    style="@style/Text.SettingItem"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:layout_marginTop="7dp"
                     android:gravity="start"
                     android:hint="@string/hint_email"
                     android:inputType="textEmailAddress"
                     android:maxLength="40"
-                    android:singleLine="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="60dp" />
+                    android:singleLine="true" />
 
             </LinearLayout>
         </ScrollView>
@@ -83,10 +77,13 @@
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:background="@drawable/button_style_done"
-        android:text="@string/action_get_activation"
-        android:layout_margin="30dp"
-        android:layout_alignParentBottom="true" />
+        android:text="@string/action_get_activation" />
 
 
 </RelativeLayout>

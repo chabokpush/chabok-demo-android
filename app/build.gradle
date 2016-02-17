@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile(name: 'pushakClientAndroidLib-release', ext: 'aar')
+    compile(name: 'pushakClientAndroidLib-debug', ext: 'aar')
     compile files('libs/glide-3.6.1.jar')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'

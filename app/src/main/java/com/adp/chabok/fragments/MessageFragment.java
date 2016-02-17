@@ -45,13 +45,11 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.activity_messages, container, false);
 
-//
         rv = (RecyclerView) fragmentView.findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setReverseLayout(true);
         rv.setLayoutManager(llm);
-//        registerForContextMenu(rv);
-//
+
         initializeData();
         initilizeAdapter();
         return fragmentView;
@@ -67,7 +65,6 @@ public class MessageFragment extends Fragment {
     public static void initializeData() {
 
         dao = ChabokDAOImpl.getInstance(ChabokApplication.currentActivity);
-//        messagesList = dao.getMessages("receivedDate DESC");
         messagesList = dao.getMessages("receivedDate DESC");
         messagesList = prepareData(messagesList);
 

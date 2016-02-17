@@ -10,6 +10,7 @@ public class MessageTO {
 
     private long id;
     private String serverId;
+    private String messageId;
     private String message;
     private Timestamp sentDate;
     private Timestamp receivedDate;
@@ -17,6 +18,7 @@ public class MessageTO {
     private boolean header;
     private String mdata;
     private String senderId;
+    private int send_status;  //0 just created - 1 sended
 
     public MessageTO() {
     }
@@ -27,7 +29,8 @@ public class MessageTO {
                      Timestamp receivedDate,
                      boolean read,
                      String mdata
-            , String senderId) {
+            , String senderId
+            , int send_status) {
         this.serverId = serverId;
         this.message = message;
         this.sentDate = sentDate;
@@ -35,6 +38,7 @@ public class MessageTO {
         this.read = read;
         this.mdata = mdata;
         this.senderId = senderId;
+        this.send_status = send_status;
     }
 
     public long getId() {
@@ -107,5 +111,13 @@ public class MessageTO {
 
     public void setSenderId(String mdata) {
         this.senderId = mdata;
+    }
+
+    public void setSendStatus(int send_status) {
+        this.send_status = send_status;
+    }
+
+    public int getSendStatus() {
+        return this.send_status;
     }
 }

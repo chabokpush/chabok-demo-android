@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
@@ -20,7 +19,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailEditText;
     EditText nameEditText;
     EditText companyEditText;
-    ProgressBar progressBar;
 
 
     @Override
@@ -51,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
         nameEditText.setHintTextColor(getResources().getColor(R.color.menu_item_hint_text_color));
         companyEditText.setHintTextColor(getResources().getColor(R.color.menu_item_hint_text_color));
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         findViewById(R.id.doneButton).setOnClickListener(doneClickListener);
 
     }
@@ -64,7 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
     View.OnClickListener doneClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            progressBar.setVisibility(View.VISIBLE);
 
             final String emailAdd = emailEditText.getText().toString();
             final String name = nameEditText.getText().toString();
@@ -73,16 +69,13 @@ public class RegisterActivity extends AppCompatActivity {
                     Validator.validateNotNull(RegisterActivity.this, name, R.string.lbl_name) &&
                     Validator.validateEmail(RegisterActivity.this, emailAdd)) {
 
-                progressBar.setVisibility(View.VISIBLE);
                 registerPushClient(emailAdd, name);
                 gotToMain();
 
-//                CustomDialogBuilder customBuilder = new CustomDialogBuilder(RegisterActivity.this, getString(R.string.invalid_phone_no));
-//                customBuilder.create().show();
                 return;
 
             } else {
-                progressBar.setVisibility(View.INVISIBLE);
+
             }
 
 

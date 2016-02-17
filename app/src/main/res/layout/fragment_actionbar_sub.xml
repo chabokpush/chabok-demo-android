@@ -26,9 +26,9 @@
             style="@style/Text.title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/app_name" />
+            android:text="@string/app_name"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
 
         <ImageView
@@ -49,7 +49,8 @@
             android:layout_marginLeft="15dp"
             android:text="@string/action_offline"
             android:textColor="@color/textHintColor"
-            android:textSize="12dp" />
+            android:textSize="12dp"
+            android:layout_alignParentBottom="false" />
 
     </RelativeLayout>
 

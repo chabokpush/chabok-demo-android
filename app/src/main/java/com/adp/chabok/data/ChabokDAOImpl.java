@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.adp.chabok.data.models.MessageTO;
 
@@ -36,8 +35,8 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
     @Override
     public MessageTO saveMessage(MessageTO messageTO, int type) {
-        ContentValues initialValues = new ContentValues();
 
+        ContentValues initialValues = new ContentValues();
 
         initialValues.put("serverId", messageTO.getServerId());
         initialValues.put("message", messageTO.getMessage());
@@ -46,6 +45,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         initialValues.put("read", messageTO.isRead());
         initialValues.put("data", messageTO.getData());
         initialValues.put("type", type);
+        initialValues.put("send_status", messageTO.getSendStatus());
 
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(TABLE_NAME_MESSAGE, null, initialValues);
@@ -83,7 +83,8 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 "receivedDate",
                 "read",
                 "data",
-                "senderId"
+                "senderId",
+                "send_status"
         };
 
         Cursor results = db.query(TABLE_NAME_MESSAGE, columns, null, null, null, null, null, null);
@@ -97,6 +98,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 Timestamp receivedDate = new Timestamp(results.getLong(4));
                 boolean read = results.getInt(5) != 0;
                 String senderId = results.getString(6);
+                int sendStatus = results.getInt(7);
                 MessageTO messageTO = new MessageTO();
                 messageTO.setId(id);
                 messageTO.setServerId(serverId);
@@ -105,6 +107,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 messageTO.setReceivedDate(receivedDate);
                 messageTO.setRead(read);
                 messageTO.setSenderId(senderId);
+                messageTO.setSendStatus(sendStatus);
                 messageTOList.add(messageTO);
             }
         }
@@ -127,12 +130,13 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 "sentDate",
                 "receivedDate",
                 "read",
-                "data"
+                "data",
+                "send_status"
+
         };
 
         Cursor results = db.query(TABLE_NAME_MESSAGE, columns, null, null, null, null, orderByColumn, null);
 
-        Log.i("MAHDI", "db results=" + results.getCount());
         if (results.moveToFirst()) {
             for (; !results.isAfterLast(); results.moveToNext()) {
                 long id = results.getLong(0);
@@ -142,6 +146,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 Timestamp receivedDate = new Timestamp(results.getLong(4));
                 boolean read = results.getInt(5) != 0;
                 String data = results.getString(6);
+                int sendStatus = results.getInt(7);
 
                 MessageTO messageTO = new MessageTO();
                 messageTO.setId(id);
@@ -150,6 +155,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 messageTO.setSentDate(sentDate);
                 messageTO.setReceivedDate(receivedDate);
                 messageTO.setRead(read);
+                messageTO.setSendStatus(sendStatus);
                 messageTO.setData(data);
                 if ((data == null) || (data.equals(""))) {
 
@@ -167,6 +173,16 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         return messageTOList;
     }
 
+    @Override
+    public void updateSendStatus(String serverId) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("send_status", 1);
+        db.update(TABLE_NAME_MESSAGE, cv, "serverId=?", new String[]{serverId});
+
+    }
 
     @Override
     public int getNormalUnreadedMessagesCount() {
@@ -220,14 +236,14 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(TABLE_MESSAGE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL(TABLE_MESSAGE);
-//        db.execSQL(ALTER_TABLE_MESSAGE);
+        db.execSQL(ALTER_TABLE_MESSAGE);
 
     }
 }

@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
@@ -60,6 +61,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         ChabokApplication.currentActivity = HomeActivity.this;
 
@@ -146,6 +148,7 @@ public class HomeActivity extends BaseActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         changeTabsFont();
+        changeTabsFontBolding(0);
 
         DetailOnPageChangeListener mylistener = new DetailOnPageChangeListener();
         viewPager.addOnPageChangeListener(mylistener);
@@ -155,43 +158,45 @@ public class HomeActivity extends BaseActivity {
     public void sendMessage(View v) {
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+        final EditText msg = (EditText) findViewById(R.id.editText_out_message);
 
+        if (!msg.getText().toString().equals(""))
+            try {
 
-        try {
-            final EditText msg = (EditText) findViewById(R.id.editText_out_message);
-            AdpPushClient pushClient = ((ChabokApplication) getApplication()).getPushClient();
-            PushMessage myPushMessage = new PushMessage();
-            myPushMessage.setBody(msg.getText().toString().trim());
+                AdpPushClient pushClient = ((ChabokApplication) getApplication()).getPushClient();
+                PushMessage myPushMessage = new PushMessage();
+                myPushMessage.setBody(msg.getText().toString().trim());
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO untill getSenderId works dont need this part
-            myPushMessage.setData(jsonObject);
-            myPushMessage.setTopicName(Constants.CHANNEL_NAME);
-            myPushMessage.setId(UUID.randomUUID().toString());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO untill getSenderId works dont need this part
+                myPushMessage.setData(jsonObject);
+                myPushMessage.setTopicName(Constants.CHANNEL_NAME);
+                myPushMessage.setId(UUID.randomUUID().toString());
 
-            MessageTO message = new MessageTO();
-            message.setMessage(msg.getText().toString().trim());
-            message.setData(jsonObject.toString());
-            message.setSentDate(new Timestamp(new Date().getTime()));
-            message.setReceivedDate(new Timestamp(new Date().getTime()));
-            dao.saveMessage(message, 0);
-            updateInbox();
-            msg.setText("");
+                MessageTO message = new MessageTO();
+                message.setMessage(msg.getText().toString().trim());
+                message.setData(jsonObject.toString());
+                message.setSentDate(new Timestamp(new Date().getTime()));
+                message.setReceivedDate(new Timestamp(new Date().getTime()));
+                message.setServerId(myPushMessage.getId());
+                dao.saveMessage(message, 0);
+                updateInbox();
+                msg.setText("");
 
-            pushClient.publish(myPushMessage, new Callback() {
-                @Override
-                public void onSuccess(Object o) {
-                }
+                pushClient.publish(myPushMessage, new Callback() {
+                    @Override
+                    public void onSuccess(Object o) {
+                    }
 
-                @Override
-                public void onFailure(Throwable throwable) {
+                    @Override
+                    public void onFailure(Throwable throwable) {
 
-                }
-            });
+                    }
+                });
 
-        } catch (JSONException e) {
-            Log.e("LOG", "e=" + e.getMessage(), e);
-        }
+            } catch (JSONException e) {
+                Log.e("LOG", "e=" + e.getMessage(), e);
+            }
 
 
     }
@@ -212,6 +217,38 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    private void changeTabsFontBolding(int tabPos) {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+
+        ViewGroup vgTab = (ViewGroup) vg.getChildAt(tabPos);
+        int tabChildsCount = vgTab.getChildCount();
+        for (int i = 0; i < tabChildsCount; i++) {
+            View tabViewChild = vgTab.getChildAt(i);
+            if (tabViewChild instanceof TextView) {
+                Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
+                ((TextView) tabViewChild).setTypeface(tf, Typeface.BOLD);
+                ((TextView) tabViewChild).setTextSize(32f);
+                ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
+            }
+        }
+
+        int other_pos = (tabPos == 1) ? 0 : 1;
+
+        ViewGroup vgTab_other = (ViewGroup) vg.getChildAt(other_pos);
+        int tabChildsCount_other = vgTab.getChildCount();
+        for (int i = 0; i < tabChildsCount_other; i++) {
+            View tabViewChild = vgTab.getChildAt(i);
+            if (tabViewChild instanceof TextView) {
+                Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
+                ((TextView) tabViewChild).setTypeface(tf, Typeface.NORMAL);
+                ((TextView) tabViewChild).setTextSize(12f);
+                ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
+            }
+        }
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -253,11 +290,20 @@ public class HomeActivity extends BaseActivity {
         public void onPageSelected(int position) {
             currentPage = position;
 
-            if (position == 0) {
 
+            changeTabsFontBolding(position);
+
+
+            if (position == 0) {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancelAll();
+            } else {
 
+                View view = HomeActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
 
             if (position == 0 && new_messages > 0) {

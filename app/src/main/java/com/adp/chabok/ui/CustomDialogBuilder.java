@@ -19,7 +19,7 @@ public class CustomDialogBuilder extends AlertDialog.Builder {
     public CustomDialogBuilder(Activity context, String message) {
         super(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.fragment_error, (ViewGroup) context.findViewById(R.id.navad_diag_root));
+        View layout = inflater.inflate(R.layout.fragment_error, (ViewGroup) context.findViewById(R.id.chabok_diag_root));
 
         TextView text = (TextView) layout.findViewById(R.id.error_fragment_title);
         text.setText(message);

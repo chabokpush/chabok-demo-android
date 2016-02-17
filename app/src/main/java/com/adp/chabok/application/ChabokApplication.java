@@ -3,6 +3,9 @@ package com.adp.chabok.application;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -51,10 +54,12 @@ public class ChabokApplication extends Application {
 
                     if (pushMessage.getData() != null)
                         if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
+
                             return false;
                         }
 
                     if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
+                        ring();
                         return false;    // user in message tab
                     }
 
@@ -70,6 +75,18 @@ public class ChabokApplication extends Application {
 
 
         return adpPush;
+    }
+
+    private void ring() {
+
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public synchronized AdpPushClient getPushClient() {
