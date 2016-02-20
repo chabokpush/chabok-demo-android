@@ -18,6 +18,7 @@ public class MessageTO {
     private boolean header;
     private String mdata;
     private String senderId;
+    private int seenCounter;
     private int send_status;  //0 just created - 1 sended
 
     public MessageTO() {
@@ -119,5 +120,13 @@ public class MessageTO {
 
     public int getSendStatus() {
         return this.send_status;
+    }
+
+    public void setSeenCounter(int seenCounter) {
+        this.seenCounter = seenCounter;
+    }
+
+    public int getSeenCounter() {
+        return this.seenCounter;
     }
 }

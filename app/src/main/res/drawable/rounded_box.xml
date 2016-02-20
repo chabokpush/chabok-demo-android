@@ -15,7 +15,7 @@
         android:bottomRightRadius="3dip" />
 
     <stroke
-        android:width="4px"
+        android:width="2px"
         android:color="@color/textColorPrimary" />
 
 </shape>

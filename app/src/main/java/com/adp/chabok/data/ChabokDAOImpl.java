@@ -32,6 +32,25 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         return ourInstance;
     }
 
+    @Override
+    public void updateCounter(String serverId) {
+
+        int counter = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor myCursor = db.query(TABLE_NAME_MESSAGE, null, "serverId = ?", new String[]{serverId}, null, null, null, null);
+        myCursor.moveToFirst();
+        if (myCursor.getCount() > 0) {
+            counter = myCursor.getInt(myCursor.getColumnIndex("counter"));
+            counter++;
+            ContentValues cv = new ContentValues();
+            cv.put("counter", counter);
+            db.update(TABLE_NAME_MESSAGE, cv, "serverId = ?", new String[]{serverId});
+
+        }
+        myCursor.close();
+        db.close();
+    }
+
 
     @Override
     public MessageTO saveMessage(MessageTO messageTO, int type) {
@@ -46,6 +65,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         initialValues.put("data", messageTO.getData());
         initialValues.put("type", type);
         initialValues.put("send_status", messageTO.getSendStatus());
+        initialValues.put("counter", 0);
 
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(TABLE_NAME_MESSAGE, null, initialValues);
@@ -84,7 +104,8 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 "read",
                 "data",
                 "senderId",
-                "send_status"
+                "send_status",
+                "counter"
         };
 
         Cursor results = db.query(TABLE_NAME_MESSAGE, columns, null, null, null, null, null, null);
@@ -99,6 +120,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 boolean read = results.getInt(5) != 0;
                 String senderId = results.getString(6);
                 int sendStatus = results.getInt(7);
+                int seenCounter = results.getInt(8);
                 MessageTO messageTO = new MessageTO();
                 messageTO.setId(id);
                 messageTO.setServerId(serverId);
@@ -108,6 +130,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 messageTO.setRead(read);
                 messageTO.setSenderId(senderId);
                 messageTO.setSendStatus(sendStatus);
+                messageTO.setSeenCounter(seenCounter);
                 messageTOList.add(messageTO);
             }
         }
@@ -131,7 +154,8 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 "receivedDate",
                 "read",
                 "data",
-                "send_status"
+                "send_status",
+                "counter"
 
         };
 
@@ -147,6 +171,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 boolean read = results.getInt(5) != 0;
                 String data = results.getString(6);
                 int sendStatus = results.getInt(7);
+                int seenCounter = results.getInt(8);
 
                 MessageTO messageTO = new MessageTO();
                 messageTO.setId(id);
@@ -157,6 +182,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
                 messageTO.setRead(read);
                 messageTO.setSendStatus(sendStatus);
                 messageTO.setData(data);
+                messageTO.setSeenCounter(seenCounter);
                 if ((data == null) || (data.equals(""))) {
 
                     messageTO.setData(data);
@@ -177,11 +203,10 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     public void updateSendStatus(String serverId) {
 
         SQLiteDatabase db = this.getReadableDatabase();
-
         ContentValues cv = new ContentValues();
         cv.put("send_status", 1);
         db.update(TABLE_NAME_MESSAGE, cv, "serverId=?", new String[]{serverId});
-
+        db.close();
     }
 
     @Override

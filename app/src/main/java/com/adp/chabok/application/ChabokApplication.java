@@ -8,11 +8,16 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
+import com.adp.chabok.PushMessageReceiver;
 import com.adp.chabok.activity.BaseActivity;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.data.ChabokDAO;
+import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
@@ -40,6 +45,7 @@ public class ChabokApplication extends Application {
 
                 adpPush.setDevelopment(Constants.DEV_MODE);
                 adpPush.setSecure(true);
+                adpPush.addListener(this);
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "");
                 if (!"".equals(clientNo)) {
@@ -77,6 +83,15 @@ public class ChabokApplication extends Application {
         return adpPush;
     }
 
+    public void onEvent(DeliveryMessage message) {
+
+        Log.i("MAHDI", "seen =" + message);
+        ChabokDAO dao = ChabokDAOImpl.getInstance(this);
+        dao.updateCounter(message.getDeliveredMessageId());
+        PushMessageReceiver.sendResult();
+
+    }
+
     private void ring() {
 
         try {
@@ -88,6 +103,7 @@ public class ChabokApplication extends Application {
         }
 
     }
+
 
     public synchronized AdpPushClient getPushClient() {
         if (adpPush == null) {

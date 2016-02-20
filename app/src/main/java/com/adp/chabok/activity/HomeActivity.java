@@ -34,6 +34,7 @@ import com.adp.chabok.fragments.MessageFragment;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
+import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.PushMessage;
 
 import org.json.JSONException;
@@ -172,7 +173,7 @@ public class HomeActivity extends BaseActivity {
                 myPushMessage.setData(jsonObject);
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());
-
+                myPushMessage.setUseAsAlert(true);
                 MessageTO message = new MessageTO();
                 message.setMessage(msg.getText().toString().trim());
                 message.setData(jsonObject.toString());
@@ -217,6 +218,11 @@ public class HomeActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onEvent(ConnectionStatus status) {
+        super.onEvent(status);
     }
 
     private void changeTabsFontBolding(int tabPos) {
@@ -312,6 +318,5 @@ public class HomeActivity extends BaseActivity {
             }
         }
     }
-
 
 }

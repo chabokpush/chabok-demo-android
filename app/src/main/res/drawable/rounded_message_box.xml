@@ -9,13 +9,13 @@
         android:top="1dp" />
 
     <corners
-        android:topLeftRadius="3dip"
-        android:topRightRadius="3dip"
-        android:bottomLeftRadius="3dip"
-        android:bottomRightRadius="3dip" />
+        android:topLeftRadius="2dip"
+        android:topRightRadius="2dip"
+        android:bottomLeftRadius="2dip"
+        android:bottomRightRadius="2dip" />
 
     <solid android:color="@color/colorBlue3" />
     <stroke
-        android:width="2dp"
+        android:width="1dp"
         android:color="@color/colorBlue2" />
 </shape>

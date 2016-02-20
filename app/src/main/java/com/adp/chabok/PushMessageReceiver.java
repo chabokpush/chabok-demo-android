@@ -28,7 +28,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
     public static final String TAG = PushMessageReceiver.class.getName();
 
-    public LocalBroadcastManager broadcaster;
+    public static LocalBroadcastManager broadcaster;
     SharedPreferences myPreff = null;
 
     ChabokDAO dao;
@@ -56,18 +56,14 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
         myPreff = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.context);
 
-
-        Log.i("MAHDI", message.getSenderId() + "==" + myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""));
-
         String senderId = "";
         boolean its_my_own_message = false;
         if (message.getSenderId() != null) {
-            if (!message.getSenderId().trim().equals(myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) { // my own message that received
+            if (!message.getSenderId().trim().equals(myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {
                 senderId = message.getSenderId();
-                Log.i("MAHDI", "(message.getId()=" + message.getId());
-                dao.updateSendStatus(message.getId());
                 its_my_own_message = false;
             } else {
+                dao.updateSendStatus(message.getSentId());
                 its_my_own_message = true;
             }
         }
@@ -85,22 +81,18 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
         if (!its_my_own_message) {
             dao.saveMessage(newMessage, 0);
-            sendResult(message);
         }
+        sendResult();
 
     }
 
 
-    public void sendResult(PushMessage message) {
+    public static void sendResult() {
         Intent intent = new Intent(Constants.MSG_SAVED_2_DB);
         Log.i("MAHDI", "******* sende broad cast");
-
         intent.putExtra(Constants.MSG_SAVED_2_DB_EXTRA, 1);
-
-//        if (ChabokApplication.currentActivity != null) {
         broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.context);
-            broadcaster.sendBroadcast(intent);
-//        }
+        broadcaster.sendBroadcast(intent);
 
     }
 }

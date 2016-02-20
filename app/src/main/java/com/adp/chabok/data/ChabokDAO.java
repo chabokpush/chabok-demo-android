@@ -31,6 +31,8 @@ public interface ChabokDAO {
 
     void deleteMessages(String id);
 
+    public void updateCounter(String serverId);
+
     public void updateSendStatus(String messageId);
 
     public int getNormalUnreadedMessagesCount();
