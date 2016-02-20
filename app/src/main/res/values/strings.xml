@@ -57,7 +57,7 @@
 
     //----labels
 
-    <string name="lbl_name">نام و نام خانوادگی</string>
+    <string name="lbl_name">نام</string>
     <string name="lbl_email">ایمیل</string>
     <string name="lbl_mobile">شماره موبایل</string>
     <string name="lbl_adp_copy_right">طراحی و اجرا توسط شرکت آتیه داده پرداز</string>

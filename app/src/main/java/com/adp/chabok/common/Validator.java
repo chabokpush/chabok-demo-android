@@ -15,8 +15,6 @@ import java.util.regex.Pattern;
 public class Validator {
 
 
-    public static final String MOBILE_NO_REGEX = "^[1-9]{1}[0-9]{3,14}";
-
     public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
@@ -54,16 +52,6 @@ public class Validator {
         return true;
     }
 
-
-    public static boolean validateNotEqualWithKey(Activity activity, String string, String key) {
-        if (string.trim().equals(key)) {
-            CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, activity.getResources().getString(R.string.msg_invalid_text));
-            dialog = dialogBuilder.create();
-            dialog.show();
-            return false;
-        }
-        return true;
-    }
 
     public static boolean validateEmail(Activity activity, String string) {
 

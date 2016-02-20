@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.util.Log;
 
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
@@ -89,7 +88,6 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
     public static void sendResult() {
         Intent intent = new Intent(Constants.MSG_SAVED_2_DB);
-        Log.i("MAHDI", "******* sende broad cast");
         intent.putExtra(Constants.MSG_SAVED_2_DB_EXTRA, 1);
         broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.context);
         broadcaster.sendBroadcast(intent);

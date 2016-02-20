@@ -19,15 +19,35 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailEditText;
     EditText nameEditText;
     EditText companyEditText;
+    View.OnClickListener doneClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+            final String emailAdd = emailEditText.getText().toString();
+            final String name = nameEditText.getText().toString();
+
+            if (
+                    Validator.validateNotNull(RegisterActivity.this, name, R.string.lbl_name) &&
+                            Validator.validateNotNull(RegisterActivity.this, emailAdd, R.string.lbl_email) &&
+                            Validator.validateEmail(RegisterActivity.this, emailAdd)) {
+
+                registerPushClient(emailAdd, name);
+                gotToMain();
+
+                return;
+
+            } else {
+
+            }
+
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this);
 
@@ -57,30 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
-
-    View.OnClickListener doneClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            final String emailAdd = emailEditText.getText().toString();
-            final String name = nameEditText.getText().toString();
-
-            if (Validator.validateNotNull(RegisterActivity.this, emailAdd, R.string.lbl_mobile) &&
-                    Validator.validateNotNull(RegisterActivity.this, name, R.string.lbl_name) &&
-                    Validator.validateEmail(RegisterActivity.this, emailAdd)) {
-
-                registerPushClient(emailAdd, name);
-                gotToMain();
-
-                return;
-
-            } else {
-
-            }
-
-
-        }
-    };
 
     private void gotToMain() {
         Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);

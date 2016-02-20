@@ -69,7 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
     public int getItemViewType(int position) {
         int result = 0;
         if (items.get(position).getSenderId() != "") {
-            //TODO can change to do
+            //TODO can change here
         }
         return position % 2 * 2;
     }

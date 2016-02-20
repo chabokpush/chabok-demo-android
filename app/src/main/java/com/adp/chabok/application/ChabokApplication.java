@@ -8,7 +8,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.adp.chabok.PushMessageReceiver;
 import com.adp.chabok.activity.BaseActivity;
@@ -85,7 +84,6 @@ public class ChabokApplication extends Application {
 
     public void onEvent(DeliveryMessage message) {
 
-        Log.i("MAHDI", "seen =" + message);
         ChabokDAO dao = ChabokDAOImpl.getInstance(this);
         dao.updateCounter(message.getDeliveredMessageId());
         PushMessageReceiver.sendResult();
@@ -116,10 +114,8 @@ public class ChabokApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // initialize push client on app start
         getPushClient(HomeActivity.class);
         this.context = getApplicationContext();
-
 
     }
 
