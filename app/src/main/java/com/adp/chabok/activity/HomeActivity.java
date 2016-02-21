@@ -1,5 +1,6 @@
 package com.adp.chabok.activity;
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +19,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -31,11 +33,13 @@ import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.fragments.AboutUsFragment;
 import com.adp.chabok.fragments.MessageFragment;
+import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.PushMessage;
+import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +52,7 @@ import java.util.UUID;
 
 public class HomeActivity extends BaseActivity {
 
+    public static AlertDialog dialog;
     static public int currentPage = 0;
     public static TabLayout tabLayout;
     public static ChabokDAO dao;
@@ -62,7 +67,6 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         ChabokApplication.currentActivity = HomeActivity.this;
 
@@ -88,7 +92,6 @@ public class HomeActivity extends BaseActivity {
         };
 
         dao = ChabokDAOImpl.getInstance(this);
-
 
     }
 
@@ -174,6 +177,7 @@ public class HomeActivity extends BaseActivity {
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());
                 myPushMessage.setUseAsAlert(true);
+                myPushMessage.setAlertText(myPref.getString(Constants.PREFERENCE_NAME, "") + ": " + msg.getText().toString().trim());
                 MessageTO message = new MessageTO();
                 message.setMessage(msg.getText().toString().trim());
                 message.setData(jsonObject.toString());
@@ -198,7 +202,6 @@ public class HomeActivity extends BaseActivity {
             } catch (JSONException e) {
                 Log.e("LOG", "e=" + e.getMessage(), e);
             }
-
 
     }
 
@@ -254,6 +257,89 @@ public class HomeActivity extends BaseActivity {
                 ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
             }
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        showExitDialog();
+
+    }
+
+    public void showExitDialog() {
+
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChabokApplication.currentActivity);
+//        LayoutInflater inflater = AnsarPushApplication.currentActivity.getLayoutInflater();
+        LayoutInflater inflater = (LayoutInflater) ChabokApplication.currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.fragment_exit_dialog, null);
+        dialogBuilder.setView(dialogView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+
+        Button confirmButton = (Button) dialogView.findViewById(R.id.confirmButton);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                ChabokApplication.currentActivity.finish();
+                dialog.dismiss();
+
+            }
+        });
+
+        Button cancelButton = (Button) dialogView.findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    public void showSettingDialog(View v) {
+
+        boolean key = false;
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChabokApplication.currentActivity);
+        LayoutInflater inflater = (LayoutInflater) ChabokApplication.currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = inflater.inflate(R.layout.activity_settings, null);
+        dialogBuilder.setView(dialogView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+
+        final SwitchButton s1 = (SwitchButton) dialogView.findViewById(R.id.switch1);
+        final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false)) {
+            s1.setChecked(true);
+        } else {
+            s1.setChecked(false);
+        }
+
+        s1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (s1.isChecked()) {
+                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, true).commit();
+                } else {
+                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, false).commit();
+                }
+            }
+        });
+
+        Button cancelButton = (Button) dialogView.findViewById(R.id.setting_exit_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
 
     }
 
@@ -318,5 +404,4 @@ public class HomeActivity extends BaseActivity {
             }
         }
     }
-
 }

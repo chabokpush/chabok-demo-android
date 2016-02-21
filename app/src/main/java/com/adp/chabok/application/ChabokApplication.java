@@ -57,15 +57,20 @@ public class ChabokApplication extends Application {
                 public boolean buildNotification(PushMessage pushMessage, NotificationCompat.Builder builder) {
                     boolean result = true;
 
+                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false);
+
                     if (pushMessage.getData() != null)
                         if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
-
                             return false;
                         }
 
                     if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
                         ring();
                         return false;    // user in message tab
+                    }
+
+                    if (off_notify) {
+                        return false;
                     }
 
                     return result;

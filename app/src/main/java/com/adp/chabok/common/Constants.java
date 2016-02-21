@@ -19,6 +19,7 @@ public interface Constants {
     String APPLICATION_FONT = "fonts/IRAN Sans.ttf";
     String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_NAME = "name";
+    String PREFERENCE_NOTIFY = "notify";
 
     String CHANNEL_NAME = "public/wall";
     String KEY_NAME = "name";

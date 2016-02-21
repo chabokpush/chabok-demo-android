@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:gravity="center"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_launcher"
+        android:id="@+id/imageView6"
+        android:layout_margin="5dp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/message"
+            android:lineSpacingExtra="7dp"
+            android:layout_width="match_parent"
+            android:text="@string/msg_app_exit_confirm"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="10dp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.adp.chabok.ui.Button
+            android:id="@+id/cancelButton"
+            style="@style/Button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/doneButton"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_style_done_darker"
+
+            android:text="@string/action_cancel"
+            android:layout_weight="1"
+            android:layout_margin="5dp" />
+
+        <com.adp.chabok.ui.Button
+            android:id="@+id/confirmButton"
+            style="@style/Button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/button_style_done"
+            android:text="@string/action_confirm"
+            android:layout_weight="1"
+            android:layout_margin="5dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

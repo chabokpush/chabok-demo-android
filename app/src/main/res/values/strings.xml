@@ -10,9 +10,9 @@
     <string name="title_activity_home">صفحه اصلی</string>
     <string name="title_payam_resan">پیام رسان</string>
     <string name="title_about_chabok">درباره چابک</string>
+    <string name="title_settings">تنظیمات</string>
 
     //----widget actions and titles
-
     <string name="action_get_activation">تایید و ادامه</string>
     <string name="action_done">تایید</string>
     <string name="action_activate">فعال سازی</string>
@@ -26,6 +26,7 @@
     <string name="menu_item_inbox">پیام ها</string>
     <string name="menu_item_setting">تنظیمات</string>
     <string name="action_send">ارسال</string>
+    <string name="do_not_notify">عدم اطلاع رسانی پیام ها</string>
 
     //----hints
 
@@ -39,6 +40,7 @@
     //----anounce
 
     <string name="anounce_register">برای مشاهده دمو لطفا مشخصات خود را وارد کنید</string>
+    <string name="anounce_settings">با فعال سازی این گزینه پیغام های جدید در نوار ناتیفیکیشن اعلام نخواهد شد.</string>
 
     //----messages
 
