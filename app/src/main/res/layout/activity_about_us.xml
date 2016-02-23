@@ -37,6 +37,7 @@
 
 
         <com.adp.chabok.ui.TextView
+            android:clickable="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="70dp"
             android:layout_marginLeft="70dp"
@@ -44,10 +45,12 @@
             android:background="@drawable/rounded_box"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
+            android:onClick="openSite"
             android:text="@string/lbl_chabok_url"
             style="@style/Text.subtitle" />
 
         <com.adp.chabok.ui.TextView
+            android:clickable="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="70dp"
             android:layout_marginLeft="70dp"
@@ -55,6 +58,7 @@
             android:background="@drawable/rounded_box"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
+            android:onClick="dialNumber"
             android:text="@string/lbl_chabok_phone"
             style="@style/Text.subtitle" />
 

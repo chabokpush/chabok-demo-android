@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
@@ -311,35 +312,44 @@ public class HomeActivity extends BaseActivity {
         dialog = dialogBuilder.create();
         dialog.show();
 
+        final ChabokApplication app = (ChabokApplication) getApplication();
+
 
         final SwitchButton s1 = (SwitchButton) dialogView.findViewById(R.id.switch1);
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false)) {
-            s1.setChecked(true);
-        } else {
             s1.setChecked(false);
+        } else {
+            s1.setChecked(true);
         }
 
         s1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (s1.isChecked()) {
-                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, true).commit();
-                } else {
                     myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, false).commit();
+                    app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, "default", true);
+                } else {
+                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, true).commit();
+                    app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, null, false);
                 }
             }
         });
 
-        Button cancelButton = (Button) dialogView.findViewById(R.id.setting_exit_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+    }
 
+    public void openSite(View v) {
+
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_chabok_url)));
+        startActivity(i);
+
+    }
+
+    public void dialNumber(View v) {
+
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getResources().getString(R.string.lbl_chabok_phone).replace("-", "")));
+        startActivity(intent);
 
     }
 

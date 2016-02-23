@@ -8,6 +8,10 @@
     android:background="@color/my_white">
 
     <com.adp.chabok.ui.TextView
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_margin="10dp"
         android:layout_marginTop="20dp"
         android:padding="5dp"
         style="@style/Text.subtitle"
@@ -16,10 +20,16 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:text="@string/anounce_settings"
-        android:visibility="gone" />
+        android:text="@string/lbl_notification_disable"
+        android:visibility="visible" />
 
     <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/textTitle" />
+
+    <RelativeLayout
+        android:layout_margin="10dp"
         android:id="@+id/setting_menu_item_1_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -29,13 +39,13 @@
         <com.adp.chabok.ui.TextView
             style="@style/Text.SettingItem"
             android:id="@+id/setting_menu_item_1_text"
-            android:textSize="16dp"
+            android:textSize="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:text="@string/do_not_notify" />
+            android:text="@string/do_notify" />
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/switch1"
@@ -50,21 +60,6 @@
             android:layout_marginLeft="15dp" />
 
     </RelativeLayout>
-
-    <com.adp.chabok.ui.Button
-        android:id="@+id/setting_exit_button"
-        style="@style/Button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/button_style_done"
-        android:text="@string/action_confirm"
-        android:layout_weight="1"
-        android:layout_margin="30dp" />
 
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.adp.chabok.PushMessageReceiver;
+import com.adp.chabok.R;
 import com.adp.chabok.activity.BaseActivity;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.common.Constants;
@@ -57,12 +58,26 @@ public class ChabokApplication extends Application {
                 public boolean buildNotification(PushMessage pushMessage, NotificationCompat.Builder builder) {
                     boolean result = true;
 
+
                     boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false);
 
-                    if (pushMessage.getData() != null)
+                    if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
                         if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
                             return false;
+                        } else {
+                            if (!pushMessage.getSenderId().trim().equals("")) {  // it's  from users and have proper sender name
+
+                                builder.setTicker(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody().toString());
+                                builder.setContentText(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody().toString());
+                            }
                         }
+
+                    } else {                                              //it's from server
+
+                        builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody().toString());
+                        builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody().toString());
+                    }
+
 
                     if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
                         ring();
@@ -82,7 +97,6 @@ public class ChabokApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return adpPush;
     }
