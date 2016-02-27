@@ -1,5 +1,6 @@
 package com.adp.chabok.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -7,11 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -61,6 +64,8 @@ public class HomeActivity extends BaseActivity {
     ViewPagerAdapter adapter;
     int new_messages = 0;
 
+    private int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,8 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         ChabokApplication.currentActivity = HomeActivity.this;
+
+        checkMarshmallowPremissions();
 
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -94,6 +101,21 @@ public class HomeActivity extends BaseActivity {
 
         dao = ChabokDAOImpl.getInstance(this);
 
+    }
+
+    private void checkMarshmallowPremissions() {
+
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // only for gingerbread and newer versions
+            String permission = Manifest.permission.READ_PHONE_STATE;
+            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            } else {
+                // Add your function here which open camera
+            }
+        } else {
+            // Add your function here which open camera
+        }
     }
 
     @Override
@@ -121,6 +143,7 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        ChabokApplication.currentActivity = HomeActivity.this;
         createTabs();
         currentPage = 0;
     }
@@ -414,4 +437,6 @@ public class HomeActivity extends BaseActivity {
             }
         }
     }
+
+
 }

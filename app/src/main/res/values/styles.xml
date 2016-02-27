@@ -30,13 +30,15 @@
     </style>
 
     <style name="Text.title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">normal</item>
         <item name="android:textSize">@dimen/text_title_size</item>
         <item name="android:textColor">@color/textTitle</item>
         <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text.subtitle">
+        <item name="android:typeface">normal</item>
         <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/text_sub_title_size</item>
         <item name="android:textColor">@color/textTitle</item>
@@ -46,6 +48,7 @@
     <style name="Text.senderName">
         <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/text_sender_name_size</item>
+        <item name="android:typeface">normal</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textTitle</item>
         <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
@@ -55,11 +58,14 @@
         <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/text_sender_name_size</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:typeface">normal</item>
         <item name="android:textColor">@color/colorViolet3</item>
         <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
     </style>
 
     <style name="Text.content">
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">normal</item>
         <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/text_content_size</item>
         <item name="android:textColor">@color/textTitle</item>
@@ -67,6 +73,8 @@
     </style>
 
     <style name="Text.message">
+        <item name="android:typeface">normal</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:singleLine">false</item>
         <item name="android:textSize">@dimen/text_content_size</item>
         <item name="android:textColor">@color/textColorPrimary</item>
@@ -74,20 +82,24 @@
     </style>
 
     <style name="Text.hints">
+        <item name="android:textStyle">normal</item>
         <item name="android:singleLine">false</item>
         <item name="android:textColor">@color/menu_item_hint_text_color</item>
     </style>
 
     <style name="Text.SettingItem">
+        <item name="android:typeface">normal</item>
         <item name="android:textSize">@dimen/menu_item</item>
         <item name="android:textColor">@color/textTitle</item>
         <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="Text.message_date">
         <item name="android:textSize">@dimen/text_content_size</item>
         <item name="android:textColor">@color/textHintColor</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
 </resources>

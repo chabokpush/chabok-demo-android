@@ -71,12 +71,13 @@
         android:layout_alignParentBottom="true">
 
         <com.adp.chabok.ui.TextView
+            android:textSize="16dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/lbl_app_description"
-            style="@style/Text.subtitle" />
+            style="@style/Text.title" />
 
         <com.adp.chabok.ui.TextView
             android:singleLine="false"

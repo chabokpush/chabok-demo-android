@@ -16,7 +16,8 @@ public interface Constants {
     String PASSWORD = "chabokdemo";
     String PUSH_DATA = "data";
 
-    String APPLICATION_FONT = "fonts/IRAN Sans.ttf";
+    String APPLICATION_FONT = "fonts/iransans_bold.ttf";
+    String APPLICATION_NORMAL_FONT = "fonts/iransans.ttf";
     String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_NOTIFY = "notify";

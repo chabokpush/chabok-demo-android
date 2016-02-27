@@ -88,7 +88,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             messageViewHolder.messageText.setText(items.get(i).getMessage());
             messageViewHolder.senderName.setText(getSenderName(items.get(i)));
             messageViewHolder.messageSeen.setText(items.get(i).getSeenCounter() + "");
-//            messageViewHolder.messageSeen.setTypeface(Typeface.createFromAsset(ChabokApplication.currentActivity.getAssets(), Constants.APPLICATION_FONT));
 
             switch (items.get(i).getSendStatus()) {
                 case 0:

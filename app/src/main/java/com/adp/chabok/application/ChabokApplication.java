@@ -54,10 +54,16 @@ public class ChabokApplication extends Application {
             }
 
             NotificationHandler nh = new NotificationHandler() {
+
+                @Override
+                public Class getActivityClass(PushMessage pushMessage) {
+                    return HomeActivity.class;
+                }
+
+
                 @Override
                 public boolean buildNotification(PushMessage pushMessage, NotificationCompat.Builder builder) {
                     boolean result = true;
-
 
                     boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false);
 
@@ -78,7 +84,6 @@ public class ChabokApplication extends Application {
                         builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody().toString());
                     }
 
-
                     if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
                         ring();
                         return false;    // user in message tab
@@ -98,6 +103,13 @@ public class ChabokApplication extends Application {
             e.printStackTrace();
         }
 
+        return adpPush;
+    }
+
+    public synchronized AdpPushClient getPushClient() {
+        if (adpPush == null) {
+            throw new IllegalStateException("Adp Push Client not initialized");
+        }
         return adpPush;
     }
 
@@ -122,13 +134,6 @@ public class ChabokApplication extends Application {
     }
 
 
-    public synchronized AdpPushClient getPushClient() {
-        if (adpPush == null) {
-            throw new IllegalStateException("Adp Push Client not initialized");
-        }
-        return adpPush;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -143,9 +148,7 @@ public class ChabokApplication extends Application {
     public void onTerminate() {
         // dismiss push client on app termination
         adpPush.dismiss();
-
         super.onTerminate();
     }
-
 
 }

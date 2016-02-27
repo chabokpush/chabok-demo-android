@@ -14,21 +14,21 @@ public class EditText extends android.widget.EditText {
 
     public EditText(Context context) {
         super(context);
-        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_FONT);
+        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_NORMAL_FONT);
         setTypeface(tf);
 //        setTextSize(this.getTextSize());
     }
 
     public EditText(Context context, AttributeSet attrs) {
         super(context, attrs, android.R.attr.editTextStyle);
-        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_FONT);
+        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_NORMAL_FONT);
         setTypeface(tf);
 //        setTextSize(this.getTextSize());
     }
 
     public EditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_FONT);
+        final Typeface tf = Typeface.createFromAsset(context.getAssets(), Constants.APPLICATION_NORMAL_FONT);
         setTypeface(tf);
 //        setTextSize(this.getTextSize());
     }
