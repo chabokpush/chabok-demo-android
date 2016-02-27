@@ -129,6 +129,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
                 result = json.getString(Constants.KEY_NAME);
             } catch (JSONException e) {
                 Log.e("log", e.getMessage(), e);
+                result = ChabokApplication.currentActivity.getString(R.string.app_name);
             }
         } else {
 

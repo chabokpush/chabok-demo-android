@@ -12,7 +12,7 @@ import com.adp.chabok.common.Constants;
  * on 2/6/2016.
  */
 public class TextView extends android.widget.TextView {
-    
+
     public TextView(Context context) {
         super(context);
 

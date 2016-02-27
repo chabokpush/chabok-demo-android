@@ -66,7 +66,6 @@ public class ChabokApplication extends Application {
                     boolean result = true;
 
                     boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false);
-
                     if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
                         if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
                             return false;
