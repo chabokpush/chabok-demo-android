@@ -72,6 +72,4 @@ public class TextView extends android.widget.TextView {
         }
     }
 
-
-
 }

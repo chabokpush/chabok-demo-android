@@ -341,7 +341,8 @@ public class HomeActivity extends BaseActivity {
         final SwitchButton s1 = (SwitchButton) dialogView.findViewById(R.id.switch1);
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false)) {
+        Log.i("MAHDI", "myPref.getBoolean(Constants.PREFERENCE_NOTIFY=" + myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false));
+        if (myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false)) {
             s1.setChecked(false);
         } else {
             s1.setChecked(true);
@@ -351,10 +352,10 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (s1.isChecked()) {
-                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, false).commit();
+                    myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, false).apply();
                     app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, "default", true);
                 } else {
-                    myPref.edit().putBoolean(Constants.PREFERENCE_NOTIFY, true).commit();
+                    myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, true).apply();
                     app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, null, false);
                 }
             }

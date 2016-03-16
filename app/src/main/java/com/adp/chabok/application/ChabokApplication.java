@@ -65,7 +65,7 @@ public class ChabokApplication extends Application {
                 public boolean buildNotification(PushMessage pushMessage, NotificationCompat.Builder builder) {
                     boolean result = true;
 
-                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_NOTIFY, false);
+                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false);
                     if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
                         if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
                             return false;
@@ -136,7 +136,6 @@ public class ChabokApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         getPushClient(HomeActivity.class);
         this.context = getApplicationContext();
 
