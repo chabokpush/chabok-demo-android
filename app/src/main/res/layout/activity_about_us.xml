@@ -25,7 +25,7 @@
         <com.adp.chabok.ui.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="@string/service_name"
             style="@style/Text.title" />
 
         <com.adp.chabok.ui.TextView
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lbl_app_description"
+            android:text="@string/lbl_chabok_about"
             style="@style/Text.title" />
 
         <com.adp.chabok.ui.TextView
