@@ -44,7 +44,6 @@ public class ChabokApplication extends Application {
                 );
 
                 adpPush.setDevelopment(Constants.DEV_MODE);
-                adpPush.setSecure(true);
                 adpPush.addListener(this);
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "");

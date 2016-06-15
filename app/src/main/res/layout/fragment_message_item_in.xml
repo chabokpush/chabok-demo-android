@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/message_in_layouts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:visibility="visible">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/sender_icon"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp" />
+            android:background="@drawable/blue_avatar" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -28,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/relativeLayout"
+            android:layout_toStartOf="@+id/relativeLayout"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -35,31 +39,33 @@
                 android:layout_height="match_parent">
 
                 <com.adp.chabok.ui.TextView
-                    android:ellipsize="end"
                     android:id="@+id/inbox_item_sender_ame"
                     style="@style/Text.senderName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="my name"
+                    android:layout_toEndOf="@+id/inbox_item_date"
                     android:layout_toRightOf="@+id/inbox_item_date"
+                    android:ellipsize="end"
                     android:gravity="right"
                     android:maxLines="1"
+                    android:text="my name"
                     android:textStyle="bold" />
 
                 <com.adp.chabok.ui.TextView
                     android:id="@+id/inbox_item_date"
+                    style="@style/Text.message_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="false"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/textColorSecondary"
-                    android:text="1394/11/15"
-                    android:layout_marginRight="5dp"
                     android:layout_marginLeft="17dp"
-                    style="@style/Text.message_date"
-                    android:layout_alignParentBottom="false" />
+                    android:layout_marginRight="5dp"
+                    android:text="1394/11/15"
+                    android:textColor="@color/textColorSecondary" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -83,66 +89,66 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="20dp">
 
 
                 <com.adp.chabok.ui.TextView
-                    android:text="12"
-                    android:textSize="12dp"
                     android:id="@+id/seen_counter"
                     style="@style/Text.message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/imageView_seen"
+                    android:gravity="right"
+                    android:text="12"
                     android:textColor="@color/textColorSecondary"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="12dp" />
 
                 <ImageView
+                    android:id="@+id/imageView_seen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView_seen"
-                    android:src="@drawable/ic_blink"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_blink" />
             </RelativeLayout>
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/imageView_mesage_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView_mesage_send"
+            android:layout_alignBottom="@+id/linearLayout"
             android:layout_alignParentBottom="false"
-            android:src="@drawable/ic_check_gray"
+            android:layout_alignParentRight="false"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentRight="false"
-            android:layout_alignBottom="@+id/linearLayout"
             android:layout_toRightOf="@+id/linearLayout"
-            android:layout_marginLeft="5dp" />
+            android:src="@drawable/ic_check_gray" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/message_out_layouts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/relativeLayout_out"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="false"
-            android:background="@drawable/receiver_icon"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/purple_avatar" />
 
         <LinearLayout
             android:id="@+id/linearLayout_out"
@@ -157,7 +163,6 @@
                 android:layout_height="match_parent">
 
                 <com.adp.chabok.ui.TextView
-                    android:ellipsize="end"
                     android:id="@+id/inbox_item_sender_ame_out"
                     style="@style/Text.senderName_out"
                     android:layout_width="fill_parent"
@@ -165,42 +170,43 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="false"
                     android:layout_centerVertical="true"
-                    android:text="his name"
                     android:layout_toLeftOf="@+id/inbox_item_date_out"
+                    android:ellipsize="end"
                     android:gravity="left"
                     android:maxLines="1"
+                    android:text="his name"
                     android:textStyle="bold" />
 
                 <com.adp.chabok.ui.TextView
-                    android:layout_marginRight="17dp"
                     android:id="@+id/inbox_item_date_out"
+                    style="@style/Text.message_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="1394/11/15"
-                    android:textColor="@color/textColorSecondary"
                     android:layout_alignParentBottom="false"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    style="@style/Text.message_date" />
+                    android:layout_marginRight="17dp"
+                    android:text="1394/11/15"
+                    android:textColor="@color/textColorSecondary" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:layout_marginRight="16dp"
                 android:background="@drawable/rounded_message_back2"
-                android:padding="7dp"
-                android:layout_marginBottom="15dp">
+                android:padding="7dp">
 
                 <com.adp.chabok.ui.TextView
                     android:id="@+id/inbox_item_message_text_out"
                     style="@style/Text.message"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="left"
                     android:lineSpacingExtra="5dp"
-                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد."
-                    android:gravity="left" />
+                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد." />
 
 
             </RelativeLayout>

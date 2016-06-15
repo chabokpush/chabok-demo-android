@@ -64,8 +64,6 @@ public class HomeActivity extends BaseActivity {
     ViewPagerAdapter adapter;
     int new_messages = 0;
 
-    private int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +107,7 @@ public class HomeActivity extends BaseActivity {
             // only for gingerbread and newer versions
             String permission = Manifest.permission.READ_PHONE_STATE;
             if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
                 ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             } else {
                 // Add your function here which open camera
