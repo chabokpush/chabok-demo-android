@@ -39,6 +39,7 @@ public class ChabokApplication extends Application {
                         getApplicationContext(),
                         activityClass,
                         Constants.APP_ID,
+                        Constants.API_KEY,
                         Constants.USER_NAME,
                         Constants.PASSWORD
                 );

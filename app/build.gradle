@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile(name: 'chabok-2.5.1', ext: 'aar')
+    compile(name: 'chabok-2.5.6', ext: 'aar')
     compile files('libs/glide-3.6.1.jar')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
