@@ -17,6 +17,7 @@ import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.ChabokNotification;
 import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
@@ -45,6 +46,7 @@ public class ChabokApplication extends Application {
                 );
 
                 adpPush.setDevelopment(Constants.DEV_MODE);
+                adpPush.enableDeliveryTopic();
                 adpPush.addListener(this);
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "");
@@ -56,32 +58,38 @@ public class ChabokApplication extends Application {
             NotificationHandler nh = new NotificationHandler() {
 
                 @Override
-                public Class getActivityClass(PushMessage pushMessage) {
+                public Class getActivityClass(ChabokNotification chabokNotification) {
                     return HomeActivity.class;
                 }
 
 
                 @Override
-                public boolean buildNotification(PushMessage pushMessage, NotificationCompat.Builder builder) {
+                public boolean buildNotification(ChabokNotification chabokNotification, NotificationCompat.Builder builder) {
+
+                    PushMessage pushMessage = chabokNotification.getMessage();
+
                     boolean result = true;
-
                     boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false);
-                    if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
-                        if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
-                            return false;
-                        } else {
-                            if (!pushMessage.getSenderId().trim().equals("")) {  // it's  from users and have proper sender name
+                    if(pushMessage != null ){
 
-                                builder.setTicker(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody().toString());
-                                builder.setContentText(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody().toString());
+                        if ( pushMessage.getData() != null && pushMessage.getSenderId() != null) {
+                            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
+                                return false;
+                            } else {
+                                if (!pushMessage.getSenderId().trim().equals("")) {  // it's  from users and have proper sender name
+
+                                    builder.setTicker(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
+                                    builder.setContentText(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
+                                }
                             }
+
+                        } else {                                              //it's from server
+
+                            builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
+                            builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
                         }
-
-                    } else {                                              //it's from server
-
-                        builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody().toString());
-                        builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody().toString());
                     }
+
 
                     if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
                         ring();
