@@ -1,6 +1,7 @@
 package com.adp.chabok.application;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
@@ -8,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.adp.chabok.PushMessageReceiver;
 import com.adp.chabok.R;
@@ -22,16 +24,28 @@ import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
+import java.util.ArrayList;
+
 /**
  * Created by m.tajik
  * on 2/6/2016.
  */
 public class ChabokApplication extends Application {
 
+    private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
+    private static final String NOTIFICATION_GROUP_KEY = "group-key";
+
     public static BaseActivity currentActivity;
     public static Context context;
     AdpPushClient adpPush = null;
+    int messagesCount = 0;
+    ArrayList<String> lines = new ArrayList<>();
     private SharedPreferences myPref;
+
+    public void clearMessages() {
+        lines.clear();
+        this.messagesCount = 0;
+    }
 
     public synchronized AdpPushClient getPushClient(Class activityClass) {
         try {
@@ -68,11 +82,11 @@ public class ChabokApplication extends Application {
 
                     PushMessage pushMessage = chabokNotification.getMessage();
 
-                    boolean result = true;
-                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false);
-                    if(pushMessage != null ){
+//                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false);
+                    if (pushMessage != null) {
+                        lines.add(pushMessage.getBody());
 
-                        if ( pushMessage.getData() != null && pushMessage.getSenderId() != null) {
+                        if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
                             if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
                                 return false;
                             } else {
@@ -87,7 +101,40 @@ public class ChabokApplication extends Application {
 
                             builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
                             builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
+
                         }
+                    }else{
+                        lines.add(chabokNotification.getText());
+                    }
+
+                    NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
+                    messagesCount++;
+                    builder.setSmallIcon(getNotificationIcon());
+
+                    if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
+                        if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
+                            mNotificationManager.cancelAll();
+                        }
+                        builder.setGroup(NOTIFICATION_GROUP_KEY);
+                        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
+                                .setSummaryText(messagesCount + " new messages")
+                                .setBigContentTitle(getString(R.string.app_name));
+                        int count = 0;
+                        for (int i = lines.size() - 1; i >= 0 && count < 5; i--) {
+                            inboxStyle.addLine(lines.get(i));
+                            count++;
+                        }
+                        builder.setContentTitle(getString(R.string.app_name))
+                                .setContentText(messagesCount + " new messages")
+                                .setStyle(inboxStyle)
+                                .setNumber(messagesCount)
+                                .setGroupSummary(true);
+                        Notification notification = builder.build();
+                        mNotificationManager.notify(SUMMARY_NOTIFICATION_LIMIT + 1, notification);
+
+                    } else {
+                        Notification notification = builder.build();
+                        mNotificationManager.notify(messagesCount + 1, notification);
                     }
 
 
@@ -96,11 +143,8 @@ public class ChabokApplication extends Application {
                         return false;    // user in message tab
                     }
 
-                    if (off_notify) {
-                        return false;
-                    }
+                    return false;
 
-                    return result;
                 }
             };
             adpPush.addNotificationHandler(nh);
@@ -111,6 +155,11 @@ public class ChabokApplication extends Application {
         }
 
         return adpPush;
+    }
+
+    private int getNotificationIcon() {
+        boolean useWhiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return useWhiteIcon ? R.drawable.ic_silhouette : R.drawable.ic_launcher;
     }
 
     public synchronized AdpPushClient getPushClient() {

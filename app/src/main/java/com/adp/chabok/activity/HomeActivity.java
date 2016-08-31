@@ -98,6 +98,7 @@ public class HomeActivity extends BaseActivity {
         };
 
         dao = ChabokDAOImpl.getInstance(this);
+        ((ChabokApplication) getApplication()).clearMessages();
 
     }
 
