@@ -21,3 +21,19 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+// Versions
+ext {
+    supportLibraryVersion = '23.4.0'
+    chabokVersion = '2.6.1'
+
+    gsonVersion = '2.4'
+    stickylistheadersVersion = '2.7.0'
+    gifDrawableVersion = '1.1.15'
+    picassoVersion = '2.5.2'
+    shortcutBadgerVersion = '1.1.3@aar'
+    badgesVersion = '1.0.5@aar'
+    playServicesVersion = '8.1.0'
+    switchbuttonLibrary = '1.3.2'
+
+    junitVersion = '4.12'
+}
