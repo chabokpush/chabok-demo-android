@@ -176,7 +176,7 @@ public class HomeActivity extends BaseActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         changeTabsFont();
-        changeTabsFontBolding(0);
+        //changeTabsFontBolding(0);
 
         DetailOnPageChangeListener mylistener = new DetailOnPageChangeListener();
         viewPager.addOnPageChangeListener(mylistener);
@@ -252,7 +252,7 @@ public class HomeActivity extends BaseActivity {
         super.onEvent(status);
     }
 
-    private void changeTabsFontBolding(int tabPos) {
+    /*private void changeTabsFontBolding(int tabPos) {
 
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
 
@@ -282,7 +282,7 @@ public class HomeActivity extends BaseActivity {
             }
         }
 
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -417,7 +417,7 @@ public class HomeActivity extends BaseActivity {
             currentPage = position;
 
 
-            changeTabsFontBolding(position);
+            //changeTabsFontBolding(position);
 
 
             if (position == 0) {

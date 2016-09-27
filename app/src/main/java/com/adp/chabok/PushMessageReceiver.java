@@ -56,14 +56,15 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         myPreff = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.context);
 
         String senderId = "";
-        boolean its_my_own_message = false;
+        boolean isMyMessage = false;
+        String registrationEmail = myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, "");
         if (message.getSenderId() != null) {
-            if (!message.getSenderId().trim().equals(myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {
+            if (!message.getSenderId().trim().equals(registrationEmail)) {
                 senderId = message.getSenderId();
-                its_my_own_message = false;
+                isMyMessage = false;
             } else {
                 dao.updateSendStatus(message.getSentId());
-                its_my_own_message = true;
+                isMyMessage = true;
             }
         }
 
@@ -78,7 +79,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                 0
         );
 
-        if (!its_my_own_message) {
+        if (!isMyMessage) {
             dao.saveMessage(newMessage, 0);
         }
         sendResult();
