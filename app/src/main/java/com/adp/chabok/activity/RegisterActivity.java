@@ -23,15 +23,15 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            final String emailAdd = emailEditText.getText().toString();
+            final String email = emailEditText.getText().toString();
             final String name = nameEditText.getText().toString();
 
             if (
                     Validator.validateNotNull(RegisterActivity.this, name, R.string.lbl_name) &&
-                            Validator.validateNotNull(RegisterActivity.this, emailAdd, R.string.lbl_email) &&
-                            Validator.validateEmail(RegisterActivity.this, emailAdd)) {
+                            Validator.validateNotNull(RegisterActivity.this, email, R.string.lbl_email) &&
+                            Validator.validateEmail(RegisterActivity.this, email)) {
 
-                registerPushClient(emailAdd, name);
+                registerPushClient(email, name);
                 gotToMain();
 
                 return;
@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private void registerPushClient(String emailAdd, String name) {
+    private void registerPushClient(String email, String name) {
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -94,10 +94,10 @@ public class RegisterActivity extends AppCompatActivity {
             final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
 
             SharedPreferences.Editor editor = myPref.edit();
-            editor.putString(Constants.PREFERENCE_EMAIL_ADD, emailAdd);
+            editor.putString(Constants.PREFERENCE_EMAIL_ADD, email);
             editor.putString(Constants.PREFERENCE_NAME, name);
             editor.apply();
-            client.register(emailAdd, new String[]{Constants.CHANNEL_NAME});
+            client.register(email, new String[]{Constants.CHANNEL_NAME});
 
         }
 
