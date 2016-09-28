@@ -48,7 +48,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
         }
         myCursor.close();
-        db.close();
+
     }
 
 
@@ -70,7 +70,6 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(TABLE_NAME_MESSAGE, null, initialValues);
 
-        db.close();
 
         messageTO.setId(id);
         return messageTO;
@@ -80,14 +79,14 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     public void deleteAllMessages() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME_MESSAGE, null, null);
-        db.close();
+
     }
 
     @Override
     public void deleteMessages(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME_MESSAGE, " serverId='" + id + "'", null);
-        db.close();
+
     }
 
     @Override
@@ -136,7 +135,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         }
 
         results.close();
-        db.close();
+
 
         return messageTOList;
     }
@@ -194,7 +193,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         }
 
         results.close();
-        db.close();
+
 
         return messageTOList;
     }
@@ -206,7 +205,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         ContentValues cv = new ContentValues();
         cv.put("send_status", 1);
         db.update(TABLE_NAME_MESSAGE, cv, "serverId=?", new String[]{serverId});
-        db.close();
+
     }
 
     @Override
@@ -238,7 +237,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
         }
 
         results.close();
-        db.close();
+
 
         return result;
     }
