@@ -85,7 +85,7 @@ public class HomeActivity extends BaseActivity {
         getSupportActionBar().setCustomView(v, params);
 
 
-        messageFragment = MessageFragment.getInstance();
+
 
         receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
             @Override
@@ -164,7 +164,8 @@ public class HomeActivity extends BaseActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new MessageFragment(), getResources().getString(R.string.title_payam_resan));
+        messageFragment = MessageFragment.getInstance();
+        adapter.addFrag(messageFragment, getResources().getString(R.string.title_payam_resan));
         adapter.addFrag(new AboutUsFragment(), getResources().getString(R.string.title_about_chabok));
 
         if(viewPager != null){
