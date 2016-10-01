@@ -2,10 +2,6 @@ package com.adp.chabok.data.models;
 
 import java.sql.Timestamp;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class MessageTO {
 
     private long id;
@@ -114,19 +110,19 @@ public class MessageTO {
         this.senderId = mdata;
     }
 
-    public void setSendStatus(int send_status) {
-        this.send_status = send_status;
-    }
-
     public int getSendStatus() {
         return this.send_status;
     }
 
-    public void setSeenCounter(int seenCounter) {
-        this.seenCounter = seenCounter;
+    public void setSendStatus(int send_status) {
+        this.send_status = send_status;
     }
 
     public int getSeenCounter() {
         return this.seenCounter;
+    }
+
+    public void setSeenCounter(int seenCounter) {
+        this.seenCounter = seenCounter;
     }
 }

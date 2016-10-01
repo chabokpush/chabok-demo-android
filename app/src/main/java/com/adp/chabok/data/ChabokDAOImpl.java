@@ -12,10 +12,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
     private static ChabokDAOImpl ourInstance;
@@ -35,7 +31,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     @Override
     public void updateCounter(String serverId) {
 
-        int counter = 0;
+        int counter;
         SQLiteDatabase db = getWritableDatabase();
         Cursor myCursor = db.query(TABLE_NAME_MESSAGE, null, "serverId = ?", new String[]{serverId}, null, null, null, null);
         myCursor.moveToFirst();
@@ -209,10 +205,9 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     }
 
     @Override
-    public int getNormalUnreadedMessagesCount() {
+    public int getNormalUnreadMessagesCount() {
 
         int result = 0;
-        List<MessageTO> messageTOList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = new String[]{
                 "read",
@@ -228,7 +223,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
                 if (data == null) {
 
-                    if (!read) {  // just get unreaded messages
+                    if (!read) {  // just get unread messages
 
                         result++;
                     }
@@ -241,22 +236,6 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
         return result;
     }
-
-
-    private String makePlaceholders(int len) {
-        if (len < 1) {
-            // It will lead to an invalid query anyway ..
-            throw new RuntimeException("No placeholders");
-        } else {
-            StringBuilder sb = new StringBuilder(len * 2 - 1);
-            sb.append("?");
-            for (int i = 1; i < len; i++) {
-                sb.append(",?");
-            }
-            return sb.toString();
-        }
-    }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {

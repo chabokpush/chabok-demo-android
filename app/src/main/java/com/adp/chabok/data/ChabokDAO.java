@@ -4,10 +4,7 @@ import com.adp.chabok.data.models.MessageTO;
 
 import java.util.List;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
+
 public interface ChabokDAO {
 
     int DATABASE_VERSION = 4;
@@ -31,9 +28,9 @@ public interface ChabokDAO {
 
     void deleteMessages(String id);
 
-    public void updateCounter(String serverId);
+    void updateCounter(String serverId);
 
-    public void updateSendStatus(String messageId);
+    void updateSendStatus(String messageId);
 
-    public int getNormalUnreadedMessagesCount();
+    int getNormalUnreadMessagesCount();
 }

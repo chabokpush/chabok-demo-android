@@ -6,10 +6,6 @@ import android.util.AttributeSet;
 
 import com.adp.chabok.common.Constants;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class Button extends android.widget.Button {
 
     public Button(Context context, AttributeSet attrs) {

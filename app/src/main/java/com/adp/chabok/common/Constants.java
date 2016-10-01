@@ -1,14 +1,10 @@
 package com.adp.chabok.common;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public interface Constants {
 
-    //        boolean DEV_MODE = true;
+//    boolean DEV_MODE = true;
     boolean DEV_MODE = false;
-//
+
     String APP_ID = "chabok-demo/1085254472657";
     String API_KEY = "5d9adbc5adb24546c2c99ea54472eda5b7ccdfbf";
 

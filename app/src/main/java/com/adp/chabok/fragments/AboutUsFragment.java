@@ -8,10 +8,6 @@ import android.view.ViewGroup;
 
 import com.adp.chabok.R;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class AboutUsFragment extends Fragment {
 
 
@@ -23,10 +19,8 @@ public class AboutUsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.activity_about_us, container, false);
 
-
-        return fragmentView;
+        return inflater.inflate(R.layout.activity_about_us, container, false);
     }
 
     @Override
@@ -35,6 +29,5 @@ public class AboutUsFragment extends Fragment {
 
 
     }
-
 
 }

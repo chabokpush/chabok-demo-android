@@ -8,10 +8,7 @@ import com.adp.chabok.ui.CustomDialogBuilder;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by m.tajik
- * on 10/28/2015.
- */
+
 public class Validator {
 
 

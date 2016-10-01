@@ -23,16 +23,11 @@ import org.json.JSONObject;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by m.tajik
- * on 12/25/2015.
- */
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MessageViewHolder> {
 
 
-    private List<MessageTO> items;
-    private int position;
     private Context context;
+    private List<MessageTO> items;
 
     public CardViewAdapter(Context context, List<MessageTO> items) {
 
@@ -46,26 +41,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
     }
 
-    public String getServerId() {
-        return items.get(position).getServerId();
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_message_item_in, viewGroup, false);
         return new MessageViewHolder(v);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        return position % 2 * 2;
     }
 
 

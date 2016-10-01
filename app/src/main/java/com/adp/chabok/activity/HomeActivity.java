@@ -1,6 +1,7 @@
 package com.adp.chabok.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -53,6 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("StatementWithEmptyBody")
 public class HomeActivity extends BaseActivity {
 
     public static int currentPage = 0;
@@ -76,13 +78,17 @@ public class HomeActivity extends BaseActivity {
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.WRAP_CONTENT);
 
+        @SuppressLint("InflateParams")
         View v = getLayoutInflater().inflate(R.layout.fragment_actionbar_sub, null);
 
-        getSupportActionBar().setHomeButtonEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setCustomView(v, params);
+        if(getSupportActionBar() != null){
+
+            getSupportActionBar().setHomeButtonEnabled(false);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+            getSupportActionBar().setDisplayShowCustomEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setCustomView(v, params);
+        }
 
 
 
@@ -103,7 +109,7 @@ public class HomeActivity extends BaseActivity {
 
     protected void onMessageReceive() {
 
-        new_messages = dao.getNormalUnreadedMessagesCount();
+        new_messages = dao.getNormalUnreadMessagesCount();
         updateInbox();
 
     }
@@ -173,7 +179,9 @@ public class HomeActivity extends BaseActivity {
 
             viewPager.setAdapter(adapter);
             tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(viewPager);
+            if (tabLayout != null) {
+                tabLayout.setupWithViewPager(viewPager);
+            }
             changeTabsFont();
 
             DetailOnPageChangeListener myListener = new DetailOnPageChangeListener();
@@ -195,7 +203,7 @@ public class HomeActivity extends BaseActivity {
                 myPushMessage.setBody(msg.getText().toString().trim());
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO untill getSenderId works dont need this part
+                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO until getSenderId works dont need this part
                 myPushMessage.setData(jsonObject);
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());
@@ -228,6 +236,7 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    @SuppressWarnings("deprecation")
     private void changeTabsFont() {
 
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
@@ -251,37 +260,6 @@ public class HomeActivity extends BaseActivity {
         super.onEvent(status);
     }
 
-    /*private void changeTabsFontBolding(int tabPos) {
-
-        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
-
-        ViewGroup vgTab = (ViewGroup) vg.getChildAt(tabPos);
-        int tabChildsCount = vgTab.getChildCount();
-        for (int i = 0; i < tabChildsCount; i++) {
-            View tabViewChild = vgTab.getChildAt(i);
-            if (tabViewChild instanceof TextView) {
-                Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
-                ((TextView) tabViewChild).setTypeface(tf, Typeface.BOLD);
-                ((TextView) tabViewChild).setTextSize(32f);
-                ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
-            }
-        }
-
-        int other_pos = (tabPos == 1) ? 0 : 1;
-
-        ViewGroup vgTab_other = (ViewGroup) vg.getChildAt(other_pos);
-        int tabChildsCount_other = vgTab.getChildCount();
-        for (int i = 0; i < tabChildsCount_other; i++) {
-            View tabViewChild = vgTab.getChildAt(i);
-            if (tabViewChild instanceof TextView) {
-                Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
-                ((TextView) tabViewChild).setTypeface(tf, Typeface.NORMAL);
-                ((TextView) tabViewChild).setTextSize(12f);
-                ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
-            }
-        }
-
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -289,44 +267,14 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    /*public void showExitDialog() {
-
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this);
-        LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View dialogView = inflater.inflate(R.layout.fragment_exit_dialog, null);
-        dialogBuilder.setView(dialogView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
-
-        Button confirmButton = (Button) dialogView.findViewById(R.id.confirmButton);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                HomeActivity.this.finish();
-                dialog.dismiss();
-
-            }
-        });
-
-        Button cancelButton = (Button) dialogView.findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-    }*/
-
     public void showSettingDialog(View v) {
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this);
         LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        @SuppressLint("InflateParams")
         View dialogView = inflater.inflate(R.layout.activity_settings, null);
+
         dialogBuilder.setView(dialogView);
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
@@ -401,9 +349,6 @@ public class HomeActivity extends BaseActivity {
             return mFragmentTitleList.get(position);
         }
 
-        public void setmFragmentTitleList(List<String> mFragmentTitleList) {
-            this.mFragmentTitleList = mFragmentTitleList;
-        }
     }
 
     public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
@@ -411,9 +356,6 @@ public class HomeActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             currentPage = position;
-
-
-            //changeTabsFontBolding(position);
 
 
             if (position == 0) {

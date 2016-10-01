@@ -10,10 +10,6 @@ import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class BaseActivity extends AppCompatActivity {
 
     String TAG = "chabok_Tag";

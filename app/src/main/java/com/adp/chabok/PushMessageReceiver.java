@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utility;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
@@ -19,16 +19,10 @@ import com.adpdigital.push.PushMessage;
 import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by m.tajik
- * on 2/7/2016.
- */
 public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
-    public LocalBroadcastManager broadcaster;
-    SharedPreferences myPref = null;
 
-    ChabokDAO dao;
+    private ChabokDAO dao;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -51,7 +45,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
             temp = message.getData().toString();
         }
 
-        myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
 
         String senderId = "";
         boolean isMyMessage = false;
@@ -80,16 +74,8 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         if (!isMyMessage) {
             dao.saveMessage(newMessage, 0);
         }
-        sendResult();
+        Utility.sendResult();
 
     }
 
-
-    public void sendResult() {
-        Intent intent = new Intent(Constants.MSG_SAVED_2_DB);
-        intent.putExtra(Constants.MSG_SAVED_2_DB_EXTRA, 1);
-        broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
-        broadcaster.sendBroadcast(intent);
-
-    }
 }

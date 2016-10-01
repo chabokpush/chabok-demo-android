@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "") == "") {
+        if ("".equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {
 
 
             final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();

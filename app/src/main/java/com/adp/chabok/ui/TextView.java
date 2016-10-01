@@ -7,26 +7,20 @@ import android.util.Log;
 
 import com.adp.chabok.common.Constants;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
+
 public class TextView extends android.widget.TextView {
 
     public TextView(Context context) {
         super(context);
 
-//        setTextSize(this.getTextSize());
     }
 
     public TextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        setTextSize(this.getTextSize());
     }
 
     public TextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-//        setTextSize(this.getTextSize());
     }
 
 

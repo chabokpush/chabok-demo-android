@@ -14,8 +14,12 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.adp.chabok.R;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utility;
+import com.adp.chabok.data.ChabokDAO;
+import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.ChabokNotification;
+import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
@@ -147,6 +151,14 @@ public class ChabokApplication extends Application {
         }
 
         return adpPush;
+    }
+
+    public void onEvent(DeliveryMessage message) {
+
+        ChabokDAO dao = ChabokDAOImpl.getInstance(this);
+        dao.updateCounter(message.getDeliveredMessageId());
+        Utility.sendResult();
+
     }
 
     private int getNotificationIcon() {

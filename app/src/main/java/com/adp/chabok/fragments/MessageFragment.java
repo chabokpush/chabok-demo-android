@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,13 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class MessageFragment extends Fragment {
 
-    private ChabokDAO dao;
     private RecyclerView rv;
     private CardViewAdapter messageAdapter;
     private List<MessageTO> messagesList;
@@ -73,7 +66,7 @@ public class MessageFragment extends Fragment {
 
     public void initializeData() {
 
-        dao = ChabokDAOImpl.getInstance(ChabokApplication.getContext());
+        ChabokDAO dao = ChabokDAOImpl.getInstance(ChabokApplication.getContext());
         messagesList = dao.getMessages("receivedDate DESC");
         messagesList = prepareData(messagesList);
 
@@ -87,36 +80,6 @@ public class MessageFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        int position;
-        String serverId;
-
-        try {
-            position = (messageAdapter).getPosition();
-            serverId = (messageAdapter).getServerId();
-
-        } catch (Exception e) {
-            Log.d("Log", e.getLocalizedMessage(), e);
-            return super.onContextItemSelected(item);
-        }
-
-
-        switch (item.getItemId()) {
-            case R.id.delete:
-                dao.deleteMessages(serverId); // delete the mesage from DB
-                messagesList.remove(position); // delete the message from arrayList
-                messageAdapter.notifyItemRemoved(position); //remove message from Adsapter
-                messageAdapter.notifyItemRangeChanged(position, messagesList.size());
-
-                break;
-            case R.id.share:
-
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
 
     private List<MessageTO> prepareData(List<MessageTO> messageTOList) {
         if (messageTOList != null && messageTOList.size() > 0) {

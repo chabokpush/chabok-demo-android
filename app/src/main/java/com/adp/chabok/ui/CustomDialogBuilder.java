@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import com.adp.chabok.R;
 import com.adp.chabok.common.Validator;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class CustomDialogBuilder extends AlertDialog.Builder {
 
     public CustomDialogBuilder(Activity context, String message) {
