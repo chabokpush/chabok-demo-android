@@ -25,10 +25,8 @@ import java.util.Date;
  */
 public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
-    public static final String TAG = PushMessageReceiver.class.getName();
-
-    public static LocalBroadcastManager broadcaster;
-    SharedPreferences myPreff = null;
+    public LocalBroadcastManager broadcaster;
+    SharedPreferences myPref = null;
 
     ChabokDAO dao;
 
@@ -53,11 +51,11 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
             temp = message.getData().toString();
         }
 
-        myPreff = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.context);
+        myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
 
         String senderId = "";
         boolean isMyMessage = false;
-        String registrationEmail = myPreff.getString(Constants.PREFERENCE_EMAIL_ADD, "");
+        String registrationEmail = myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "");
         if (message.getSenderId() != null) {
             if (!message.getSenderId().trim().equals(registrationEmail)) {
                 senderId = message.getSenderId();
@@ -87,10 +85,10 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
     }
 
 
-    public static void sendResult() {
+    public void sendResult() {
         Intent intent = new Intent(Constants.MSG_SAVED_2_DB);
         intent.putExtra(Constants.MSG_SAVED_2_DB_EXTRA, 1);
-        broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.context);
+        broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
         broadcaster.sendBroadcast(intent);
 
     }

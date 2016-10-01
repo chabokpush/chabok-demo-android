@@ -17,7 +17,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -37,7 +37,6 @@ import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.fragments.AboutUsFragment;
 import com.adp.chabok.fragments.MessageFragment;
-import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
@@ -56,13 +55,12 @@ import java.util.UUID;
 
 public class HomeActivity extends BaseActivity {
 
-    public static AlertDialog dialog;
-    static public int currentPage = 0;
-    public static TabLayout tabLayout;
-    public static ChabokDAO dao;
-    public BroadcastReceiver receiver;
-    ViewPagerAdapter adapter;
-    int new_messages = 0;
+    public static int currentPage = 0;
+    private TabLayout tabLayout;
+    private ChabokDAO dao;
+    private MessageFragment messageFragment;
+    private BroadcastReceiver receiver;
+    private int new_messages = 0;
 
 
     @Override
@@ -72,9 +70,7 @@ public class HomeActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ChabokApplication.currentActivity = HomeActivity.this;
-
-        checkMarshmallowPremissions();
+        checkMarshmallowPermissions();
 
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.WRAP_CONTENT,
@@ -89,20 +85,30 @@ public class HomeActivity extends BaseActivity {
         getSupportActionBar().setCustomView(v, params);
 
 
+        messageFragment = MessageFragment.getInstance();
+
         receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
             @Override
             public void onReceive(Context context, Intent intent) {
-                String messageType = intent.getStringExtra(Constants.MSG_SAVED_2_DB_EXTRA);
-                onMessageReceive(messageType);
+                onMessageReceive();
             }
         };
 
         dao = ChabokDAOImpl.getInstance(this);
         ((ChabokApplication) getApplication()).clearMessages();
+        currentPage = 0;
+        createTabs();
 
     }
 
-    private void checkMarshmallowPremissions() {
+    protected void onMessageReceive() {
+
+        new_messages = dao.getNormalUnreadedMessagesCount();
+        updateInbox();
+
+    }
+
+    private void checkMarshmallowPermissions() {
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
@@ -143,23 +149,13 @@ public class HomeActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        ChabokApplication.currentActivity = HomeActivity.this;
-        createTabs();
-        currentPage = 0;
-    }
-
-    protected void onMessageReceive(String MessageType) {
-
-        new_messages = dao.getNormalUnreadedMessagesCount();
-        updateInbox();
-
     }
 
     private void updateInbox() {
 
-        MessageFragment.initializeData();
-        MessageFragment.initilizeAdapter();
-        MessageFragment.messageAdapter.notifyDataSetChanged();
+        messageFragment.initializeData();
+        messageFragment.initializeAdapter();
+        messageFragment.getMessageAdapter().notifyDataSetChanged();
     }
 
 
@@ -167,19 +163,21 @@ public class HomeActivity extends BaseActivity {
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new MessageFragment(), getResources().getString(R.string.title_payam_resan));
         adapter.addFrag(new AboutUsFragment(), getResources().getString(R.string.title_about_chabok));
 
-        viewPager.setAdapter(adapter);
+        if(viewPager != null){
+            viewPager.setOffscreenPageLimit(2);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        changeTabsFont();
-        //changeTabsFontBolding(0);
+            viewPager.setAdapter(adapter);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+            changeTabsFont();
 
-        DetailOnPageChangeListener mylistener = new DetailOnPageChangeListener();
-        viewPager.addOnPageChangeListener(mylistener);
+            DetailOnPageChangeListener myListener = new DetailOnPageChangeListener();
+            viewPager.addOnPageChangeListener(myListener);
+        }
 
     }
 
@@ -188,7 +186,7 @@ public class HomeActivity extends BaseActivity {
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
         final EditText msg = (EditText) findViewById(R.id.editText_out_message);
 
-        if (!msg.getText().toString().equals(""))
+        if (msg != null && !msg.getText().toString().equals(""))
             try {
 
                 AdpPushClient pushClient = ((ChabokApplication) getApplication()).getPushClient();
@@ -209,7 +207,7 @@ public class HomeActivity extends BaseActivity {
                 message.setReceivedDate(new Timestamp(new Date().getTime()));
                 message.setServerId(myPushMessage.getId());
                 dao.saveMessage(message, 0);
-                updateInbox();
+                messageFragment.updateMessageList(message);
                 msg.setText("");
 
                 pushClient.publish(myPushMessage, new Callback() {
@@ -235,8 +233,8 @@ public class HomeActivity extends BaseActivity {
         int tabsCount = vg.getChildCount();
         for (int j = 0; j < tabsCount; j++) {
             ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildsCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildsCount; i++) {
+            int tabChildCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildCount; i++) {
                 View tabViewChild = vgTab.getChildAt(i);
                 if (tabViewChild instanceof TextView) {
                     Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
@@ -287,15 +285,13 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        showExitDialog();
 
     }
 
-    public void showExitDialog() {
+    /*public void showExitDialog() {
 
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChabokApplication.currentActivity);
-//        LayoutInflater inflater = AnsarPushApplication.currentActivity.getLayoutInflater();
-        LayoutInflater inflater = (LayoutInflater) ChabokApplication.currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this);
+        LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.fragment_exit_dialog, null);
         dialogBuilder.setView(dialogView);
         dialog = dialogBuilder.create();
@@ -308,7 +304,7 @@ public class HomeActivity extends BaseActivity {
             public void onClick(View v) {
 
 
-                ChabokApplication.currentActivity.finish();
+                HomeActivity.this.finish();
                 dialog.dismiss();
 
             }
@@ -323,16 +319,15 @@ public class HomeActivity extends BaseActivity {
         });
 
 
-    }
+    }*/
 
     public void showSettingDialog(View v) {
 
-        boolean key = false;
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ChabokApplication.currentActivity);
-        LayoutInflater inflater = (LayoutInflater) ChabokApplication.currentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(HomeActivity.this);
+        LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.activity_settings, null);
         dialogBuilder.setView(dialogView);
-        dialog = dialogBuilder.create();
+        AlertDialog dialog = dialogBuilder.create();
         dialog.show();
 
         final ChabokApplication app = (ChabokApplication) getApplication();
@@ -377,7 +372,7 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> mFragmentList = new ArrayList<>();
         private List<String> mFragmentTitleList = new ArrayList<>();
 

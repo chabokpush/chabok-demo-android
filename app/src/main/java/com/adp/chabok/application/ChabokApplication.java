@@ -11,36 +11,29 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import com.adp.chabok.PushMessageReceiver;
 import com.adp.chabok.R;
-import com.adp.chabok.activity.BaseActivity;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.common.Constants;
-import com.adp.chabok.data.ChabokDAO;
-import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.ChabokNotification;
-import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
 import java.util.ArrayList;
 
-/**
- * Created by m.tajik
- * on 2/6/2016.
- */
 public class ChabokApplication extends Application {
 
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
-
-    public static BaseActivity currentActivity;
-    public static Context context;
-    AdpPushClient adpPush = null;
-    int messagesCount = 0;
-    ArrayList<String> lines = new ArrayList<>();
+    private static ChabokApplication instance;
+    private AdpPushClient adpPush = null;
+    private int messagesCount = 0;
+    private ArrayList<String> lines = new ArrayList<>();
     private SharedPreferences myPref;
+
+    public static Context getContext() {
+        return instance.getApplicationContext();
+    }
 
     public void clearMessages() {
         lines.clear();
@@ -82,7 +75,6 @@ public class ChabokApplication extends Application {
 
                     PushMessage pushMessage = chabokNotification.getMessage();
 
-//                    boolean off_notify = myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false);
                     if (pushMessage != null) {
                         lines.add(pushMessage.getBody());
 
@@ -97,13 +89,13 @@ public class ChabokApplication extends Application {
                                 }
                             }
 
-                        } else {                                              //it's from server
+                        } else {   //it's from server
 
                             builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
                             builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
 
                         }
-                    }else{
+                    } else {
                         lines.add(chabokNotification.getText());
                     }
 
@@ -138,7 +130,7 @@ public class ChabokApplication extends Application {
                     }
 
 
-                    if ((HomeActivity.currentPage == 0) && (ChabokApplication.currentActivity instanceof HomeActivity)) {
+                    if ((HomeActivity.currentPage == 0) && (getApplicationContext() instanceof HomeActivity)) {
                         ring();
                         return false;    // user in message tab
                     }
@@ -169,13 +161,6 @@ public class ChabokApplication extends Application {
         return adpPush;
     }
 
-    public void onEvent(DeliveryMessage message) {
-
-        ChabokDAO dao = ChabokDAOImpl.getInstance(this);
-        dao.updateCounter(message.getDeliveredMessageId());
-        PushMessageReceiver.sendResult();
-
-    }
 
     private void ring() {
 
@@ -194,7 +179,7 @@ public class ChabokApplication extends Application {
     public void onCreate() {
         super.onCreate();
         getPushClient(HomeActivity.class);
-        this.context = getApplicationContext();
+        instance = this;
 
     }
 

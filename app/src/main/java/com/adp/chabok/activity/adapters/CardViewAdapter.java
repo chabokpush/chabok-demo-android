@@ -1,5 +1,6 @@
 package com.adp.chabok.activity.adapters;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
-import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.DateUtil;
 import com.adp.chabok.data.models.MessageTO;
@@ -30,12 +30,13 @@ import java.util.List;
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MessageViewHolder> {
 
 
-    List<MessageTO> items;
+    private List<MessageTO> items;
     private int position;
-    private int message_type; //1-incoming 2-outgoing
-    private JSONObject dataJson;
+    private Context context;
 
-    public CardViewAdapter(List<MessageTO> items) {
+    public CardViewAdapter(Context context, List<MessageTO> items) {
+
+        this.context = context;
         this.items = items;
     }
 
@@ -53,24 +54,17 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
         return position;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
 
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
 
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_message_item_in, viewGroup, false);
-        MessageViewHolder pvh = new MessageViewHolder(v);
-        return pvh;
+        return new MessageViewHolder(v);
     }
 
     @Override
     public int getItemViewType(int position) {
-        int result = 0;
-        if (items.get(position).getSenderId() != "") {
-            //TODO can change here
-        }
+
         return position % 2 * 2;
     }
 
@@ -78,16 +72,17 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
     @Override
     public void onBindViewHolder(MessageViewHolder messageViewHolder, int i) {
 
-        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.currentActivity);
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(context);
         if (getSenderName(items.get(i)).equals(myPref.getString(Constants.PREFERENCE_NAME, ""))) {  //my own message
 
             messageViewHolder.out_rll.setVisibility(View.GONE);
             messageViewHolder.in_rll.setVisibility(View.VISIBLE);
-            messageViewHolder.messageDate.setText(DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
-                    + " " + DateUtil.getSolarDate(ChabokApplication.currentActivity, new Date(items.get(i).getReceivedDate().getTime()), false, false));
+            String messageDate = DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
+                    + " " + DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            messageViewHolder.messageDate.setText(messageDate);
             messageViewHolder.messageText.setText(items.get(i).getMessage());
             messageViewHolder.senderName.setText(getSenderName(items.get(i)));
-            messageViewHolder.messageSeen.setText(items.get(i).getSeenCounter() + "");
+            messageViewHolder.messageSeen.setText(String.valueOf(items.get(i).getSeenCounter()));
 
             switch (items.get(i).getSendStatus()) {
                 case 0:
@@ -106,13 +101,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
             messageViewHolder.out_rll.setVisibility(View.VISIBLE);
             messageViewHolder.in_rll.setVisibility(View.GONE);
-            messageViewHolder.messageDate_out.setText(DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
-                    + " " + DateUtil.getSolarDate(ChabokApplication.currentActivity, new Date(items.get(i).getReceivedDate().getTime()), false, false));
+            String messageDateOut = DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
+                    + " " + DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            messageViewHolder.messageDate_out.setText(messageDateOut);
             messageViewHolder.messageText_out.setText(items.get(i).getMessage());
             messageViewHolder.senderName_out.setText(getSenderName(items.get(i)));
         }
-
-        final int count = i;
 
     }
 
@@ -122,24 +116,24 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
     }
 
     private String getSenderName(MessageTO message) {
-        String result = "";
+        String result;
         if (message.getData() != null) {
             try {
-                JSONObject json = new JSONObject(message.getData().toString());
+                JSONObject json = new JSONObject(message.getData());
                 result = json.getString(Constants.KEY_NAME);
             } catch (JSONException e) {
                 Log.e("log", e.getMessage(), e);
-                result = ChabokApplication.currentActivity.getString(R.string.app_name);
+                result = context.getString(R.string.app_name);
             }
         } else {
 
-            result = ChabokApplication.currentActivity.getString(R.string.app_name);
+            result = context.getString(R.string.app_name);
         }
         return result;
 
     }
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout in_rll;
         TextView senderName;

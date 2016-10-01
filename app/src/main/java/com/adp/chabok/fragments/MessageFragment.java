@@ -29,11 +29,20 @@ import java.util.Map;
  */
 public class MessageFragment extends Fragment {
 
-    private static ChabokDAO dao;
-    private static RecyclerView rv;
-    public static CardViewAdapter messageAdapter;
-    private static List<MessageTO> messagesList;
+    private ChabokDAO dao;
+    private RecyclerView rv;
+    private CardViewAdapter messageAdapter;
+    private List<MessageTO> messagesList;
 
+
+    public static MessageFragment getInstance() {
+        return new MessageFragment();
+    }
+
+
+    public CardViewAdapter getMessageAdapter() {
+        return messageAdapter;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +60,7 @@ public class MessageFragment extends Fragment {
         rv.setLayoutManager(llm);
 
         initializeData();
-        initilizeAdapter();
+        initializeAdapter();
         return fragmentView;
     }
 
@@ -62,15 +71,54 @@ public class MessageFragment extends Fragment {
 
     }
 
-    public static void initializeData() {
+    public void initializeData() {
 
-        dao = ChabokDAOImpl.getInstance(ChabokApplication.currentActivity);
+        dao = ChabokDAOImpl.getInstance(ChabokApplication.getContext());
         messagesList = dao.getMessages("receivedDate DESC");
         messagesList = prepareData(messagesList);
 
     }
 
-    static private List<MessageTO> prepareData(List<MessageTO> messageTOList) {
+    public void initializeAdapter() {
+
+        messageAdapter = new CardViewAdapter(ChabokApplication.getContext(), messagesList);
+        if (rv != null) {
+            rv.setAdapter(messageAdapter);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        int position;
+        String serverId;
+
+        try {
+            position = (messageAdapter).getPosition();
+            serverId = (messageAdapter).getServerId();
+
+        } catch (Exception e) {
+            Log.d("Log", e.getLocalizedMessage(), e);
+            return super.onContextItemSelected(item);
+        }
+
+
+        switch (item.getItemId()) {
+            case R.id.delete:
+                dao.deleteMessages(serverId); // delete the mesage from DB
+                messagesList.remove(position); // delete the message from arrayList
+                messageAdapter.notifyItemRemoved(position); //remove message from Adsapter
+                messageAdapter.notifyItemRangeChanged(position, messagesList.size());
+
+                break;
+            case R.id.share:
+
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private List<MessageTO> prepareData(List<MessageTO> messageTOList) {
         if (messageTOList != null && messageTOList.size() > 0) {
             Map<Long, Long> map = new HashMap();
 
@@ -102,44 +150,9 @@ public class MessageFragment extends Fragment {
         return messageTOList;
     }
 
-    public static void initilizeAdapter() {
+    public void updateMessageList(MessageTO message) {
+        messagesList.add(message);
+        messageAdapter.notifyDataSetChanged();
 
-        messageAdapter = new CardViewAdapter(messagesList);
-        if (rv != null) {
-            rv.setAdapter(messageAdapter);
-        }
     }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-
-        int position = -1;
-        String serverId = "";
-
-        try {
-            position = (messageAdapter).getPosition();
-            serverId = (messageAdapter).getServerId();
-
-        } catch (Exception e) {
-            Log.d("Log", e.getLocalizedMessage(), e);
-            return super.onContextItemSelected(item);
-        }
-
-
-        switch (item.getItemId()) {
-            case R.id.delete:
-                dao.deleteMessages(serverId); // delete the mesage from DB
-                messagesList.remove(position); // delete the message from arrayList
-                messageAdapter.notifyItemRemoved(position); //remove message from Adsapter
-                messageAdapter.notifyItemRangeChanged(position, messagesList.size());
-//                Toast.makeText(ChabokApplication.currentActivity, getResources().getString(R.string.deleted_sucessfully), Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.share:
-
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
 }

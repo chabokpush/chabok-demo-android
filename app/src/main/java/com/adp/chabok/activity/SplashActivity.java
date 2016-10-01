@@ -9,7 +9,7 @@ import com.adp.chabok.R;
 
 public class SplashActivity extends Activity {
 
-    int SPLASH_DISPLAY_LENGHT = 2000;
+    int SPLASH_DISPLAY_LENGTH = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class SplashActivity extends Activity {
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
             }
-        }, SPLASH_DISPLAY_LENGHT);
+        }, SPLASH_DISPLAY_LENGTH);
     }
 
 

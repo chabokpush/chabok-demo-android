@@ -34,12 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
                 registerPushClient(email, name);
                 gotToMain();
 
-                return;
-
-            } else {
-
             }
-
         }
     };
 
