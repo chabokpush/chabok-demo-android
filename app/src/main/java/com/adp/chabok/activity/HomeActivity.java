@@ -60,9 +60,9 @@ public class HomeActivity extends BaseActivity {
     public static int currentPage = 0;
     private TabLayout tabLayout;
     private ChabokDAO dao;
-    private MessageFragment messageFragment;
     private BroadcastReceiver receiver;
-    private int new_messages = 0;
+    private MessageFragment messageFragment;
+    private int newMessageCount = 0;
 
 
     @Override
@@ -81,7 +81,7 @@ public class HomeActivity extends BaseActivity {
         @SuppressLint("InflateParams")
         View v = getLayoutInflater().inflate(R.layout.fragment_actionbar_sub, null);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
 
             getSupportActionBar().setHomeButtonEnabled(false);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -91,12 +91,10 @@ public class HomeActivity extends BaseActivity {
         }
 
 
-
-
         receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
             @Override
             public void onReceive(Context context, Intent intent) {
-                onMessageReceive();
+                newMessageCount = dao.getUnreadMessagesCount();
             }
         };
 
@@ -107,10 +105,16 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    protected void onMessageReceive() {
 
-        new_messages = dao.getNormalUnreadMessagesCount();
-        updateInbox();
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getBooleanExtra(Constants.RELOAD_MESSAEGS, false)) {
+            intent.removeExtra(Constants.RELOAD_MESSAEGS);
+            MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
+            messageFragment.updateMessageList(newMessage);
+
+        }
 
     }
 
@@ -174,7 +178,7 @@ public class HomeActivity extends BaseActivity {
         adapter.addFrag(messageFragment, getResources().getString(R.string.title_payam_resan));
         adapter.addFrag(new AboutUsFragment(), getResources().getString(R.string.title_about_chabok));
 
-        if(viewPager != null){
+        if (viewPager != null) {
             viewPager.setOffscreenPageLimit(2);
 
             viewPager.setAdapter(adapter);
@@ -370,12 +374,7 @@ public class HomeActivity extends BaseActivity {
                 }
             }
 
-            if (position == 0 && new_messages > 0) {
-                updateInbox();
-                new_messages = 0;
-            }
         }
     }
-
 
 }

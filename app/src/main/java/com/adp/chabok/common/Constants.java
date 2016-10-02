@@ -2,7 +2,7 @@ package com.adp.chabok.common;
 
 public interface Constants {
 
-//    boolean DEV_MODE = true;
+    //    boolean DEV_MODE = true;
     boolean DEV_MODE = false;
 
     String APP_ID = "chabok-demo/1085254472657";
@@ -18,6 +18,8 @@ public interface Constants {
     String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_OFF_NOTIFY = "notify";
+    public static final String RELOAD_MESSAEGS = "RELOAD_MESSAEGS";
+    public static final String NEW_MESSAGE = "NEW_MESSAGE";
 
     String CHANNEL_NAME = "public/wall";
     String KEY_NAME = "name";

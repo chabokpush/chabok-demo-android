@@ -32,5 +32,5 @@ public interface ChabokDAO {
 
     void updateSendStatus(String messageId);
 
-    int getNormalUnreadMessagesCount();
+    int getUnreadMessagesCount();
 }

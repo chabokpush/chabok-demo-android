@@ -205,7 +205,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     }
 
     @Override
-    public int getNormalUnreadMessagesCount() {
+    public int getUnreadMessagesCount() {
 
         int result = 0;
         SQLiteDatabase db = this.getReadableDatabase();

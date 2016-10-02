@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
+import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.Utility;
@@ -33,12 +34,12 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         PushMessage push = PushMessage.fromJson(newData, newTopic);
         dao = ChabokDAOImpl.getInstance(context);
 
-        handleNewMessage(push);
+        handleNewMessage(context, push);
         completeWakefulIntent(intent);
     }
 
 
-    private void handleNewMessage(PushMessage message) {
+    private void handleNewMessage(Context context, PushMessage message) {
 
         String temp = null;
         if (message.getData() != null) {
@@ -74,6 +75,17 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         if (!isMyMessage) {
             dao.saveMessage(newMessage, 0);
         }
+
+
+        if (AdpPushClient.get().isForeground()) {
+            Intent reloadIntent = new Intent(context, HomeActivity.class);
+            reloadIntent.putExtra(Constants.RELOAD_MESSAEGS, true);
+            reloadIntent.putExtra(Constants.NEW_MESSAGE, newMessage);
+            reloadIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            reloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(reloadIntent);
+        }
+
         Utility.sendResult();
 
     }

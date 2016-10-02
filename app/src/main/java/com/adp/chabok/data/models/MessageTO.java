@@ -1,8 +1,9 @@
 package com.adp.chabok.data.models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MessageTO {
+public class MessageTO implements Serializable{
 
     private long id;
     private String serverId;
