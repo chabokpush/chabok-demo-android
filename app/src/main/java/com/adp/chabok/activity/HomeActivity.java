@@ -4,10 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -19,7 +17,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -60,9 +57,7 @@ public class HomeActivity extends BaseActivity {
     public static int currentPage = 0;
     private TabLayout tabLayout;
     private ChabokDAO dao;
-    private BroadcastReceiver receiver;
     private MessageFragment messageFragment;
-    private int newMessageCount = 0;
 
 
     @Override
@@ -91,16 +86,9 @@ public class HomeActivity extends BaseActivity {
         }
 
 
-        receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                newMessageCount = dao.getUnreadMessagesCount();
-            }
-        };
 
         dao = ChabokDAOImpl.getInstance(this);
         ((ChabokApplication) getApplication()).clearMessages();
-        currentPage = 0;
         createTabs();
 
     }
@@ -111,8 +99,13 @@ public class HomeActivity extends BaseActivity {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra(Constants.RELOAD_MESSAEGS, false)) {
             intent.removeExtra(Constants.RELOAD_MESSAEGS);
-            MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
-            messageFragment.updateMessageList(newMessage);
+            if(intent.getExtras().get(Constants.NEW_MESSAGE) != null){
+                MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
+                messageFragment.updateMessageList(newMessage);
+            }else if(intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null){
+                String myMessageServerId = intent.getExtras().getString(Constants.MY_MESSAGE_SERVER_ID);
+                messageFragment.updateMessageItem(myMessageServerId);
+            }
 
         }
 
@@ -132,40 +125,6 @@ public class HomeActivity extends BaseActivity {
         } else {
             // Add your function here which open camera
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-                new IntentFilter(Constants.MSG_SAVED_2_DB)
-        );
-    }
-
-    @Override
-    protected void onStop() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        currentPage = 1;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    private void updateInbox() {
-
-        messageFragment.initializeData();
-        messageFragment.initializeAdapter();
-        messageFragment.getMessageAdapter().notifyDataSetChanged();
     }
 
 
@@ -207,7 +166,7 @@ public class HomeActivity extends BaseActivity {
                 myPushMessage.setBody(msg.getText().toString().trim());
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO until getSenderId works dont need this part
+                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO until getSenderId works don't need this part
                 myPushMessage.setData(jsonObject);
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());

@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MessageViewHolder> {
 
@@ -110,6 +111,20 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             result = context.getString(R.string.app_name);
         }
         return result;
+
+    }
+
+    public void updateMessageList(MessageTO message, Map<String, Integer> serverIdPositionMap) {
+        items.add(0, message);
+        serverIdPositionMap.put(message.getServerId(),items.size()-1);
+        this.notifyDataSetChanged();
+    }
+
+    public void updateMessageItem(String myMessageServerId, Map<String, Integer> serverIdPositionMap) {
+
+        int position = items.size() - serverIdPositionMap.get(myMessageServerId) - 1;
+        items.get(position).setSendStatus(1);
+        this.notifyItemChanged(position);
 
     }
 

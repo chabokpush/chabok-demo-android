@@ -26,16 +26,13 @@ public class MessageFragment extends Fragment {
     private RecyclerView rv;
     private CardViewAdapter messageAdapter;
     private List<MessageTO> messagesList;
+    private Map<String, Integer> serverIdPositionMap;
 
 
     public static MessageFragment getInstance() {
         return new MessageFragment();
     }
 
-
-    public CardViewAdapter getMessageAdapter() {
-        return messageAdapter;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +66,16 @@ public class MessageFragment extends Fragment {
         ChabokDAO dao = ChabokDAOImpl.getInstance(ChabokApplication.getContext());
         messagesList = dao.getMessages("receivedDate DESC");
         messagesList = prepareData(messagesList);
+        serverIdPositionMap = setupMap();
 
+    }
+
+    private Map<String,Integer> setupMap() {
+        Map<String,Integer> map = new HashMap<>();
+        for (int i = 0; i < messagesList.size(); i++) {
+            map.put(messagesList.get(i).getServerId(), i);
+        }
+        return map;
     }
 
     public void initializeAdapter() {
@@ -114,8 +120,12 @@ public class MessageFragment extends Fragment {
     }
 
     public void updateMessageList(MessageTO message) {
-        messagesList.add(message);
-        messageAdapter.notifyDataSetChanged();
+        messageAdapter.updateMessageList(message, serverIdPositionMap);
+
+    }
+
+    public void updateMessageItem(String myMessageServerId) {
+        messageAdapter.updateMessageItem(myMessageServerId, serverIdPositionMap);
 
     }
 }

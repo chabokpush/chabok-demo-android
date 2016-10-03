@@ -154,7 +154,7 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
 
         };
 
-        Cursor results = db.query(TABLE_NAME_MESSAGE, columns, null, null, null, null, orderByColumn, null);
+        Cursor results = db.query(TABLE_NAME_MESSAGE, columns, null, null, null, null, orderByColumn, "300");
 
         if (results.moveToFirst()) {
             for (; !results.isAfterLast(); results.moveToNext()) {

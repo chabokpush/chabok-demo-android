@@ -18,8 +18,9 @@ public interface Constants {
     String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_OFF_NOTIFY = "notify";
-    public static final String RELOAD_MESSAEGS = "RELOAD_MESSAEGS";
-    public static final String NEW_MESSAGE = "NEW_MESSAGE";
+    String RELOAD_MESSAEGS = "RELOAD_MESSAEGS";
+    String NEW_MESSAGE = "NEW_MESSAGE";
+    String MY_MESSAGE_SERVER_ID = "MY_MESSAGE_SERVER_ID";
 
     String CHANNEL_NAME = "public/wall";
     String KEY_NAME = "name";
