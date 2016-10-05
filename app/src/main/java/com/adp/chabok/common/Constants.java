@@ -25,7 +25,7 @@ public interface Constants {
     String CHANNEL_NAME = "public/wall";
     String KEY_NAME = "name";
 
-    String MSG_SAVED_2_DB = "com.adp.chabok.newmessage_saved_2_db";
-    String MSG_SAVED_2_DB_EXTRA = "com.adp.chabok.newmessage_saved_2_db_EXTRA";
+    String SEND_BROADCAST = "SEND_BROADCAST_TO_HOME_ACTIVITY";
+    String DELIVERED_MESSAGE = "DELIVERED_MESSAGE";
 
 }

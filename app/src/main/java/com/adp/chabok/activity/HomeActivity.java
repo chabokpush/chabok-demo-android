@@ -4,8 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -17,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +35,7 @@ import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
+import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.fragments.AboutUsFragment;
 import com.adp.chabok.fragments.MessageFragment;
@@ -58,6 +62,7 @@ public class HomeActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ChabokDAO dao;
     private MessageFragment messageFragment;
+    private BroadcastReceiver receiver;
 
 
     @Override
@@ -86,11 +91,35 @@ public class HomeActivity extends BaseActivity {
         }
 
 
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getExtras().get(Constants.DELIVERED_MESSAGE) != null){
+                    DeliveredMessage deliveredMessage = (DeliveredMessage) intent.getExtras().get(Constants.DELIVERED_MESSAGE);
+                    messageFragment.updateDeliveredCount(deliveredMessage);
+                }
+            }
+        };
+
 
         dao = ChabokDAOImpl.getInstance(this);
         ((ChabokApplication) getApplication()).clearMessages();
         createTabs();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+                new IntentFilter(Constants.SEND_BROADCAST)
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        super.onStop();
     }
 
 

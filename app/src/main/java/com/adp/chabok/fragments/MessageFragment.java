@@ -14,6 +14,7 @@ import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.DateUtil;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
+import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
 
 import java.util.Calendar;
@@ -127,5 +128,9 @@ public class MessageFragment extends Fragment {
     public void updateMessageItem(String myMessageServerId) {
         messageAdapter.updateMessageItem(myMessageServerId, serverIdPositionMap);
 
+    }
+
+    public void updateDeliveredCount(DeliveredMessage deliveredMessage) {
+        messageAdapter.updateDeliveredCount(deliveredMessage.getMap(), serverIdPositionMap);
     }
 }

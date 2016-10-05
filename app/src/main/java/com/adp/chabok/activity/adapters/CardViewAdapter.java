@@ -116,7 +116,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
     public void updateMessageList(MessageTO message, Map<String, Integer> serverIdPositionMap) {
         items.add(0, message);
-        serverIdPositionMap.put(message.getServerId(),items.size()-1);
+        serverIdPositionMap.put(message.getServerId(), items.size() - 1);
         this.notifyDataSetChanged();
     }
 
@@ -125,6 +125,16 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
         int position = items.size() - serverIdPositionMap.get(myMessageServerId) - 1;
         items.get(position).setSendStatus(1);
         this.notifyItemChanged(position);
+
+    }
+
+    public void updateDeliveredCount(Map<String, Integer> serverIdDeliveredCountMap, Map<String, Integer> serverIdPositionMap) {
+        for (String serverId : serverIdDeliveredCountMap.keySet()) {
+
+            int position = items.size() - serverIdPositionMap.get(serverId) - 1;
+            items.get(position).setSeenCounter(items.get(position).getSeenCounter() + serverIdDeliveredCountMap.get(serverId));
+            this.notifyItemChanged(position);
+        }
 
     }
 

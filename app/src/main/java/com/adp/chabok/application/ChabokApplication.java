@@ -3,6 +3,7 @@ package com.adp.chabok.application;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -10,13 +11,14 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.common.Constants;
-import com.adp.chabok.common.Utility;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
+import com.adp.chabok.data.models.DeliveredMessage;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.ChabokNotification;
 import com.adpdigital.push.DeliveryMessage;
@@ -24,6 +26,8 @@ import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChabokApplication extends Application {
 
@@ -157,7 +161,39 @@ public class ChabokApplication extends Application {
 
         ChabokDAO dao = ChabokDAOImpl.getInstance(this);
         dao.updateCounter(message.getDeliveredMessageId());
-        Utility.sendResult();
+
+        Map<String, Integer> serverIdDeliveredCountMap = new HashMap<>();
+
+        int count = 1;
+        if (serverIdDeliveredCountMap.get(message.getDeliveredMessageId()) != null) {
+            count = serverIdDeliveredCountMap.get(message.getDeliveredMessageId()) + 1;
+        }
+        serverIdDeliveredCountMap.put(message.getDeliveredMessageId(), count);
+
+        DeliveredMessage deliveredMessage = new DeliveredMessage();
+        deliveredMessage.setMap(serverIdDeliveredCountMap);
+
+        sendResult(deliveredMessage);
+
+
+//        final Handler handler = new Handler();
+//        handler.postDelayed( new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                messageAdapter.notifyDataSetChanged();
+//                handler.postDelayed( this, 60 * 1000 );
+//            }
+//        }, 60 * 1000 );
+
+    }
+
+
+    public void sendResult(DeliveredMessage deliveredMessage) {
+        Intent intent = new Intent(Constants.SEND_BROADCAST);
+        intent.putExtra(Constants.DELIVERED_MESSAGE, deliveredMessage);
+        LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
+        broadcaster.sendBroadcast(intent);
 
     }
 

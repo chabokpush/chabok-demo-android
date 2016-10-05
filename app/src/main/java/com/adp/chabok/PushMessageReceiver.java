@@ -10,7 +10,6 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
-import com.adp.chabok.common.Utility;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
@@ -89,8 +88,6 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
             }
         }
 
-
-        Utility.sendResult();
 
     }
 
