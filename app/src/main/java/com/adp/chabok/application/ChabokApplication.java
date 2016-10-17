@@ -170,21 +170,10 @@ public class ChabokApplication extends Application {
         }
         serverIdDeliveredCountMap.put(message.getDeliveredMessageId(), count);
 
-        DeliveredMessage deliveredMessage = new DeliveredMessage();
+        final DeliveredMessage deliveredMessage = new DeliveredMessage();
         deliveredMessage.setMap(serverIdDeliveredCountMap);
 
         sendResult(deliveredMessage);
-
-
-//        final Handler handler = new Handler();
-//        handler.postDelayed( new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                messageAdapter.notifyDataSetChanged();
-//                handler.postDelayed( this, 60 * 1000 );
-//            }
-//        }, 60 * 1000 );
 
     }
 
