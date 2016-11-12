@@ -5,13 +5,12 @@ public interface Constants {
     //    boolean DEV_MODE = true;
     boolean DEV_MODE = false;
 
-    String APP_ID = "chabok-demo/1085254472657";
-    String API_KEY = "5d9adbc5adb24546c2c99ea54472eda5b7ccdfbf";
+    String APP_ID = "YOUR_APP_ID";
+    String API_KEY = "YOUR_API_KEY";
 
 
-    String USER_NAME = "chabokdemo";
-    String PASSWORD = "chabokdemo";
-    String PUSH_DATA = "data";
+    String USER_NAME = "YOUR_USER_NAME";
+    String PASSWORD = "YOUR_PASSWORD";
 
     String APPLICATION_FONT = "fonts/iransans_bold.ttf";
     String APPLICATION_NORMAL_FONT = "fonts/iransans.ttf";
