@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChabokApplication extends Application {
-
+    private Map<String, Integer> serverIdDeliveredCountMap;
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
@@ -162,7 +162,9 @@ public class ChabokApplication extends Application {
         ChabokDAO dao = ChabokDAOImpl.getInstance(this);
         dao.updateCounter(message.getDeliveredMessageId());
 
-        Map<String, Integer> serverIdDeliveredCountMap = new HashMap<>();
+        if(serverIdDeliveredCountMap == null) {
+            serverIdDeliveredCountMap = new HashMap<>();
+        }
 
         int count = 1;
         if (serverIdDeliveredCountMap.get(message.getDeliveredMessageId()) != null) {
@@ -215,6 +217,7 @@ public class ChabokApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        serverIdDeliveredCountMap = new HashMap<>();
         getPushClient(HomeActivity.class);
         instance = this;
 

@@ -344,6 +344,14 @@ public class HomeActivity extends BaseActivity {
     }
 
     public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+        private final NotificationManager notificationManager;
+        private final InputMethodManager imm;
+
+        public DetailOnPageChangeListener() {
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        }
+
 
         @Override
         public void onPageSelected(int position) {
@@ -351,13 +359,11 @@ public class HomeActivity extends BaseActivity {
 
 
             if (position == 0) {
-                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancelAll();
             } else {
 
                 View view = HomeActivity.this.getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             }

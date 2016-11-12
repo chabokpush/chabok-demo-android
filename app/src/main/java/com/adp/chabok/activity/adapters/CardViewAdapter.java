@@ -27,11 +27,13 @@ import java.util.Map;
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MessageViewHolder> {
 
 
+    private final String senderName;
     private Context context;
     private List<MessageTO> items;
 
     public CardViewAdapter(Context context, List<MessageTO> items) {
-
+        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(context);
+        senderName = myPref.getString(Constants.PREFERENCE_NAME, "");
         this.context = context;
         this.items = items;
     }
@@ -53,8 +55,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
     @Override
     public void onBindViewHolder(MessageViewHolder messageViewHolder, int i) {
 
-        SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(context);
-        if (getSenderName(items.get(i)).equals(myPref.getString(Constants.PREFERENCE_NAME, ""))) {  //my own message
+
+        if (getSenderName(items.get(i)).equals(senderName)) {  //my own message
 
             messageViewHolder.out_rll.setVisibility(View.GONE);
             messageViewHolder.in_rll.setVisibility(View.VISIBLE);
