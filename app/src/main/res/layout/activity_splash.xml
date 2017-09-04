@@ -3,15 +3,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/my_white">
+    android:background="@drawable/splash_bg">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView_back"
-        android:src="@drawable/img_splash"
+        android:id="@+id/splash_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chabok_logo"
+        android:layout_centerInParent="true"
         android:scaleType="center"
         android:adjustViewBounds="true" />
+
+    <TextView
+        android:id="@+id/designed_by"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="@string/lbl_adp_copy_right"
+        android:textColor="@color/designed_by"
+        android:background="@android:color/transparent"
+        android:textSize="14sp"/>
 
 
 </RelativeLayout>

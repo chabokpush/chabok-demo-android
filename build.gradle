@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.3.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 }
 
@@ -23,8 +24,8 @@ task clean(type: Delete) {
 }
 // Versions
 ext {
-    supportLibraryVersion = '23.4.0'
-    chabokVersion = '2.6.3'
+    supportLibraryVersion = '26.0.2'
+    chabokVersion = '2.7.10'
 
     gsonVersion = '2.4'
     stickylistheadersVersion = '2.7.0'

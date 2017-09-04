@@ -63,4 +63,11 @@
     <color name="message_color">#8c9297</color>
     <color name="version_color">#6d7b8a</color>
 
+
+    <!--CAPITAN-->
+
+    <color name="splash_start">#177AFB</color>
+    <color name="splash_end">#4998FF</color>
+    <color name="designed_by">#FFFFFFFF</color>
+
 </resources>
