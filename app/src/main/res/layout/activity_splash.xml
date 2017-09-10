@@ -22,7 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
         android:text="@string/lbl_adp_copy_right"
-        android:textColor="@color/designed_by"
+        android:textColor="@android:color/white"
         android:background="@android:color/transparent"
         android:textSize="14sp"/>
 

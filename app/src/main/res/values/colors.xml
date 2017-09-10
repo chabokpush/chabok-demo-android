@@ -68,6 +68,7 @@
 
     <color name="splash_start">#177AFB</color>
     <color name="splash_end">#4998FF</color>
-    <color name="designed_by">#FFFFFFFF</color>
+    <color name="brown_btn_bg">#EBA000</color>
+    <color name="brown_btn_text">#784B2B</color>
 
 </resources>

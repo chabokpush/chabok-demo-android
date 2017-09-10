@@ -19,6 +19,7 @@
     <string name="action_activate">فعال سازی</string>
     <string name="action_resend">ارسال مجدد</string>
     <string name="action_back">بازگشت</string>
+    <string name="action_ok">فهمیدم</string>
     <string name="action_confirm">تایید</string>
     <string name="action_try_again">تلاش مجدد</string>
     <string name="action_cancel">انصراف</string>
@@ -70,6 +71,9 @@
     <string name="lbl_chabok_phone">021-89678</string>
     <string name="lbl_chabok_url">http://chabokpush.com</string>
     <string name="lbl_notification_disable">غیر فعال سازی نوتیفیکیشن</string>
+    <string name="lbl_description">کاپیتان چابک، از یه نقشه خیلی قدیمی فهمیدیم کلی گنج زیر خاک این منطقه دفن شده.
+ \n باید قبل از اینکه کسی پیداش کنه با کمک هم از زیر این خاک بیرون بیاریمش.</string>
+
 
 
     //-------actions
