@@ -71,6 +71,8 @@
     <string name="lbl_chabok_phone">021-89678</string>
     <string name="lbl_chabok_url">http://chabokpush.com</string>
     <string name="lbl_notification_disable">غیر فعال سازی نوتیفیکیشن</string>
+    <string name="lbl_chabok_fa">کاپیتان چابک</string>
+    <string name="lbl_chabok_en">Capitan Chabok</string>
     <string name="lbl_description">کاپیتان چابک، از یه نقشه خیلی قدیمی فهمیدیم کلی گنج زیر خاک این منطقه دفن شده.
  \n باید قبل از اینکه کسی پیداش کنه با کمک هم از زیر این خاک بیرون بیاریمش.</string>
 

@@ -30,17 +30,18 @@
         android:textSize="14sp"/>
     
     <com.adp.chabok.ui.Button
+        android:id="@+id/ok_btn"
         android:layout_width="163dp"
         android:layout_height="63dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="48dp"
         android:textAlignment="center"
         android:gravity="center"
         android:text="@string/action_ok"
         android:textSize="18sp"
         android:textColor="@color/brown_btn_text"
-        android:background="@drawable/brown_button_bg"/>
+        android:background="@drawable/brown_button_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
