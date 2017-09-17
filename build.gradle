@@ -25,7 +25,7 @@ task clean(type: Delete) {
 // Versions
 ext {
     supportLibraryVersion = '26.0.2'
-    chabokVersion = '2.7.10'
+    chabokVersion = '2.7.11'
 
     gsonVersion = '2.4'
     stickylistheadersVersion = '2.7.0'

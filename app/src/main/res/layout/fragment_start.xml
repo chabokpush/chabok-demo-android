@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_bg">
+
+    <ImageView
+        android:id="@+id/map_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_map"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        android:scaleType="center"
+        android:adjustViewBounds="true" />
+
+    <com.adp.chabok.ui.TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/map_img"
+        android:text="@string/lbl_description"
+        android:layout_margin="38dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:background="@android:color/transparent"
+        android:textSize="14sp"/>
+
+    <com.adp.chabok.ui.Button
+        android:layout_width="163dp"
+        android:layout_height="63dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@string/action_ok"
+        android:textSize="18sp"
+        android:textColor="@color/brown_btn_text"
+        android:background="@drawable/brown_button_bg"/>
+
+
+</RelativeLayout>

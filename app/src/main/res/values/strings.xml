@@ -75,7 +75,6 @@
  \n باید قبل از اینکه کسی پیداش کنه با کمک هم از زیر این خاک بیرون بیاریمش.</string>
 
 
-
     //-------actions
     <string name="title_actions">امکانات</string>
     <string name="action_delete">حذف</string>
@@ -111,6 +110,7 @@
     <string name="yesterday">دیروز</string>
 
     <string name="version">نگارش %1$s</string>
+    <string name="title_activity_main">MainActivity</string>
 
 
 </resources>
