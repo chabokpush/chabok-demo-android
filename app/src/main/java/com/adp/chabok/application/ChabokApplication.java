@@ -15,6 +15,8 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.HomeActivity;
+import com.adp.chabok.activity.IntroActivity;
+import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
@@ -30,10 +32,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChabokApplication extends Application {
-    private Map<String, Integer> serverIdDeliveredCountMap;
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
+    private Map<String, Integer> serverIdDeliveredCountMap;
     private AdpPushClient adpPush = null;
     private int messagesCount = 0;
     private ArrayList<String> lines = new ArrayList<>();
@@ -41,6 +43,11 @@ public class ChabokApplication extends Application {
 
     public static Context getContext() {
         return instance.getApplicationContext();
+    }
+
+
+    public static ChabokApplication getInstance() {
+        return instance;
     }
 
     public void clearMessages() {
@@ -63,8 +70,10 @@ public class ChabokApplication extends Application {
                 adpPush.setDevelopment(Constants.DEV_MODE);
                 adpPush.enableDeliveryTopic();
                 adpPush.addListener(this);
+
+
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
-                String clientNo = myPref.getString(Constants.PREFERENCE_EMAIL_ADD, "");
+                String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
                 if (!"".equals(clientNo)) {
                     adpPush.register(clientNo, new String[]{Constants.CHANNEL_NAME});
                 }
@@ -162,7 +171,7 @@ public class ChabokApplication extends Application {
         ChabokDAO dao = ChabokDAOImpl.getInstance(this);
         dao.updateCounter(message.getDeliveredMessageId());
 
-        if(serverIdDeliveredCountMap == null) {
+        if (serverIdDeliveredCountMap == null) {
             serverIdDeliveredCountMap = new HashMap<>();
         }
 
@@ -218,7 +227,7 @@ public class ChabokApplication extends Application {
     public void onCreate() {
         super.onCreate();
         serverIdDeliveredCountMap = new HashMap<>();
-        getPushClient(HomeActivity.class);
+        getPushClient(IntroActivity.class);
         instance = this;
 
     }

@@ -77,11 +77,12 @@
 
                 <com.adp.chabok.ui.TextView
                     android:id="@+id/inbox_item_message_text"
-                    style="@style/Text.message"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:lineSpacingExtra="5dp"
+                    android:textColor="@color/msg_color"
+                    android:background="@color/msg_out_bg"
                     android:text="متن پیام چابک" />
 
             </RelativeLayout>
