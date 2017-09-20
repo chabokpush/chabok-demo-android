@@ -69,7 +69,12 @@
     <color name="splash_start">#177AFB</color>
     <color name="splash_end">#4998FF</color>
     <color name="brown_btn_bg">#EBA000</color>
+    <color name="blue_btn_bg">#2F83FF</color>
     <color name="brown_btn_text">#784B2B</color>
     <color name="start_btn_icon">#825534</color>
+    <color name="msg_color">#4A4A4A</color>
+    <color name="hint_color">#BDBDBD</color>
+    <color name="msg_out_bg">#C7EBFF</color>
+
 
 </resources>

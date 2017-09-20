@@ -22,6 +22,10 @@ public class Validator {
                     ")+"
     );
 
+    public static final Pattern IRAN_MOBILE_PATTERN = Pattern.compile(
+            "^(989|9)[0-9]{9}"
+    );
+
     public static AlertDialog dialog;
 
 
@@ -49,6 +53,17 @@ public class Validator {
         return true;
     }
 
+ public static boolean validateName(Activity activity, String src) {
+        if (src.length() < 3) {
+            CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity,
+                    activity.getString(R.string.msg_invalid_name));
+            dialog = dialogBuilder.create();
+            dialog.show();
+            return false;
+        }
+        return true;
+    }
+
 
     public static boolean validateEmail(Activity activity, String string) {
 
@@ -59,6 +74,18 @@ public class Validator {
             return false;
         }
         return true;
+    }
+
+    public static boolean validatePhoneNumber(Activity activity, String phoneNumber) {
+
+        if (!IRAN_MOBILE_PATTERN.matcher(phoneNumber).matches()) {
+            CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, activity.getResources().getString(R.string.msg_invalid_mobile));
+            dialog = dialogBuilder.create();
+            dialog.show();
+            return false;
+        }
+        return true;
+
     }
 
 

@@ -32,7 +32,7 @@
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/title_activity_home"
@@ -62,6 +62,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activity.IntroActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"

@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.MainActivity;
+import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.ui.Button;
 
@@ -34,7 +34,7 @@ public class ChabokStartFragment extends Fragment {
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).navigateToFragment(MainActivity.MAP_FRAGMENT);
+                ((IntroActivity) getActivity()).navigateToFragment(IntroActivity.MAP_FRAGMENT, null);
             }
         };
 

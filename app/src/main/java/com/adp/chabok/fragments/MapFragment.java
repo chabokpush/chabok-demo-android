@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.MainActivity;
+import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.ui.Button;
 
 
@@ -23,7 +23,7 @@ public class MapFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).navigateToFragment(MainActivity.AVATAR_FRAGMENT);
+                ((IntroActivity) getActivity()).navigateToFragment(IntroActivity.AVATAR_FRAGMENT, null);
             }
         });
 

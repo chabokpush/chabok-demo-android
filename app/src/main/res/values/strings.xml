@@ -12,6 +12,8 @@
     <string name="title_payam_resan">پیام‌رسان</string>
     <string name="title_about_chabok">درباره چابک</string>
     <string name="title_settings">تنظیمات</string>
+    <string name="full_name">نام و نام‌خانوادگی</string>
+    <string name="contact_info">شماره تماس</string>
 
     //----widget actions and titles
     <string name="action_get_activation">تایید و ادامه</string>
@@ -20,11 +22,15 @@
     <string name="action_resend">ارسال مجدد</string>
     <string name="action_back">بازگشت</string>
     <string name="action_ok">فهمیدم</string>
+    <string name="action_lets_go">بریم دنبال گنج</string>
+    <string name="action_next">برو بعدی</string>
+    <string name="action_select_captain">کاپیتان چابکت رو انتخاب کن</string>
     <string name="action_confirm">تایید</string>
     <string name="action_try_again">تلاش مجدد</string>
     <string name="action_cancel">انصراف</string>
     <string name="action_yes">بله</string>
     <string name="action_no">خیر</string>
+    <string name="action_yeah">باشه</string>
     <string name="menu_item_inbox">پیام‌ها</string>
     <string name="menu_item_setting">تنظیمات</string>
     <string name="action_send">ارسال</string>
@@ -50,13 +56,17 @@
     <string name="invalid_unknown">خطا در انجام عملیات</string>
     <string name="invalid_activation_code">کد فعال سازی صحیح را وارد نمایید</string>
     <string name="msg_null_not_allowed">داده وارد شده برای فیلد %1$s نمی تواند خالی باشد.</string>
+    <string name="msg_invalid_name">داده وارد شده برای فیلد نام و نام‌خانوادگی نمی‌تواند کمتر از ۳ کاراکتر باشد.</string>
     <string name="msg_invalid_text">مقدار وارد شده صحیح نیست</string>
     <string name="msg_invalid_email">ایمیل صحیح را وارد کنید</string>
+    <string name="msg_invalid_mobile">شماره موبایل وارد شده معتبر نمی‌باشد.</string>
     <string name="msg_no_internet_connection">اینترنت خود را برسی کنید</string>
     <string name="msg_waiting">لطفاً منتظر بمانید</string>
     <string name="msg_cannot_vote_again">شما قبلا در این نظرسنجی شرکت کرده اید</string>
     <string name="msg_plz_wait">لطفاً کمی صبر نمایید</string>
     <string name="msg_app_exit_confirm">آیا مایلید که از برنامه خارج شوید؟</string>
+    <string name="msg_reward">شما یه شارژ ۵۰۰۰ تومانی پیدا کردین!</string>
+    <string name="msg_not_found">باید بیشتر کاوش کنیم.این طرفا خبری از گنج نیست!</string>
 
 
     //----labels
