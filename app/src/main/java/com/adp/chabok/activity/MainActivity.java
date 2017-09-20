@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     private static final LocationAccuracy LOCATION_ACCURACY  = LocationAccuracy.MEDIUM;
     private static final int SMALLEST_DISTANCE = 0;
-    private static final int INTERVAL = 500;
+    private static final int INTERVAL = 5000;
     private static final boolean singleUpdate = false;
     private static final boolean backgroundEnabled = true;
 
@@ -114,8 +114,10 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
     private void updateUI(Location location) {
-        adapter.add("lat: " + location.getLatitude() + " ,lon: " + location.getLongitude());
-        adapter.notifyDataSetChanged();
+        if(location != null) {
+            adapter.add("lat: " + location.getLatitude() + " ,lon: " + location.getLongitude());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
