@@ -2,6 +2,7 @@
     <string name="app_name">چابک‌رسان</string>
     <string name="service_name">چابک</string>
 
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -12,6 +13,7 @@
     <string name="title_payam_resan">پیام‌رسان</string>
     <string name="title_about_chabok">درباره چابک</string>
     <string name="title_settings">تنظیمات</string>
+    <string name="captain">کاپیتان چابک</string>
     <string name="full_name">نام و نام‌خانوادگی</string>
     <string name="contact_info">شماره تماس</string>
 
@@ -123,6 +125,7 @@
 
     <string name="version">نگارش %1$s</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
 
 
 </resources>

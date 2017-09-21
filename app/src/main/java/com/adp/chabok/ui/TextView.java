@@ -8,7 +8,7 @@ import android.util.Log;
 import com.adp.chabok.common.Constants;
 
 
-public class TextView extends android.widget.TextView {
+public class TextView extends android.support.v7.widget.AppCompatTextView {
 
     public TextView(Context context) {
         super(context);

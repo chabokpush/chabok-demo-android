@@ -75,6 +75,12 @@
     <color name="msg_color">#4A4A4A</color>
     <color name="hint_color">#BDBDBD</color>
     <color name="msg_out_bg">#C7EBFF</color>
+    <color name="inbox_bg">#F4E5CA</color>
+    <color name="inbox_bg_start">#F4E5CA</color>
+    <color name="inbox_bg_end">#FFD488</color>
+    <color name="actionbar_start">#177AFB</color>
+    <color name="actionbar_end">#4998FF</color>
+    <color name="chabok_color">#1B76FF</color>
 
 
 </resources>
