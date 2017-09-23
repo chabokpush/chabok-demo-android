@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.adp.chabok.activity.MainActivity">
+    tools:context="com.adp.chabok.activity.AboutActivity">
 
-    <include layout="@layout/content_main" />
+    <include layout="@layout/content_about" />
+
 
 </android.support.design.widget.CoordinatorLayout>
