@@ -104,6 +104,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
             dao.saveCaptainMessage(newMessage);
             Intent intent = new Intent(Constants.CAPTAIN_MESSAGE_RECEIVED);
+            intent.putExtra(Constants.CAPTAIN_NEW_MESSAGE, newMessage);
             broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
             broadcaster.sendBroadcast(intent);
         }
