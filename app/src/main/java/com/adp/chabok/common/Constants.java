@@ -1,17 +1,15 @@
 package com.adp.chabok.common;
 
-import android.content.IntentFilter;
-
 public interface Constants {
 
     //    boolean DEV_MODE = true;
     boolean DEV_MODE = false;
 
-    String APP_ID = "chabok-demo/1085254472657";
-    String API_KEY = "5d9adbc5adb24546c2c99ea54472eda5b7ccdfbf";
+    String APP_ID = "chabok-demo/1085254472657";//"adp-nms-push/845225163503"
+    String API_KEY = "5d9adbc5adb24546c2c99ea54472eda5b7ccdfbf";//"0d48dedfefdab1d4915d65fdffd4ae91d6c6043a";
 
-    String USER_NAME = "chabokdemo";
-    String PASSWORD = "chabokdemo";
+    String USER_NAME = "chabokdemo";//"adp";
+    String PASSWORD = "chabokdemo";//"test";
 
     String APPLICATION_FONT = "fonts/iransans_bold.ttf";
     String APPLICATION_MEDIUM_FONT = "fonts/iransans_medium.ttf";
@@ -31,6 +29,14 @@ public interface Constants {
 
     String SEND_BROADCAST = "SEND_BROADCAST_TO_HOME_ACTIVITY";
     String DELIVERED_MESSAGE = "DELIVERED_MESSAGE";
+
+    String EVENT_STATUS = "captainStatus";
+    String EVENT_TREASURE = "treasure";
+
+    String STATUS_DIGGING = "digging";
+    String STATUS_TYPING = "typing";
+    String STATUS_IDLE = "idle";
+    String STATUS_SENT = "sent";
 
     String INBOX_IMAGE_URL = "imgUrl";
     String INBOX_IMAGE_LINK = "imgLink";

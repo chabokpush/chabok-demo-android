@@ -24,6 +24,7 @@ import android.view.View;
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
@@ -150,6 +151,7 @@ public class HomeActivity extends BaseActivity {
 
         if (msg != null && !msg.getText().toString().equals(""))
             try {
+                Utils.setUserStatus(Constants.STATUS_SENT, null);
 
                 AdpPushClient pushClient = ((ChabokApplication) getApplication()).getPushClient();
                 PushMessage myPushMessage = new PushMessage();

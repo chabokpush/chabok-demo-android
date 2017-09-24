@@ -32,10 +32,13 @@ dependencies {
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
     compile "com.google.android.gms:play-services-gcm:$rootProject.playServicesVersion"
+    compile 'com.google.android.gms:play-services-location:10.2.6'
+
     compile "com.github.arturogutierrez:badges:$rootProject.badgesVersion"
     compile "me.leolin:ShortcutBadger:$rootProject.shortcutBadgerVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    compile "com.adpdigital.push:chabok-lib:$rootProject.chabokVersion"
+    //compile "com.adpdigital.push:chabok-lib:$rootProject.chabokVersion"
+    compile(name: 'chabok-lib-2.8.0-geo', ext: 'aar')
     compile "com.kyleduo.switchbutton:library:$rootProject.switchbuttonLibrary"
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 

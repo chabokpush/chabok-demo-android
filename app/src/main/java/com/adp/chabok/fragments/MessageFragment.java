@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,15 @@ import android.view.ViewGroup;
 import com.adp.chabok.R;
 import com.adp.chabok.activity.adapters.CardViewAdapter;
 import com.adp.chabok.application.ChabokApplication;
+import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.DateUtil;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
+import com.adp.chabok.ui.EditText;
+import com.adpdigital.push.AdpPushClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -44,7 +50,24 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.activity_messages, container, false);
+        EditText msg = (EditText) fragmentView.findViewById(R.id.editText_out_message);
+        final AdpPushClient client = ((ChabokApplication) getActivity().getApplication()).getPushClient();
+        msg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Utils.setUserStatus(Constants.STATUS_TYPING, null);
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //Utils.setUserStatus(Constants.STATUS_IDLE, null);
+            }
+        });
         rv = (RecyclerView) fragmentView.findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setReverseLayout(true);
