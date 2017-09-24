@@ -29,10 +29,6 @@ import com.adp.chabok.data.models.CaptainMessage;
 import com.adpdigital.push.AdpPushClient;
 
 import java.util.List;
-import com.adpdigital.push.AdpPushClient;
-
-import static com.adp.chabok.common.Constants.STATUS_DIGGING;
-import static com.adp.chabok.common.Constants.STATUS_IDLE;
 
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 import static com.adp.chabok.common.Constants.STATUS_IDLE;
@@ -125,8 +121,7 @@ public class InboxFragment extends Fragment {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.CAPTAIN_MESSAGE_RECEIVED);
-        LocalBroadcastManager.getInstance(getActivity()).
-                registerReceiver(receiver,intentFilter );
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
 
     }
 
