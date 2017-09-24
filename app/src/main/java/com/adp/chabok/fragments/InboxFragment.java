@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.adp.chabok.R;
 import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.common.Constants;
+import com.adpdigital.push.AdpPushClient;
+
+import static com.adp.chabok.common.Constants.STATUS_DIGGING;
+import static com.adp.chabok.common.Constants.STATUS_IDLE;
 
 public class InboxFragment extends Fragment {
 
@@ -23,8 +27,8 @@ public class InboxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_inbox, container, false);
         initView();
+        ((MainActivity) getActivity()).setUserStatus(STATUS_IDLE);
         return view;
-
     }
 
     private void initView() {
@@ -36,6 +40,8 @@ public class InboxFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                ((MainActivity) getActivity()).setUserStatus(STATUS_DIGGING);
+
 //                ((MainActivity) getActivity()).navigateToFragment(MainActivity.NOT_FOUND_FRAGMENT, null);
 //                ((MainActivity) getActivity()).navigateToFragment(MainActivity.REWARD_FRAGMENT, null);
             }
@@ -58,8 +64,6 @@ public class InboxFragment extends Fragment {
                 ((MainActivity) getActivity()).gotoChatActivity();
             }
         });
-
-
     }
 
 

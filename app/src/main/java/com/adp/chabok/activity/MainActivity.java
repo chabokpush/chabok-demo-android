@@ -22,20 +22,28 @@ import android.widget.ListView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
+import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.fragments.DiscoverFragment;
 import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
 import com.adp.chabok.service.LocationService;
 import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.EventMessage;
+import com.adpdigital.push.PushMessage;
 import com.adpdigital.push.location.LocationAccuracy;
 import com.adpdigital.push.location.LocationManager;
 import com.adpdigital.push.location.LocationParams;
 import com.adpdigital.push.location.OnLocationUpdateListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 
 public class MainActivity extends AppCompatActivity implements OnLocationUpdateListener {
     private static final String TAG = "MainActivity";
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
 
     private static final LocationAccuracy LOCATION_ACCURACY  = LocationAccuracy.MEDIUM;
-    private static final int SMALLEST_DISTANCE = 0;
+    private static final int SMALLEST_DISTANCE = 10;
     private static final int INTERVAL = 5000;
     private static final boolean singleUpdate = false;
     private static final boolean backgroundEnabled = true;
@@ -206,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     private void initializeLocationManager() {
         final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
+        client.addListener(this);
+        client.enableEventDelivery(EVENT_TREASURE);
         locationManger = client.getLocationManager();
 
         LocationParams locationParams = new LocationParams.Builder()
@@ -244,5 +254,42 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             latDifference = 0;
             updateUI(mCurrentLocation);
         }
+    }
+
+    public void onEvent(final EventMessage message) {
+        if (message != null && !this.isFinishing()) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "run: onEvent" + message.getName());
+                    handleMessage(message);
+                }
+            });
+        }
+    }
+
+    private void handleMessage(EventMessage message) {
+        try {
+            JSONObject data = message.getData();
+            Log.d(TAG, "handleMessage: called");
+            if(data.has("found")) {
+                boolean found = data.getBoolean("found");
+                if(found) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("msg", data.getString("msg"));
+                    navigateToFragment(REWARD_FRAGMENT, bundle);
+                } else {
+                    navigateToFragment(NOT_FOUND_FRAGMENT, null);
+                }
+            } else {
+                navigateToFragment(NOT_FOUND_FRAGMENT, null);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setUserStatus(String status) {
+        Utils.setUserStatus(status, mCurrentLocation);
     }
 }
