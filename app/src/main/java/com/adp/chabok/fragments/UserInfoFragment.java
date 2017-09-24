@@ -151,6 +151,7 @@ public class UserInfoFragment extends Fragment {
                         HashMap<String, Object> userInfo = new HashMap<>();
                         userInfo.put("name", fullName.getText().toString());
                         userInfo.put("avatarIdx", getAvatarIndex(avatarId));
+                        userInfo.put("userId", contactInfo.getText().toString());
                         client.setUserInfo(userInfo);
 
                         client.register(contactInfo.getText().toString() , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
