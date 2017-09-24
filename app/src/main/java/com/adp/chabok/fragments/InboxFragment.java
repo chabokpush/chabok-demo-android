@@ -1,9 +1,17 @@
 package com.adp.chabok.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +20,29 @@ import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.MainActivity;
+import com.adp.chabok.activity.adapters.InboxAdapter;
+import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.data.ChabokDAO;
+import com.adp.chabok.data.ChabokDAOImpl;
+import com.adp.chabok.data.models.CaptainMessage;
+import com.adpdigital.push.AdpPushClient;
+
+import java.util.List;
 
 public class InboxFragment extends Fragment {
 
+    public BroadcastReceiver receiver;
     private View view;
+    private RecyclerView messageRV;
+    private List<CaptainMessage> messages;
+    private ChabokDAO dao;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_inbox, container, false);
+        dao = ChabokDAOImpl.getInstance(getContext());
         initView();
         return view;
 
@@ -36,8 +57,6 @@ public class InboxFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-//                ((MainActivity) getActivity()).navigateToFragment(MainActivity.NOT_FOUND_FRAGMENT, null);
-//                ((MainActivity) getActivity()).navigateToFragment(MainActivity.REWARD_FRAGMENT, null);
             }
         });
 
@@ -59,8 +78,52 @@ public class InboxFragment extends Fragment {
             }
         });
 
+        messages = dao.getCaptainMessages();
+
+        InboxAdapter adapter = new InboxAdapter(messages, InboxFragment.this.getContext());
+
+        messageRV = view.findViewById(R.id.rv_inbox);
+        messageRV.setItemAnimator(new DefaultItemAnimator());
+        LinearLayoutManager mManager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        messageRV.setLayoutManager(mManager);
+        messageRV.setAdapter(adapter);
+
+
+        receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                onMessageReceive();
+
+            }
+        };
 
     }
 
+
+    protected void onMessageReceive() {
+
+        messages = dao.getCaptainMessages();
+        messageRV.getAdapter().notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.CAPTAIN_MESSAGE_RECEIVED);
+        LocalBroadcastManager.getInstance(getActivity()).
+                registerReceiver(receiver,intentFilter );
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        AdpPushClient client = ChabokApplication.getInstance().getPushClient();
+        client.resetBadge(); //reste all luncher badges
+    }
 
 }

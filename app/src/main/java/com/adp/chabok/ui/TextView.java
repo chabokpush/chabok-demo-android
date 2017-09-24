@@ -25,6 +25,7 @@ public class TextView extends android.support.v7.widget.AppCompatTextView {
 
 
     public void setText(CharSequence text, BufferType type) {
+
         text = uniform(text.toString());
         super.setText(text, type);
 

@@ -3,7 +3,7 @@ package com.adp.chabok.data.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MessageTO implements Serializable{
+public class MessageTO implements Serializable {
 
     private long id;
     private String serverId;
@@ -26,9 +26,9 @@ public class MessageTO implements Serializable{
                      Timestamp sentDate,
                      Timestamp receivedDate,
                      boolean read,
-                     String mdata
-            , String senderId
-            , int send_status) {
+                     String mdata,
+                     String senderId,
+                     int send_status) {
         this.serverId = serverId;
         this.message = message;
         this.sentDate = sentDate;

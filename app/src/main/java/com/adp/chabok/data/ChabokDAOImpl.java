@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.adp.chabok.data.models.CaptainMessage;
 import com.adp.chabok.data.models.MessageTO;
 
 import java.sql.Timestamp;
@@ -241,12 +242,85 @@ public class ChabokDAOImpl extends SQLiteOpenHelper implements ChabokDAO {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(TABLE_MESSAGE);
+        db.execSQL(TABLE_CAPTAIN_MESSAGE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL(ALTER_TABLE_MESSAGE);
+        if (oldVersion < 4) {
 
+            db.execSQL(ALTER_TABLE_MESSAGE);
+        }
+
+        if (oldVersion < 5) {
+
+            db.execSQL(TABLE_CAPTAIN_MESSAGE);
+        }
+
+    }
+
+    @Override
+    public CaptainMessage saveCaptainMessage(CaptainMessage message) {
+        ContentValues initialValues = new ContentValues();
+
+
+        initialValues.put("message", message.getMessage());
+        initialValues.put("sentDate", message.getSentDate().getTime());
+        initialValues.put("receivedDate", message.getReceivedDate().getTime());
+        initialValues.put("read", message.isRead());
+        initialValues.put("data", message.getmData());
+
+
+        SQLiteDatabase db = getWritableDatabase();
+        long id = db.insert(TABLE_NAME_CAPTAIN_MESSAGE, null, initialValues);
+
+
+        message.setId(id);
+        return message;
+    }
+
+    @Override
+    public List<CaptainMessage> getCaptainMessages() {
+        List<CaptainMessage> messageList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = new String[]{
+                "id",
+                "message",
+                "sentDate",
+                "receivedDate",
+                "read",
+                "data"
+        };
+
+        Cursor results = db.query(TABLE_NAME_CAPTAIN_MESSAGE, columns, null, null, null, null, "id DESC", null);
+
+        if (results.moveToFirst()) {
+            for (; !results.isAfterLast(); results.moveToNext()) {
+                long id = results.getLong(0);
+                String message = results.getString(1);
+                Timestamp sentDate = new Timestamp(results.getLong(2));
+                Timestamp receivedDate = new Timestamp(results.getLong(3));
+                boolean read = results.getInt(4) != 0;
+                String mData = results.getString(5);
+
+                CaptainMessage captainMessage = new CaptainMessage();
+                captainMessage.setId(id);
+                captainMessage.setMessage(message);
+                captainMessage.setSentDate(sentDate);
+                captainMessage.setReceivedDate(receivedDate);
+                captainMessage.setRead(read);
+                captainMessage.setmData(mData);
+
+                messageList.add(captainMessage);
+            }
+        }
+
+        results.close();
+
+
+        return messageList;
     }
 }

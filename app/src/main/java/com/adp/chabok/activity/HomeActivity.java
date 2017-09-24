@@ -10,25 +10,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
@@ -37,7 +28,6 @@ import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
-import com.adp.chabok.fragments.AboutUsFragment;
 import com.adp.chabok.fragments.MessageFragment;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
@@ -50,16 +40,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("StatementWithEmptyBody")
 public class HomeActivity extends BaseActivity {
 
-    public static int currentPage = 0;
-    private TabLayout tabLayout;
     private ChabokDAO dao;
     private MessageFragment messageFragment;
     private BroadcastReceiver receiver;
@@ -69,7 +55,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         checkMarshmallowPermissions();
@@ -94,7 +80,7 @@ public class HomeActivity extends BaseActivity {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if(intent.getExtras().get(Constants.DELIVERED_MESSAGE) != null){
+                if (intent.getExtras().get(Constants.DELIVERED_MESSAGE) != null) {
                     DeliveredMessage deliveredMessage = (DeliveredMessage) intent.getExtras().get(Constants.DELIVERED_MESSAGE);
                     messageFragment.updateDeliveredCount(deliveredMessage);
                 }
@@ -104,7 +90,7 @@ public class HomeActivity extends BaseActivity {
 
         dao = ChabokDAOImpl.getInstance(this);
         ((ChabokApplication) getApplication()).clearMessages();
-        createTabs();
+
 
     }
 
@@ -128,10 +114,10 @@ public class HomeActivity extends BaseActivity {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra(Constants.RELOAD_MESSAEGS, false)) {
             intent.removeExtra(Constants.RELOAD_MESSAEGS);
-            if(intent.getExtras().get(Constants.NEW_MESSAGE) != null){
+            if (intent.getExtras().get(Constants.NEW_MESSAGE) != null) {
                 MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
                 messageFragment.updateMessageList(newMessage);
-            }else if(intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null){
+            } else if (intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null) {
                 String myMessageServerId = intent.getExtras().getString(Constants.MY_MESSAGE_SERVER_ID);
                 messageFragment.updateMessageItem(myMessageServerId);
             }
@@ -156,31 +142,6 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-
-    public void createTabs() {
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        messageFragment = MessageFragment.getInstance();
-        adapter.addFrag(messageFragment, getResources().getString(R.string.title_payam_resan));
-        adapter.addFrag(new AboutUsFragment(), getResources().getString(R.string.title_about_chabok));
-
-        if (viewPager != null) {
-            viewPager.setOffscreenPageLimit(2);
-
-            viewPager.setAdapter(adapter);
-            tabLayout = (TabLayout) findViewById(R.id.tabs);
-            if (tabLayout != null) {
-                tabLayout.setupWithViewPager(viewPager);
-            }
-            changeTabsFont();
-
-            DetailOnPageChangeListener myListener = new DetailOnPageChangeListener();
-            viewPager.addOnPageChangeListener(myListener);
-        }
-
-    }
 
     public void sendMessage(View v) {
 
@@ -228,25 +189,6 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    @SuppressWarnings("deprecation")
-    private void changeTabsFont() {
-
-        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
-        int tabsCount = vg.getChildCount();
-        for (int j = 0; j < tabsCount; j++) {
-            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
-            int tabChildCount = vgTab.getChildCount();
-            for (int i = 0; i < tabChildCount; i++) {
-                View tabViewChild = vgTab.getChildAt(i);
-                if (tabViewChild instanceof TextView) {
-                    Typeface tf = Typeface.createFromAsset(this.getAssets(), Constants.APPLICATION_FONT);
-                    ((TextView) tabViewChild).setTypeface(tf);
-                    ((TextView) tabViewChild).setTextColor(getResources().getColor(R.color.colorBlue1));
-                }
-            }
-        }
-    }
-
     @Override
     public void onEvent(ConnectionStatus status) {
         super.onEvent(status);
@@ -274,7 +216,7 @@ public class HomeActivity extends BaseActivity {
         final ChabokApplication app = (ChabokApplication) getApplication();
 
 
-        final SwitchButton s1 = (SwitchButton) dialogView.findViewById(R.id.switch1);
+        final SwitchButton s1 = dialogView.findViewById(R.id.switch1);
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         Log.i("MAHDI", "myPref.getBoolean(Constants.PREFERENCE_NOTIFY=" + myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false));
@@ -313,62 +255,20 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        private List<Fragment> mFragmentList = new ArrayList<>();
-        private List<String> mFragmentTitleList = new ArrayList<>();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-
-    }
-
-    public class DetailOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
-        private final NotificationManager notificationManager;
-        private final InputMethodManager imm;
-
-        public DetailOnPageChangeListener() {
-            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        }
-
-
-        @Override
-        public void onPageSelected(int position) {
-            currentPage = position;
-
-
-            if (position == 0) {
-                notificationManager.cancelAll();
-            } else {
-
-                View view = HomeActivity.this.getCurrentFocus();
-                if (view != null) {
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-            }
-
-        }
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+//
+//
+//        InputMethodManager  imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//
+//        View view = HomeActivity.this.getCurrentFocus();
+//        if (view != null) {
+//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//        }
     }
 
 }

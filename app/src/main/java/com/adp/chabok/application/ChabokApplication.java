@@ -16,7 +16,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.adp.chabok.R;
 import com.adp.chabok.activity.HomeActivity;
 import com.adp.chabok.activity.IntroActivity;
-import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
@@ -75,7 +74,7 @@ public class ChabokApplication extends Application {
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
                 if (!"".equals(clientNo)) {
-                    adpPush.register(clientNo, new String[]{Constants.CHANNEL_NAME});
+                    adpPush.register(clientNo, new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
                 }
             }
 
@@ -147,7 +146,7 @@ public class ChabokApplication extends Application {
                     }
 
 
-                    if ((HomeActivity.currentPage == 0) && (getApplicationContext() instanceof HomeActivity)) {
+                    if (getApplicationContext() instanceof HomeActivity) {
                         ring();
                         return false;    // user in message tab
                     }

@@ -37,6 +37,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     compile "com.adpdigital.push:chabok-lib:$rootProject.chabokVersion"
     compile "com.kyleduo.switchbutton:library:$rootProject.switchbuttonLibrary"
+    compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 
     compile 'com.airbnb.android:lottie:2.2.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

@@ -33,6 +33,7 @@ public class UserInfoFragment extends Fragment {
     private EditText fullName;
     private EditText contactInfo;
     private ImageView avatar;
+    private int avatarId;
     private LinearLayout registerLayout;
     private boolean isLogoZeroScaled = false;
 
@@ -115,7 +116,7 @@ public class UserInfoFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
 
-            int avatarId = bundle.getInt(IntroActivity.AVATAR_ID);
+            avatarId = bundle.getInt(IntroActivity.AVATAR_ID);
             ImageView avatar = view.findViewById(R.id.avatar);
             avatar.setBackgroundResource(avatarId);
 
@@ -147,12 +148,12 @@ public class UserInfoFragment extends Fragment {
                         editor.putString(Constants.PREFERENCE_NAME, fullName.getText().toString());
                         editor.apply();
 
-                        HashMap userInfo = new HashMap<>();
+                        HashMap<String, Object> userInfo = new HashMap<>();
                         userInfo.put("name", fullName.getText().toString());
+                        userInfo.put("avatarIdx", getAvatarIndex(avatarId));
                         client.setUserInfo(userInfo);
 
-
-                        client.register(contactInfo.getText().toString(), new String[]{Constants.CHANNEL_NAME});
+                        client.register(contactInfo.getText().toString() , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
 
                         ((IntroActivity) getActivity()).gotToMain();
 
@@ -186,6 +187,26 @@ public class UserInfoFragment extends Fragment {
         registerLayout.animate().translationY(0).setDuration(1200);
         isLogoZeroScaled = false;
 
+    }
+
+
+    private int getAvatarIndex(int id) {
+        switch (id) {
+            case R.drawable.brown_selected:
+                return 0;
+
+            case R.drawable.red_selected:
+                return 1;
+
+            case R.drawable.white_selected:
+                return 2;
+
+            case R.drawable.gold_selected:
+                return 3;
+
+            default:
+                return 0;
+        }
     }
 
 }
