@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.adp.chabok.activity.MainActivity"
-    tools:showIn="@layout/activity_intro">
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+    tools:showIn="@layout/activity_main">
+
 </FrameLayout>
 

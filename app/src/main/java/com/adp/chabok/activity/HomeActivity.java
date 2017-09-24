@@ -29,6 +29,7 @@ import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
+import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.MessageFragment;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
@@ -56,25 +57,15 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         checkMarshmallowPermissions();
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT);
+        messageFragment =  MessageFragment.getInstance();
 
-        @SuppressLint("InflateParams")
-        View v = getLayoutInflater().inflate(R.layout.fragment_actionbar_sub, null);
-
-        if (getSupportActionBar() != null) {
-
-            getSupportActionBar().setHomeButtonEnabled(false);
-            getSupportActionBar().setDisplayShowHomeEnabled(false);
-            getSupportActionBar().setDisplayShowCustomEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setCustomView(v, params);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame, messageFragment)
+                    .commit();
         }
 
 
@@ -209,14 +200,6 @@ public class HomeActivity extends BaseActivity {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
-//
-//
-//        InputMethodManager  imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//
-//        View view = HomeActivity.this.getCurrentFocus();
-//        if (view != null) {
-//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//        }
     }
 
 }
