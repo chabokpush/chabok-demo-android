@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_splash">Splash</string>
     <string name="title_activity_register">فعال‌ سازی</string>
-    <string name="title_activity_home">صفحه اصلی</string>
+    <string name="title_activity_wall">صفحه اصلی</string>
     <string name="title_payam_resan">پیام‌رسان</string>
     <string name="title_about_chabok">درباره چابک</string>
     <string name="title_settings">تنظیمات</string>
@@ -125,8 +125,8 @@
     <string name="yesterday">دیروز</string>
 
     <string name="version">نگارش %1$s</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_about">AboutActivity</string>
+    <string name="title_activity_main">چابک‌رسان</string>
+    <string name="title_activity_about">درباره چابک</string>
 
 
 </resources>

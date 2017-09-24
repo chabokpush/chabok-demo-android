@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.adp.chabok.activity.HomeActivity"
-    tools:showIn="@layout/activity_home">
+    tools:context="com.adp.chabok.activity.WallActivity"
+    tools:showIn="@layout/activity_wall">
 
 </FrameLayout>
 

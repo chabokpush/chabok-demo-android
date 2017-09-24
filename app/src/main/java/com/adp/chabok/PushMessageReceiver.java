@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
-import com.adp.chabok.activity.HomeActivity;
+import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
@@ -76,7 +76,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                 dao.saveMessage(newMessage, 0);
 
                 if (AdpPushClient.get().isForeground()) {
-                    Intent reloadIntent = new Intent(context, HomeActivity.class);
+                    Intent reloadIntent = new Intent(context, WallActivity.class);
                     reloadIntent.putExtra(Constants.RELOAD_MESSAEGS, true);
                     reloadIntent.putExtra(Constants.NEW_MESSAGE, newMessage);
                     reloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -86,7 +86,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
             } else {
                 dao.updateSendStatus(message.getSentId());
                 if (AdpPushClient.get().isForeground()) {
-                    Intent reloadIntent = new Intent(context, HomeActivity.class);
+                    Intent reloadIntent = new Intent(context, WallActivity.class);
                     reloadIntent.putExtra(Constants.RELOAD_MESSAEGS, true);
                     reloadIntent.putExtra(Constants.MY_MESSAGE_SERVER_ID, message.getSentId());
                     reloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

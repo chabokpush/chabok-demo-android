@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
 
-    public void gotoChatActivity() {
-        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+    public void gotoWallActivity() {
+        Intent intent = new Intent(MainActivity.this, WallActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

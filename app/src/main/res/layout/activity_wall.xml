@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.adp.chabok.activity.HomeActivity">
+    tools:context="com.adp.chabok.activity.WallActivity">
 
-    <include layout="@layout/content_home" />
+    <include layout="@layout/content_wall" />
 
 </android.support.design.widget.CoordinatorLayout>

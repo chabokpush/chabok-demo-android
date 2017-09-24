@@ -1,8 +1,6 @@
 package com.adp.chabok.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,15 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.adp.chabok.R;
@@ -29,14 +23,12 @@ import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
-import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.MessageFragment;
 import com.adp.chabok.ui.EditText;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.PushMessage;
-import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +38,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @SuppressWarnings("StatementWithEmptyBody")
-public class HomeActivity extends BaseActivity {
+public class WallActivity extends BaseActivity {
 
     private ChabokDAO dao;
     private MessageFragment messageFragment;
@@ -56,7 +48,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_wall);
 
         checkMarshmallowPermissions();
 
@@ -125,7 +117,7 @@ public class HomeActivity extends BaseActivity {
             String permission = Manifest.permission.READ_PHONE_STATE;
             if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
-                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                ActivityCompat.requestPermissions(WallActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             } else {
                 // Add your function here which open camera
             }

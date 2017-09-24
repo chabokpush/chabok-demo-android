@@ -80,7 +80,7 @@ public class InboxFragment extends Fragment {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).gotoChatActivity();
+                ((MainActivity) getActivity()).gotoWallActivity();
             }
         });
 
@@ -105,8 +105,6 @@ public class InboxFragment extends Fragment {
                     CaptainMessage captainMessage = (CaptainMessage) intent.getExtras().get(Constants.CAPTAIN_NEW_MESSAGE);
                     onMessageReceive(captainMessage);
                 }
-
-
             }
         };
 

@@ -36,8 +36,8 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.HomeActivity"
-            android:label="@string/title_activity_home"
+            android:name=".activity.WallActivity"
+            android:label="@string/title_activity_wall"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -75,7 +75,7 @@
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
 
         <service android:enabled="true" android:name=".service.LocationService" >
             <intent-filter>
