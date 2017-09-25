@@ -33,46 +33,60 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_weight=".05"
+        android:layout_height="50dp"
+        android:layout_weight="0.05"
         android:background="@color/my_white">
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="3dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:background="@color/chat_bg" />-->
 
-        <com.adp.chabok.ui.EditText
-            android:id="@+id/editText_out_message"
-            android:layout_width="fill_parent"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="7dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_toEndOf="@+id/doneButton"
-            android:layout_toRightOf="@+id/doneButton"
-            android:background="@drawable/rounded_message_box"
-            android:gravity="center_vertical"
-            android:padding="5dp"
-            android:textSize="12dp" />
+        <RelativeLayout
+            android:id="@+id/message_box"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/rounded_message_box">
 
-        <com.adp.chabok.ui.Button
-            android:id="@+id/doneButton"
-            style="@style/Button"
-            android:layout_width="90dp"
-            android:layout_height="45dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="7dp"
-            android:background="@drawable/button_style_done"
-            android:onClick="sendMessage"
-            android:text="@string/action_send" />
+            <com.adp.chabok.ui.EditText
+                android:id="@+id/editText_out_message"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_toEndOf="@+id/done_layout"
+                android:layout_toRightOf="@+id/done_layout"
+                android:background="@drawable/white_message_box"
+                android:gravity="right"
+                android:padding="5dp"
+                android:textSize="12dp" />
+
+
+            <RelativeLayout
+                android:id="@+id/done_layout"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:background="@drawable/send_button_bg">
+
+                <com.adp.chabok.ui.Button
+                    android:id="@+id/doneButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="7dp"
+                    android:background="@drawable/ic_arrow_up"
+                    android:onClick="sendMessage" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

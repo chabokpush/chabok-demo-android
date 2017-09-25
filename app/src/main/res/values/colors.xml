@@ -70,6 +70,7 @@
     <color name="splash_end">#4998FF</color>
     <color name="brown_btn_bg">#EBA000</color>
     <color name="blue_btn_bg">#2F83FF</color>
+    <color name="send_btn_bg">#2C81FF</color>
     <color name="brown_btn_text">#784B2B</color>
     <color name="start_btn_icon">#825534</color>
     <color name="msg_color">#4A4A4A</color>
