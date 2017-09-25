@@ -83,6 +83,7 @@
     <color name="actionbar_end">#4998FF</color>
     <color name="chabok_color">#1B76FF</color>
     <color name="chat_box_border">#d8d7db</color>
+    <color name="chat_date_color">#8F8E94</color>
 
 
 </resources>

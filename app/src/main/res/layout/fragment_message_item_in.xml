@@ -6,213 +6,179 @@
 
 
     <RelativeLayout
-        android:id="@+id/message_in_layouts"
+        android:id="@+id/my_message_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:visibility="visible">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
+            android:id="@+id/my_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/blue_avatar" />
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:background="@drawable/rounded_message_back"
+            android:padding="7dp">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/relativeLayout"
-            android:layout_toStartOf="@+id/relativeLayout"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_sender_ame"
-                    style="@style/Text.senderName"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/inbox_item_date"
-                    android:layout_toRightOf="@+id/inbox_item_date"
-                    android:ellipsize="end"
-                    android:gravity="right"
-                    android:maxLines="1"
-                    android:text="my name"
-                    android:textStyle="bold" />
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_date"
-                    style="@style/Text.message_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="17dp"
-                    android:layout_marginRight="5dp"
-                    android:text="1394/11/15"
-                    android:textColor="@color/textColorSecondary" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/my_message_text"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/rounded_message_back"
-                android:padding="7dp">
+                android:layout_gravity="right"
+                android:background="@color/msg_out_bg"
+                android:gravity="right"
+                android:padding="6dp"
+                android:lineSpacingExtra="5dp"
+                android:textColor="@color/msg_color"
+                android:textSize="12sp" />
 
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_message_text"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:lineSpacingExtra="5dp"
-                    android:textColor="@color/msg_color"
-                    android:background="@color/msg_out_bg"
-                    android:text="متن پیام چابک" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="20dp">
-
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/seen_counter"
-                    style="@style/Text.message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/imageView_seen"
-                    android:gravity="right"
-                    android:text="12"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="12dp" />
-
-                <ImageView
-                    android:id="@+id/imageView_seen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_blink" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView_mesage_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/linearLayout"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentRight="false"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/linearLayout"
-            android:src="@drawable/ic_check_gray" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/message_out_layouts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone">
+        </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout_out"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="false"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/purple_avatar" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout_out"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/relativeLayout_out"
-            android:orientation="vertical">
+            android:layout_height="18dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/my_message"
+            android:layout_gravity="right"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:gravity="right">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_sender_ame_out"
-                    style="@style/Text.senderName_out"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="false"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/inbox_item_date_out"
-                    android:ellipsize="end"
-                    android:gravity="left"
-                    android:maxLines="1"
-                    android:text="his name"
-                    android:textStyle="bold" />
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_date_out"
-                    style="@style/Text.message_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="false"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="17dp"
-                    android:text="1394/11/15"
-                    android:textColor="@color/textColorSecondary" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/my_mesage_send"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/rounded_message_back2"
-                android:padding="7dp">
-
-                <com.adp.chabok.ui.TextView
-                    android:id="@+id/inbox_item_message_text_out"
-                    style="@style/Text.message"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:lineSpacingExtra="5dp"
-                    android:text="لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد." />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:src="@drawable/ic_check_gray" />
 
 
-            </RelativeLayout>
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/my_message_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toLeftOf="@+id/my_mesage_send"
+                android:layout_toStartOf="@+id/my_mesage_send"
+                android:text="1394/11/15"
+                android:textColor="@color/chat_date_color"
+                android:textSize="8sp" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView_seen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/my_message_date"
+                android:layout_toStartOf="@+id/my_message_date"
+                android:src="@drawable/ic_blink" />
+
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/seen_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/imageView_seen"
+                android:layout_toStartOf="@+id/imageView_seen"
+                android:gravity="right"
+                android:text="12"
+                android:textColor="@color/chat_date_color"
+                android:textSize="8sp" />
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/incoming_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:visibility="visible">
+
+
+        <RelativeLayout
+            android:id="@+id/incoming_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="52dp"
+            android:layout_marginEnd="52dp"
+            android:background="@drawable/rounded_message_back2"
+            android:padding="7dp">
+
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/incoming_message_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/my_white"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:padding="6dp"
+                android:lineSpacingExtra="5dp"
+                android:textColor="@color/msg_color"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/incoming_message"
+            android:layout_gravity="left"
+            android:layout_marginRight="52dp"
+            android:layout_marginEnd="52dp"
+            android:gravity="left">
+
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/incoming_message_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toRightOf="@+id/incoming_mesage_name"
+                android:layout_toEndOf="@+id/incoming_mesage_name"
+                android:text="1394/11/15"
+                android:textSize="8sp"
+                android:textColor="@color/chat_date_color" />
+
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/incoming_mesage_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp"
+                android:textSize="8sp"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="5dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
