@@ -1,8 +1,6 @@
 package com.adp.chabok.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,15 +8,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.adp.chabok.R;
@@ -35,7 +29,6 @@ import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.PushMessage;
-import com.kyleduo.switchbutton.SwitchButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +38,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @SuppressWarnings("StatementWithEmptyBody")
-public class HomeActivity extends BaseActivity {
+public class WallActivity extends BaseActivity {
 
     private ChabokDAO dao;
     private MessageFragment messageFragment;
@@ -55,26 +48,16 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_wall);
 
         checkMarshmallowPermissions();
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT);
+        messageFragment =  MessageFragment.getInstance();
 
-        @SuppressLint("InflateParams")
-        View v = getLayoutInflater().inflate(R.layout.fragment_actionbar_sub, null);
-
-        if (getSupportActionBar() != null) {
-
-            getSupportActionBar().setHomeButtonEnabled(false);
-            getSupportActionBar().setDisplayShowHomeEnabled(false);
-            getSupportActionBar().setDisplayShowCustomEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getSupportActionBar().setCustomView(v, params);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame, messageFragment)
+                    .commit();
         }
 
 
@@ -134,7 +117,7 @@ public class HomeActivity extends BaseActivity {
             String permission = Manifest.permission.READ_PHONE_STATE;
             if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
-                ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                ActivityCompat.requestPermissions(WallActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             } else {
                 // Add your function here which open camera
             }
@@ -209,14 +192,6 @@ public class HomeActivity extends BaseActivity {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
-//
-//
-//        InputMethodManager  imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//
-//        View view = HomeActivity.this.getCurrentFocus();
-//        if (view != null) {
-//            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-//        }
     }
 
 }

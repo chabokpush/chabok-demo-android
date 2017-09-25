@@ -2,9 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/chat_bg"
     android:orientation="vertical">
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/actionbar_bg">
+
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/action_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/wall"
+            android:textColor="@color/my_white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
@@ -58,5 +75,5 @@
 
     </RelativeLayout>
 
-
 </LinearLayout>
+

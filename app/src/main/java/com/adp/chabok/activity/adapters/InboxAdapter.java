@@ -98,6 +98,8 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.InboxViewHol
                 Log.e("LOG", "e=" + e.getMessage(), e);
 
             }
+        }else{
+            holder.imageViewLayout.setVisibility(View.GONE);
         }
 
     }

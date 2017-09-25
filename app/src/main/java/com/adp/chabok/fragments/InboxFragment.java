@@ -63,8 +63,6 @@ public class InboxFragment extends Fragment {
                 ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
                 ((MainActivity) getActivity()).setUserStatus(STATUS_DIGGING);
 
-//                ((MainActivity) getActivity()).navigateToFragment(MainActivity.NOT_FOUND_FRAGMENT, null);
-//                ((MainActivity) getActivity()).navigateToFragment(MainActivity.REWARD_FRAGMENT, null);
             }
         });
 
@@ -82,7 +80,7 @@ public class InboxFragment extends Fragment {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).gotoChatActivity();
+                ((MainActivity) getActivity()).gotoWallActivity();
             }
         });
 
@@ -101,17 +99,21 @@ public class InboxFragment extends Fragment {
         receiver = new BroadcastReceiver() {  // create a receiver that receive message receiver intent after data saved
             @Override
             public void onReceive(Context context, Intent intent) {
-                onMessageReceive();
 
+
+                if (intent.getExtras().get(Constants.CAPTAIN_NEW_MESSAGE) != null) {
+                    CaptainMessage captainMessage = (CaptainMessage) intent.getExtras().get(Constants.CAPTAIN_NEW_MESSAGE);
+                    onMessageReceive(captainMessage);
+                }
             }
         };
 
     }
 
 
-    protected void onMessageReceive() {
+    protected void onMessageReceive(CaptainMessage captainMessage) {
 
-        messages = dao.getCaptainMessages();
+        messages.add(0, captainMessage);
         messageRV.getAdapter().notifyDataSetChanged();
 
     }
@@ -130,7 +132,7 @@ public class InboxFragment extends Fragment {
         super.onPause();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
         AdpPushClient client = ChabokApplication.getInstance().getPushClient();
-        client.resetBadge(); //reste all luncher badges
+        client.resetBadge();
     }
 
 }

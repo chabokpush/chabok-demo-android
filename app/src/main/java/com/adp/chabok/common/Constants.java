@@ -27,7 +27,7 @@ public interface Constants {
     String CAPTAIN_CHANNEL_NAME = "captain";
     String KEY_NAME = "name";
 
-    String SEND_BROADCAST = "SEND_BROADCAST_TO_HOME_ACTIVITY";
+    String SEND_BROADCAST = "SEND_BROADCAST_TO_WALL_ACTIVITY";
     String DELIVERED_MESSAGE = "DELIVERED_MESSAGE";
 
     String EVENT_STATUS = "captainStatus";
@@ -42,5 +42,6 @@ public interface Constants {
     String INBOX_IMAGE_LINK = "imgLink";
 
     String CAPTAIN_MESSAGE_RECEIVED = "captain_message_received";
+    String CAPTAIN_NEW_MESSAGE = "captain_new_message";
 
 }

@@ -14,7 +14,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.HomeActivity;
+import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
@@ -82,7 +82,7 @@ public class ChabokApplication extends Application {
 
                 @Override
                 public Class getActivityClass(ChabokNotification chabokNotification) {
-                    return HomeActivity.class;
+                    return WallActivity.class;
                 }
 
 
@@ -146,7 +146,7 @@ public class ChabokApplication extends Application {
                     }
 
 
-                    if (getApplicationContext() instanceof HomeActivity) {
+                    if (getApplicationContext() instanceof WallActivity) {
                         ring();
                         return false;    // user in message tab
                     }

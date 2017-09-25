@@ -73,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void gotToMain() {
-        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, WallActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
