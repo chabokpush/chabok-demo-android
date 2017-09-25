@@ -50,7 +50,7 @@ public class WallActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall);
 
-        checkMarshmallowPermissions();
+//        checkMarshmallowPermissions();
 
         messageFragment =  MessageFragment.getInstance();
 
@@ -110,7 +110,7 @@ public class WallActivity extends BaseActivity {
 
     }
 
-    private void checkMarshmallowPermissions() {
+    /*private void checkMarshmallowPermissions() {
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
@@ -124,13 +124,13 @@ public class WallActivity extends BaseActivity {
         } else {
             // Add your function here which open camera
         }
-    }
+    }*/
 
 
     public void sendMessage(View v) {
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final EditText msg = (EditText) findViewById(R.id.editText_out_message);
+        final EditText msg = findViewById(R.id.editText_out_message);
 
         if (msg != null && !msg.getText().toString().equals(""))
             try {
@@ -141,7 +141,7 @@ public class WallActivity extends BaseActivity {
                 myPushMessage.setBody(msg.getText().toString().trim());
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO until getSenderId works don't need this part
+                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));
                 myPushMessage.setData(jsonObject);
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());
