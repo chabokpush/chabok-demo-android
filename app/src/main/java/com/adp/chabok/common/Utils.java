@@ -19,7 +19,7 @@ public class Utils {
             Log.d(TAG, "setUserStatus: status:" + status);
             JSONObject data = new JSONObject();
             data.put("status", status);
-            if (STATUS_DIGGING.equalsIgnoreCase(status)) {
+            if (STATUS_DIGGING.equalsIgnoreCase(status) && location != null) {
                 data.put("lat", location.getLatitude());
                 data.put("lng", location.getLongitude());
             }

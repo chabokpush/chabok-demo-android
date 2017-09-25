@@ -25,12 +25,10 @@ import com.adp.chabok.fragments.DiscoverFragment;
 import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
-import com.adp.chabok.service.LocationService;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
 import com.adpdigital.push.location.LocationManager;
-import com.adpdigital.push.location.LocationParams;
 import com.adpdigital.push.location.OnLocationUpdateListener;
 
 import org.json.JSONException;
@@ -38,18 +36,22 @@ import org.json.JSONObject;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.adp.chabok.common.Constants.EVENT_TREASURE;
+import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
 public class MainActivity extends AppCompatActivity implements OnLocationUpdateListener {
+
     public static final String DISCOVER_FRAGMENT = "discover";
     public static final String REWARD_FRAGMENT = "reward";
     public static final String NOT_FOUND_FRAGMENT = "not-found";
     public static final String INBOX_FRAGMENT = "inbox";
+
     private static final String TAG = "MainActivity";
     private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.MEDIUM;
     private static final int SMALLEST_DISTANCE = 10;
     private static final int INTERVAL = 5000;
     private static final boolean singleUpdate = false;
     private static final boolean backgroundEnabled = true;
+
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private SensorEventListener mSensorListener;
     private LocationManager locationManger;
     private Location mCurrentLocation;
+    private String eventName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,7 +213,13 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
     private void updateUI(Location location) {
-        //TODO: update ui after location updated
+        if(location != null) {
+            //TODO: update ui after location updated
+            if(STATUS_DIGGING.equalsIgnoreCase(eventName)) {
+                Utils.setUserStatus(STATUS_DIGGING, location);
+                eventName = "";
+            }
+        }
     }
 
     @Override
@@ -263,6 +272,15 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
     public void setUserStatus(String status) {
-        Utils.setUserStatus(status, mCurrentLocation);
+        if (STATUS_DIGGING.equalsIgnoreCase(status)) {
+            if(mCurrentLocation != null) {
+                Utils.setUserStatus(status, mCurrentLocation);
+            } else {
+                eventName = STATUS_DIGGING;
+            }
+        } else {
+            Utils.setUserStatus(status, null);
+        }
+
     }
 }
