@@ -218,14 +218,15 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         client.enableEventDelivery(EVENT_TREASURE);
         locationManger = client.getLocationManager();
 
-        LocationParams locationParams = new LocationParams.Builder()
+        locationManger.enableLocationOnLaunch(this);
+        /*LocationParams locationParams = new LocationParams.Builder()
                 .setAccuracy(LOCATION_ACCURACY)
                 .setDistance(SMALLEST_DISTANCE)
                 .setInterval(INTERVAL).build();
 
         locationManger.start(this,
                 locationParams,
-                backgroundEnabled, singleUpdate, LocationService.ACTION);
+                backgroundEnabled, singleUpdate, LocationService.ACTION);*/
 
     }
 
