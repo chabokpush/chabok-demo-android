@@ -15,7 +15,7 @@
         app:lottie_fileName="empty_box.json"
         app:lottie_loop="true" />
 
-    <com.adp.chabok.ui.MyProgressBar
+    <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="250dp"
@@ -24,7 +24,6 @@
         android:progressDrawable="@drawable/progress_bar_gradient"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/animation_view"
-        android:layout_centerHorizontal="true"
-        android:max="100" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

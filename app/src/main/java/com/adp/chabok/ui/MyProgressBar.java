@@ -29,8 +29,8 @@ public class MyProgressBar extends ProgressBar {
     @Override
     public void setProgress(int progress) {
         super.setProgress(progress);
-        if (progress >= this.getMax()) {
-            listener.onComplete();
-        }
+//        if (progress == this.getMax()) {
+//            listener.onComplete();
+//        }
     }
 }

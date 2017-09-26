@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 @Override
                 public void run() {
                     Log.d(TAG, "run: onEvent" + message.getName());
-                    result = message;
+                    showDiggingResult(message);
                 }
             });
         }
@@ -275,25 +275,30 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     }
 
-    public void showDiggingResult() {
-        try {
-            JSONObject data = result.getData();
-            Log.d(TAG, "handleMessage: called");
-            if (data.has("found")) {
-                boolean found = data.getBoolean("found");
-                if (found) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString(REWARD_MESSAGE, data.getString("msg"));
-                    navigateToFragment(REWARD_FRAGMENT, bundle);
+    public void showDiggingResult(EventMessage result) {
+
+        if(result != null){
+            try {
+                JSONObject data = result.getData();
+                Log.d(TAG, "handleMessage: called");
+                if (data.has("found")) {
+                    boolean found = data.getBoolean("found");
+                    if (found) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(REWARD_MESSAGE, data.getString("msg"));
+                        navigateToFragment(REWARD_FRAGMENT, bundle);
+                    } else {
+                        navigateToFragment(NOT_FOUND_FRAGMENT, null);
+                    }
                 } else {
                     navigateToFragment(NOT_FOUND_FRAGMENT, null);
                 }
-            } else {
-                navigateToFragment(NOT_FOUND_FRAGMENT, null);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
         }
+
 
     }
 }
