@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private LocationManager locationManger;
     private Location mCurrentLocation;
     private String eventName = "";
+    private EventMessage result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,15 +247,30 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 @Override
                 public void run() {
                     Log.d(TAG, "run: onEvent" + message.getName());
-                    handleMessage(message);
+                    result = message;
                 }
             });
         }
     }
 
-    private void handleMessage(EventMessage message) {
+
+
+    public void setUserStatus(String status) {
+        if (STATUS_DIGGING.equalsIgnoreCase(status)) {
+            if(mCurrentLocation != null) {
+                Utils.setUserStatus(status, mCurrentLocation);
+            } else {
+                eventName = STATUS_DIGGING;
+            }
+        } else {
+            Utils.setUserStatus(status, null);
+        }
+
+    }
+
+    public void showDiggingResult() {
         try {
-            JSONObject data = message.getData();
+            JSONObject data = result.getData();
             Log.d(TAG, "handleMessage: called");
             if (data.has("found")) {
                 boolean found = data.getBoolean("found");
@@ -270,18 +286,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void setUserStatus(String status) {
-        if (STATUS_DIGGING.equalsIgnoreCase(status)) {
-            if(mCurrentLocation != null) {
-                Utils.setUserStatus(status, mCurrentLocation);
-            } else {
-                eventName = STATUS_DIGGING;
-            }
-        } else {
-            Utils.setUserStatus(status, null);
         }
 
     }
