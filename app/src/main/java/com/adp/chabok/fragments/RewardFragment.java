@@ -22,7 +22,7 @@ public class RewardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_reward, container, false);
+        view = inflater.inflate(R.layout.fragment_reward, container, false);
         initView();
         return view;
     }
