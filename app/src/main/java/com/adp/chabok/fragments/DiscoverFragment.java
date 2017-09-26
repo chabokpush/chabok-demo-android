@@ -13,7 +13,7 @@ import com.adp.chabok.R;
 public class DiscoverFragment extends Fragment {
 
     private View view;
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
 
 
     @Override
@@ -26,31 +26,31 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void initView() {
-        progressBar = view.findViewById(R.id.progress_bar);
-        progressBar.setMax(100);
-//        progressBar.setProgressCompleteListener(new OnProgressCompleteListener() {
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        progressBar.setMax(100);
+////        progressBar.setProgressCompleteListener(new OnProgressCompleteListener() {
 //            @Override
 //            public void onComplete() {
 //                ((MainActivity) getActivity()).showDiggingResult();
 //            }
 //        });
 
-        setProgressValue(10);
+//        setProgressValue(10);
     }
 
-    private void setProgressValue(int progress) {
-
-        progressBar.setProgress(progress);
-
-        if (progressBar.getProgress() < progressBar.getMax()) {
-
-//            Random rn = new Random();
-//            int rand = rn.nextInt(10 - 1 + 1) + 1;
-
-            setProgressValue(progress + 10);
-
-        }
-
-    }
+//    private void setProgressValue(int progress) {
+//
+//        progressBar.setProgress(progress);
+//
+//        if (progressBar.getProgress() < progressBar.getMax()) {
+//
+////            Random rn = new Random();
+////            int rand = rn.nextInt(10 - 1 + 1) + 1;
+//
+//            setProgressValue(progress + 10);
+//
+//        }
+//
+//    }
 
 }
