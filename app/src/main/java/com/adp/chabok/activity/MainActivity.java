@@ -26,6 +26,7 @@ import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
 import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
 import com.adpdigital.push.location.LocationManager;
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private void initializeLocationManager() {
         final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
         client.addListener(this);
-        client.enableEventDelivery(EVENT_TREASURE);
+
         locationManger = client.getLocationManager();
 
         locationManger.enableLocationOnLaunch(this);
@@ -249,7 +250,12 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             });
         }
     }
-
+    public void onEvent(ConnectionStatus state) {
+        if (state == ConnectionStatus.CONNECTED) {
+            Log.d(TAG, "onEvent: called, connected");
+            AdpPushClient.get().enableEventDelivery(EVENT_TREASURE);
+        }
+    }
     private void handleMessage(EventMessage message) {
         try {
             JSONObject data = message.getData();
