@@ -287,6 +287,5 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         } else {
             Utils.setUserStatus(status, null);
         }
-
     }
 }
