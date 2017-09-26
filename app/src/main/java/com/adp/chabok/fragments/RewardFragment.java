@@ -16,10 +16,18 @@ import com.adp.chabok.ui.Button;
 
 public class RewardFragment extends Fragment {
 
+    private View view;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_reward, container, false);
+        initView();
+        return view;
+    }
+
+    private void initView() {
 
         TextView msg = view.findViewById(R.id.reward_msg);
         msg.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_MEDIUM_FONT));
@@ -32,8 +40,15 @@ public class RewardFragment extends Fragment {
 
             }
         });
+        Bundle bundle = getArguments();
+        if (bundle != null) {
 
-        return view;
+            String message = bundle.getString(MainActivity.REWARD_MESSAGE);
+            msg.setText(getString(R.string.msg_reward, message));
+
+        }
+
+
     }
 
 }

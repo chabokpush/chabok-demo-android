@@ -31,7 +31,6 @@ import com.adpdigital.push.AdpPushClient;
 import java.util.List;
 
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
-import static com.adp.chabok.common.Constants.STATUS_IDLE;
 
 
 public class InboxFragment extends Fragment {
@@ -48,7 +47,6 @@ public class InboxFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_inbox, container, false);
         dao = ChabokDAOImpl.getInstance(getContext());
         initView();
-        ((MainActivity) getActivity()).setUserStatus(STATUS_IDLE);
         return view;
     }
 

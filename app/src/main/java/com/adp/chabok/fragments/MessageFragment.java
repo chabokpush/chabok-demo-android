@@ -1,5 +1,6 @@
 package com.adp.chabok.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.adapters.CardViewAdapter;
@@ -21,7 +23,6 @@ import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.ui.EditText;
-import com.adpdigital.push.AdpPushClient;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 public class MessageFragment extends Fragment {
 
+    private View fragmentView;
     private RecyclerView rv;
     private CardViewAdapter messageAdapter;
     private List<MessageTO> messagesList;
@@ -49,9 +51,17 @@ public class MessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.activity_messages, container, false);
-        EditText msg = (EditText) fragmentView.findViewById(R.id.editText_out_message);
-        final AdpPushClient client = ((ChabokApplication) getActivity().getApplication()).getPushClient();
+        fragmentView = inflater.inflate(R.layout.fragment_message, container, false);
+        initView();
+        return fragmentView;
+    }
+
+    private void initView(){
+
+        TextView title = fragmentView.findViewById(R.id.action_bar_title);
+        title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_LIGHT_FONT));
+
+        EditText msg = fragmentView.findViewById(R.id.editText_out_message);
         msg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -68,14 +78,13 @@ public class MessageFragment extends Fragment {
                 //Utils.setUserStatus(Constants.STATUS_IDLE, null);
             }
         });
-        rv = (RecyclerView) fragmentView.findViewById(R.id.rv);
+        rv = fragmentView.findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setReverseLayout(true);
         rv.setLayoutManager(llm);
 
         initializeData();
         initializeAdapter();
-        return fragmentView;
     }
 
     @Override

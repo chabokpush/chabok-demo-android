@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <shape>
+            <gradient
+                android:endColor="@color/my_white"
+                android:startColor="@color/splash_start"
+                android:useLevel="true" />
+            <!--<solid android:color="@color/my_white" />-->
+            <corners android:radius="15dip"/>
+
+        </shape>
+    </item>
+
+
+</layer-list>

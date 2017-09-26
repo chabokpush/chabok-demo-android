@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     public static final String REWARD_FRAGMENT = "reward";
     public static final String NOT_FOUND_FRAGMENT = "not-found";
     public static final String INBOX_FRAGMENT = "inbox";
-
+    public static final String REWARD_MESSAGE = "reward-message";
     private static final String TAG = "MainActivity";
+
     private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.MEDIUM;
     private static final int SMALLEST_DISTANCE = 10;
     private static final int INTERVAL = 5000;
@@ -58,9 +59,11 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
+
     private LocationManager locationManger;
     private Location mCurrentLocation;
     private String eventName = "";
+    private EventMessage result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta;
 
-                if (mAccel > 10) {
+                if (mAccel > 20) {
 
                     if (getFragmentManager().getBackStackEntryCount() > 0) {
                         // TODO: fill the progressBar
@@ -245,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 @Override
                 public void run() {
                     Log.d(TAG, "run: onEvent" + message.getName());
-                    handleMessage(message);
+                    showDiggingResult(message);
                 }
             });
         }
@@ -256,26 +259,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             AdpPushClient.get().enableEventDelivery(EVENT_TREASURE);
         }
     }
-    private void handleMessage(EventMessage message) {
-        try {
-            JSONObject data = message.getData();
-            Log.d(TAG, "handleMessage: called");
-            if (data.has("found")) {
-                boolean found = data.getBoolean("found");
-                if (found) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("msg", data.getString("msg"));
-                    navigateToFragment(REWARD_FRAGMENT, bundle);
-                } else {
-                    navigateToFragment(NOT_FOUND_FRAGMENT, null);
-                }
-            } else {
-                navigateToFragment(NOT_FOUND_FRAGMENT, null);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+
+
 
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
@@ -287,5 +272,33 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         } else {
             Utils.setUserStatus(status, null);
         }
+
+    }
+
+    public void showDiggingResult(EventMessage result) {
+
+        if(result != null){
+            try {
+                JSONObject data = result.getData();
+                Log.d(TAG, "handleMessage: called");
+                if (data.has("found")) {
+                    boolean found = data.getBoolean("found");
+                    if (found) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(REWARD_MESSAGE, data.getString("msg"));
+                        navigateToFragment(REWARD_FRAGMENT, bundle);
+                    } else {
+                        navigateToFragment(NOT_FOUND_FRAGMENT, null);
+                    }
+                } else {
+                    navigateToFragment(NOT_FOUND_FRAGMENT, null);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
     }
 }

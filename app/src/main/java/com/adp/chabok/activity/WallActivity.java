@@ -1,16 +1,13 @@
 package com.adp.chabok.activity;
 
-import android.Manifest;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -50,9 +47,7 @@ public class WallActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wall);
 
-        checkMarshmallowPermissions();
-
-        messageFragment =  MessageFragment.getInstance();
+        messageFragment = MessageFragment.getInstance();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -110,27 +105,10 @@ public class WallActivity extends BaseActivity {
 
     }
 
-    private void checkMarshmallowPermissions() {
-
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            // only for gingerbread and newer versions
-            String permission = Manifest.permission.READ_PHONE_STATE;
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 110;
-                ActivityCompat.requestPermissions(WallActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-            } else {
-                // Add your function here which open camera
-            }
-        } else {
-            // Add your function here which open camera
-        }
-    }
-
-
     public void sendMessage(View v) {
 
         SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
-        final EditText msg = (EditText) findViewById(R.id.editText_out_message);
+        final EditText msg = findViewById(R.id.editText_out_message);
 
         if (msg != null && !msg.getText().toString().equals(""))
             try {
@@ -141,7 +119,7 @@ public class WallActivity extends BaseActivity {
                 myPushMessage.setBody(msg.getText().toString().trim());
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));  //TODO until getSenderId works don't need this part
+                jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));
                 myPushMessage.setData(jsonObject);
                 myPushMessage.setTopicName(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());

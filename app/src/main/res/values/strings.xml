@@ -68,7 +68,7 @@
     <string name="msg_cannot_vote_again">شما قبلا در این نظرسنجی شرکت کرده اید</string>
     <string name="msg_plz_wait">لطفاً کمی صبر نمایید</string>
     <string name="msg_app_exit_confirm">آیا مایلید که از برنامه خارج شوید؟</string>
-    <string name="msg_reward">شما یه شارژ ۵۰۰۰ تومانی پیدا کردین!</string>
+    <string name="msg_reward">شما برنده %1$s شده‌اید.</string>
     <string name="msg_not_found">باید بیشتر کاوش کنیم.این طرفا خبری از گنج نیست!</string>
 
 

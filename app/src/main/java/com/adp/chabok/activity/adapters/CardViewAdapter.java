@@ -58,13 +58,11 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
         if (getSenderName(items.get(i)).equals(senderName)) {  //my own message
 
-            messageViewHolder.out_rll.setVisibility(View.GONE);
-            messageViewHolder.in_rll.setVisibility(View.VISIBLE);
-            String messageDate = DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
-                    + " " + DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            messageViewHolder.incomingMessage.setVisibility(View.GONE);
+            messageViewHolder.myMessage.setVisibility(View.VISIBLE);
+            String messageDate = DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
             messageViewHolder.messageDate.setText(messageDate);
             messageViewHolder.messageText.setText(items.get(i).getMessage());
-            messageViewHolder.senderName.setText(getSenderName(items.get(i)));
             messageViewHolder.messageSeen.setText(String.valueOf(items.get(i).getSeenCounter()));
 
             switch (items.get(i).getSendStatus()) {
@@ -82,13 +80,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
         } else {
 
-            messageViewHolder.out_rll.setVisibility(View.VISIBLE);
-            messageViewHolder.in_rll.setVisibility(View.GONE);
-            String messageDateOut = DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false)
-                    + " " + DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
-            messageViewHolder.messageDate_out.setText(messageDateOut);
-            messageViewHolder.messageText_out.setText(items.get(i).getMessage());
-            messageViewHolder.senderName_out.setText(getSenderName(items.get(i)));
+            messageViewHolder.incomingMessage.setVisibility(View.VISIBLE);
+            messageViewHolder.myMessage.setVisibility(View.GONE);
+            String messageDateOut = DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            messageViewHolder.incomingMessageDate.setText(messageDateOut);
+            messageViewHolder.incomingMessageText.setText(items.get(i).getMessage());
+            messageViewHolder.messageSenderName.setText(getSenderName(items.get(i)));
         }
 
     }
@@ -142,31 +139,30 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout in_rll;
-        TextView senderName;
+        RelativeLayout myMessage;
         TextView messageDate;
         TextView messageText;
         TextView messageSeen;
-
-        RelativeLayout out_rll;
-        TextView senderName_out;
-        TextView messageDate_out;
-        TextView messageText_out;
         ImageView sendStatus;
+
+
+        RelativeLayout incomingMessage;
+        TextView messageSenderName;
+        TextView incomingMessageDate;
+        TextView incomingMessageText;
 
         MessageViewHolder(View itemView) {
             super(itemView);
-            in_rll = (RelativeLayout) itemView.findViewById(R.id.message_in_layouts);
-            senderName = (TextView) itemView.findViewById(R.id.inbox_item_sender_ame);
-            messageDate = (TextView) itemView.findViewById(R.id.inbox_item_date);
-            messageText = (TextView) itemView.findViewById(R.id.inbox_item_message_text);
-            messageSeen = (TextView) itemView.findViewById(R.id.seen_counter);
+            myMessage = itemView.findViewById(R.id.my_message_layout);
+            messageDate = itemView.findViewById(R.id.my_message_date);
+            messageText = itemView.findViewById(R.id.my_message_text);
+            messageSeen = itemView.findViewById(R.id.seen_counter);
+            sendStatus = itemView.findViewById(R.id.my_mesage_send);
 
-            out_rll = (RelativeLayout) itemView.findViewById(R.id.message_out_layouts);
-            senderName_out = (TextView) itemView.findViewById(R.id.inbox_item_sender_ame_out);
-            messageDate_out = (TextView) itemView.findViewById(R.id.inbox_item_date_out);
-            messageText_out = (TextView) itemView.findViewById(R.id.inbox_item_message_text_out);
-            sendStatus = (ImageView) itemView.findViewById(R.id.imageView_mesage_send);
+            incomingMessage = itemView.findViewById(R.id.incoming_message_layout);
+            messageSenderName = itemView.findViewById(R.id.incoming_mesage_name);
+            incomingMessageDate = itemView.findViewById(R.id.incoming_message_date);
+            incomingMessageText = itemView.findViewById(R.id.incoming_message_text);
         }
     }
 }
