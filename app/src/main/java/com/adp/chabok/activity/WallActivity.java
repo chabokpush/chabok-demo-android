@@ -62,7 +62,12 @@ public class WallActivity extends BaseActivity {
                 if (intent.getExtras().get(Constants.DELIVERED_MESSAGE) != null) {
                     DeliveredMessage deliveredMessage = (DeliveredMessage) intent.getExtras().get(Constants.DELIVERED_MESSAGE);
                     messageFragment.updateDeliveredCount(deliveredMessage);
+
+                } else if (intent.getExtras().get(Constants.NEW_MESSAGE) != null) {
+                    MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
+                    messageFragment.updateMessageList(newMessage);
                 }
+
             }
         };
 
@@ -76,9 +81,10 @@ public class WallActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-                new IntentFilter(Constants.SEND_BROADCAST)
-        );
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.SEND_BROADCAST);
+        intentFilter.addAction(Constants.WALL_MESSAGE_RECEIVED);
+        LocalBroadcastManager.getInstance(WallActivity.this).registerReceiver(receiver, intentFilter);
     }
 
     @Override
@@ -93,10 +99,7 @@ public class WallActivity extends BaseActivity {
         super.onNewIntent(intent);
         if (intent.getBooleanExtra(Constants.RELOAD_MESSAEGS, false)) {
             intent.removeExtra(Constants.RELOAD_MESSAEGS);
-            if (intent.getExtras().get(Constants.NEW_MESSAGE) != null) {
-                MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
-                messageFragment.updateMessageList(newMessage);
-            } else if (intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null) {
+           if (intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null) {
                 String myMessageServerId = intent.getExtras().getString(Constants.MY_MESSAGE_SERVER_ID);
                 messageFragment.updateMessageItem(myMessageServerId);
             }

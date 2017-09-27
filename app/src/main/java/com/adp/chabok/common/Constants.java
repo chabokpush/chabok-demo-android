@@ -41,6 +41,7 @@ public interface Constants {
     String INBOX_IMAGE_URL = "imgUrl";
     String INBOX_IMAGE_LINK = "imgLink";
 
+    String WALL_MESSAGE_RECEIVED = "wall_message_received";
     String CAPTAIN_MESSAGE_RECEIVED = "captain_message_received";
     String CAPTAIN_NEW_MESSAGE = "captain_new_message";
 
