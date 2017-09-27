@@ -25,11 +25,13 @@ import com.adp.chabok.fragments.DiscoverFragment;
 import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
+import com.adp.chabok.service.LocationService;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
 import com.adpdigital.push.location.LocationManager;
+import com.adpdigital.push.location.LocationParams;
 import com.adpdigital.push.location.OnLocationUpdateListener;
 
 import org.json.JSONException;
@@ -111,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
         initializeLocationManager();
-
     }
 
     public void navigateToFragment(String tag, Bundle bundle) {
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private void initializeLocationManager() {
         final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
         client.addListener(this);
-
+        client.enableEventDelivery(EVENT_TREASURE);
         locationManger = client.getLocationManager();
 
         locationManger.enableLocationOnLaunch(this);
@@ -253,22 +254,24 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             });
         }
     }
-    public void onEvent(ConnectionStatus state) {
+    /*public void onEvent(ConnectionStatus state) {
         if (state == ConnectionStatus.CONNECTED) {
             Log.d(TAG, "onEvent: called, connected");
-            AdpPushClient.get().enableEventDelivery(EVENT_TREASURE);
+
         }
-    }
+    }*/
 
 
 
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
-            if(mCurrentLocation != null) {
-                Utils.setUserStatus(status, mCurrentLocation);
-            } else {
-                eventName = STATUS_DIGGING;
-            }
+            locationManger.start(this,
+                    new LocationParams.Builder()
+                            .setAccuracy(LOCATION_ACCURACY)
+                            .setDistance(SMALLEST_DISTANCE)
+                            .setInterval(INTERVAL).build(),
+                    false, true, "");
+            eventName = STATUS_DIGGING;
         } else {
             Utils.setUserStatus(status, null);
         }
@@ -277,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     public void showDiggingResult(EventMessage result) {
 
-        if(result != null){
+        if(result != null) {
             try {
                 JSONObject data = result.getData();
                 Log.d(TAG, "handleMessage: called");
@@ -298,7 +301,5 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             }
 
         }
-
-
     }
 }

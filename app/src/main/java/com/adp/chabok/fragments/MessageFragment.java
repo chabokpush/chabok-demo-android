@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 public class MessageFragment extends Fragment {
 
+    private static final String TAG = "MessageFragment";
     private View fragmentView;
     private RecyclerView rv;
     private CardViewAdapter messageAdapter;
@@ -65,12 +67,17 @@ public class MessageFragment extends Fragment {
         msg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Utils.setUserStatus(Constants.STATUS_TYPING, null);
+
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                Log.d(TAG, "onTextChanged: start: " + start + " ,before: " + before + " ,count: " + count);
+                if(count == 1 && (count > before)) {
+                    Utils.setUserStatus(Constants.STATUS_TYPING, null);
+                } else if(count == 0 && before == 1) {
+                    Utils.setUserStatus(Constants.STATUS_IDLE, null);
+                }
             }
 
             @Override
