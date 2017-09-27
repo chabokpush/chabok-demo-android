@@ -5,7 +5,7 @@ public interface Constants {
     //    boolean DEV_MODE = true;
     boolean DEV_MODE = false;
 
-    String APP_ID = "chabok-demo/1085254472657";//"adp-nms-push/845225163503"
+    String APP_ID = "chabok-demo/1085254472657";//"adp-nms-push/845225163503" 51.4015529
     String API_KEY = "5d9adbc5adb24546c2c99ea54472eda5b7ccdfbf";//"0d48dedfefdab1d4915d65fdffd4ae91d6c6043a";
 
     String USER_NAME = "chabokdemo";//"adp";

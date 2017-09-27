@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +24,7 @@ import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.activity.adapters.InboxAdapter;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.CaptainMessage;
@@ -58,9 +60,12 @@ public class InboxFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-                ((MainActivity) getActivity()).setUserStatus(STATUS_DIGGING);
-
+                if(Utils.isNetworkAvailable(getActivity())) {
+                    ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                    ((MainActivity) getActivity()).setUserStatus(STATUS_DIGGING);
+                } else {
+                    Snackbar.make(view, R.string.internet_error_desc, Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 
