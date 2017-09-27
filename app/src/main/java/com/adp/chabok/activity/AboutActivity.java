@@ -57,7 +57,6 @@ public class AboutActivity extends AppCompatActivity {
         final SwitchButton s1 = dialogView.findViewById(R.id.switch1);
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Log.i("MAHDI", "myPref.getBoolean(Constants.PREFERENCE_NOTIFY=" + myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false));
         if (myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false)) {
             s1.setChecked(false);
         } else {

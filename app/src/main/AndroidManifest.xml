@@ -31,11 +31,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".activity.WallActivity"
             android:label="@string/title_activity_wall"
             android:launchMode="singleTop"

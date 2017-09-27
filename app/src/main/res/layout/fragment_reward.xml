@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="72dp"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="empty_box.json"
+        app:lottie_fileName="trophy.json"
         app:lottie_loop="true" />
 
     <com.adp.chabok.ui.TextView

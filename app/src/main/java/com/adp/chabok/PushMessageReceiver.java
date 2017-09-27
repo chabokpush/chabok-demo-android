@@ -24,8 +24,8 @@ import java.util.Date;
 public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
 
-    private ChabokDAO dao;
     public LocalBroadcastManager broadcaster;
+    private ChabokDAO dao;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -52,7 +52,23 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         }
 
 
-        if (topic != null && topic.contains(Constants.CHANNEL_NAME)) {
+        if (topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME)) {
+
+            CaptainMessage newMessage = new CaptainMessage(
+                    message.getBody(),
+                    new Timestamp(message.getCreatedAt()),
+                    new Timestamp(new Date().getTime()),
+                    temp,
+                    false
+            );
+
+            dao.saveCaptainMessage(newMessage);
+            Intent intent = new Intent(Constants.CAPTAIN_MESSAGE_RECEIVED);
+            intent.putExtra(Constants.CAPTAIN_NEW_MESSAGE, newMessage);
+            broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
+            broadcaster.sendBroadcast(intent);
+
+        } else {
 
             SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
 
@@ -93,22 +109,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                     context.startActivity(reloadIntent);
                 }
             }
-        } else {
-            CaptainMessage newMessage = new CaptainMessage(
-                    message.getBody(),
-                    new Timestamp(message.getCreatedAt()),
-                    new Timestamp(new Date().getTime()),
-                    temp,
-                    false
-            );
-
-            dao.saveCaptainMessage(newMessage);
-            Intent intent = new Intent(Constants.CAPTAIN_MESSAGE_RECEIVED);
-            intent.putExtra(Constants.CAPTAIN_NEW_MESSAGE, newMessage);
-            broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
-            broadcaster.sendBroadcast(intent);
         }
-
     }
 
 }

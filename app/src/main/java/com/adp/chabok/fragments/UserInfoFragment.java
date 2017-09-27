@@ -18,6 +18,7 @@ import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.common.Validator;
 import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.EditText;
@@ -142,19 +143,21 @@ public class UserInfoFragment extends Fragment {
                     if ("".equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {
 
                         AdpPushClient client = ChabokApplication.getInstance().getPushClient();
+                        String userId = Validator.createUserId(contactInfo.getText().toString());
+
 
                         SharedPreferences.Editor editor = myPref.edit();
-                        editor.putString(Constants.PREFERENCE_CONTACT_INFO, contactInfo.getText().toString());
+                        editor.putString(Constants.PREFERENCE_CONTACT_INFO, userId);
                         editor.putString(Constants.PREFERENCE_NAME, fullName.getText().toString());
                         editor.apply();
 
                         HashMap<String, Object> userInfo = new HashMap<>();
                         userInfo.put("name", fullName.getText().toString());
                         userInfo.put("avatarIdx", getAvatarIndex(avatarId));
-                        userInfo.put("userId", contactInfo.getText().toString());
+                        userInfo.put("userId", userId);
                         client.setUserInfo(userInfo);
 
-                        client.register(contactInfo.getText().toString() , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
+                        client.register(userId , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
 
                         ((IntroActivity) getActivity()).gotToMain();
 
