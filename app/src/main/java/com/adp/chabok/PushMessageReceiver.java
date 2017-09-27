@@ -24,8 +24,8 @@ import java.util.Date;
 public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
 
-    private ChabokDAO dao;
     public LocalBroadcastManager broadcaster;
+    private ChabokDAO dao;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,9 +50,24 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         if (message.getData() != null) {
             temp = message.getData().toString();
         }
+        broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
 
+        if (topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME)) {
 
-        if (topic != null && topic.contains(Constants.CHANNEL_NAME)) {
+            CaptainMessage newMessage = new CaptainMessage(
+                    message.getBody(),
+                    new Timestamp(message.getCreatedAt()),
+                    new Timestamp(new Date().getTime()),
+                    temp,
+                    false
+            );
+
+            dao.saveCaptainMessage(newMessage);
+            Intent intent = new Intent(Constants.CAPTAIN_MESSAGE_RECEIVED);
+            intent.putExtra(Constants.CAPTAIN_NEW_MESSAGE, newMessage);
+            broadcaster.sendBroadcast(intent);
+
+        } else {
 
             SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
 
@@ -76,11 +91,9 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                 dao.saveMessage(newMessage, 0);
 
                 if (AdpPushClient.get().isForeground()) {
-                    Intent reloadIntent = new Intent(context, WallActivity.class);
-                    reloadIntent.putExtra(Constants.RELOAD_MESSAEGS, true);
-                    reloadIntent.putExtra(Constants.NEW_MESSAGE, newMessage);
-                    reloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(reloadIntent);
+                    Intent wall = new Intent(Constants.WALL_MESSAGE_RECEIVED);
+                    wall.putExtra(Constants.NEW_MESSAGE, newMessage);
+                    broadcaster.sendBroadcast(wall);
                 }
 
             } else {
@@ -93,22 +106,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                     context.startActivity(reloadIntent);
                 }
             }
-        } else {
-            CaptainMessage newMessage = new CaptainMessage(
-                    message.getBody(),
-                    new Timestamp(message.getCreatedAt()),
-                    new Timestamp(new Date().getTime()),
-                    temp,
-                    false
-            );
-
-            dao.saveCaptainMessage(newMessage);
-            Intent intent = new Intent(Constants.CAPTAIN_MESSAGE_RECEIVED);
-            intent.putExtra(Constants.CAPTAIN_NEW_MESSAGE, newMessage);
-            broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
-            broadcaster.sendBroadcast(intent);
         }
-
     }
 
 }

@@ -25,9 +25,7 @@ import com.adp.chabok.fragments.DiscoverFragment;
 import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
-import com.adp.chabok.service.LocationService;
 import com.adpdigital.push.AdpPushClient;
-import com.adpdigital.push.ConnectionStatus;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
 import com.adpdigital.push.location.LocationManager;
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private LocationManager locationManger;
     private Location mCurrentLocation;
     private String eventName = "";
-    private EventMessage result;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +90,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
                 if (mAccel > 20) {
 
-                    if (getFragmentManager().getBackStackEntryCount() > 0) {
-                        // TODO: fill the progressBar
-                    } else {
+                    if (getFragmentManager().getBackStackEntryCount() == 0) {
                         navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-
                     }
 
                 }
@@ -218,9 +213,9 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
     private void updateUI(Location location) {
-        if(location != null) {
+        if (location != null) {
             //TODO: update ui after location updated
-            if(STATUS_DIGGING.equalsIgnoreCase(eventName)) {
+            if (STATUS_DIGGING.equalsIgnoreCase(eventName)) {
                 Utils.setUserStatus(STATUS_DIGGING, location);
                 eventName = "";
             }
@@ -262,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }*/
 
 
-
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
             locationManger.start(this,
@@ -280,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     public void showDiggingResult(EventMessage result) {
 
-        if(result != null) {
+        if (result != null) {
             try {
                 JSONObject data = result.getData();
                 Log.d(TAG, "handleMessage: called");
