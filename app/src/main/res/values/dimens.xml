@@ -30,5 +30,6 @@
     <dimen name="message">18dp</dimen>
 
     <dimen name="button_setting_done">18dp</dimen>
+    <dimen name="padding">16dp</dimen>
 
 </resources>

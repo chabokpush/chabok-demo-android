@@ -15,8 +15,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
@@ -35,6 +39,8 @@ import com.adpdigital.push.location.OnLocationUpdateListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
@@ -48,11 +54,11 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     public static final String REWARD_MESSAGE = "reward-message";
     private static final String TAG = "MainActivity";
 
-    private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.MEDIUM;
-    private static final int SMALLEST_DISTANCE = 10;
+    private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.HIGH;
+    private static final int SMALLEST_DISTANCE = 0;
     private static final int INTERVAL = 5000;
-    private static final boolean singleUpdate = false;
-    private static final boolean backgroundEnabled = true;
+    private static final boolean singleUpdate = true;
+    private static final boolean backgroundEnabled = false;
 
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -63,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private LocationManager locationManger;
     private Location mCurrentLocation;
     private String eventName = "";
+    private String currentFragmentTag;
+    private long discoveryStartTime;
 
 
     @Override
@@ -91,7 +99,10 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 if (mAccel > 20) {
 
                     if (getFragmentManager().getBackStackEntryCount() == 0) {
-                        navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                        if(currentFragmentTag != DISCOVER_FRAGMENT) {
+                            navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                            setUserStatus(STATUS_DIGGING);
+                        }
                     }
 
                 }
@@ -122,22 +133,26 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             case INBOX_FRAGMENT:
                 fragment = new InboxFragment();
                 tr.replace(R.id.frame, fragment, INBOX_FRAGMENT).commit();
+                currentFragmentTag = INBOX_FRAGMENT;
                 break;
 
             case DISCOVER_FRAGMENT:
                 fragment = new DiscoverFragment();
                 tr.replace(R.id.frame, fragment, DISCOVER_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                currentFragmentTag = DISCOVER_FRAGMENT;
                 break;
 
             case REWARD_FRAGMENT:
                 fragment = new RewardFragment();
                 fragment.setArguments(bundle);
                 tr.replace(R.id.frame, fragment, REWARD_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                currentFragmentTag = REWARD_FRAGMENT;
                 break;
 
             case NOT_FOUND_FRAGMENT:
                 fragment = new NotFoundFragment();
                 tr.replace(R.id.frame, fragment, NOT_FOUND_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                currentFragmentTag = NOT_FOUND_FRAGMENT;
                 break;
 
         }
@@ -200,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         client.enableEventDelivery(EVENT_TREASURE);
         locationManger = client.getLocationManager();
 
+        //startLocation();
         locationManger.enableLocationOnLaunch(this);
         /*LocationParams locationParams = new LocationParams.Builder()
                 .setAccuracy(LOCATION_ACCURACY)
@@ -214,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     private void updateUI(Location location) {
         if (location != null) {
+            Log.d(TAG, "updateUI: Provider: " + location.getProvider());
             //TODO: update ui after location updated
             if (STATUS_DIGGING.equalsIgnoreCase(eventName)) {
                 Utils.setUserStatus(STATUS_DIGGING, location);
@@ -259,17 +276,47 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
-            locationManger.start(this,
-                    new LocationParams.Builder()
-                            .setAccuracy(LOCATION_ACCURACY)
-                            .setDistance(SMALLEST_DISTANCE)
-                            .setInterval(INTERVAL).build(),
-                    false, true, "");
-            eventName = STATUS_DIGGING;
+            //startLocation();
+            if(locationManger.getLocationOnLaunch() != null) {
+                mCurrentLocation = locationManger.getLocationOnLaunch();
+                Utils.setUserStatus(status, mCurrentLocation);
+            } else {
+                showLocationUnavailable();
+                eventName = STATUS_DIGGING;
+            }
         } else {
             Utils.setUserStatus(status, null);
         }
 
+    }
+
+    private void showLocationUnavailable() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.location_unavailable, null);
+        ((TextView) dialogView.findViewById(R.id.title)).setText(R.string.attention);
+        ((TextView) dialogView.findViewById(R.id.message)).setText(R.string.location_unavailable);
+
+        dialogBuilder.setView(dialogView);
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+
+        Button confirmButton = (Button) dialogView.findViewById(R.id.ok);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void startLocation() {
+        locationManger.start(this,
+                new LocationParams.Builder()
+                        .setAccuracy(LOCATION_ACCURACY)
+                        .setDistance(SMALLEST_DISTANCE)
+                        .setInterval(INTERVAL).build(),
+                false, true, "");
     }
 
     public void showDiggingResult(EventMessage result) {

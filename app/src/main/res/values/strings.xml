@@ -127,6 +127,9 @@
     <string name="version">نگارش %1$s</string>
     <string name="title_activity_main">چابک‌رسان</string>
     <string name="title_activity_about">درباره چابک</string>
+    <string name="attention">توجه</string>
+    <string name="location_unavailable">در حال حاضر سرویس مکان‌یابی قابل دسترس نیست.</string>
+    <string name="internet_error_desc">اتصال به اینترنت را بررسی کرده \n و دوباره تلاش کنید</string>
 
 
 </resources>

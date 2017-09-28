@@ -85,6 +85,8 @@
     <color name="chabok_color">#1B76FF</color>
     <color name="chat_box_border">#d8d7db</color>
     <color name="chat_date_color">#8F8E94</color>
+    <color name="black">#000000</color>
+    <color name="dialog_header_bg">#F7F7F7</color>
 
 
 </resources>

@@ -73,6 +73,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
+                android:onClick="sendMessage"
                 android:background="@drawable/send_button_bg">
 
                 <com.adp.chabok.ui.Button
@@ -80,9 +81,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:gravity="center"
                     android:layout_margin="7dp"
+                    android:padding="105dp"
                     android:background="@drawable/ic_arrow_up"
-                    android:onClick="sendMessage" />
+                     />
 
             </RelativeLayout>
 
