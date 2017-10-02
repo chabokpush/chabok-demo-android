@@ -36,7 +36,7 @@ public class RewardFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) getActivity()).navigateToFragment(MainActivity.INBOX_FRAGMENT, null);
+                getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });

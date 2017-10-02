@@ -2,6 +2,8 @@ package com.adp.chabok.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 
 import com.adp.chabok.R;
 import com.adp.chabok.ui.CustomDialogBuilder;
@@ -36,6 +38,10 @@ public class Validator {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, errorMsg);
             dialog = dialogBuilder.create();
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
         }
 
         return result;
@@ -48,6 +54,10 @@ public class Validator {
                     activity.getString(R.string.msg_null_not_allowed, activity.getString(label)));
             dialog = dialogBuilder.create();
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
             return false;
         }
         return true;
@@ -59,6 +69,10 @@ public class Validator {
                     activity.getString(R.string.msg_invalid_name));
             dialog = dialogBuilder.create();
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
             return false;
         }
         return true;
@@ -82,6 +96,10 @@ public class Validator {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, activity.getResources().getString(R.string.msg_invalid_mobile));
             dialog = dialogBuilder.create();
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+
             return false;
         }
         return true;

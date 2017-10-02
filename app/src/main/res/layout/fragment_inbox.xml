@@ -23,16 +23,10 @@
             android:layout_height="100dp"
             android:layout_gravity="bottom|center"
             android:layout_margin="@dimen/fab_margin"
+            app:borderWidth="0dp"
             android:scaleType="centerInside"
             app:backgroundTint="@color/brown_btn_bg"
-            app:srcCompat="@drawable/ic_kolang"
-            app:useCompatPadding="true" />
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="120dp"-->
-            <!--android:layout_gravity="bottom|center"-->
-            <!--android:background="@drawable/inbox_bg" />-->
+            app:srcCompat="@drawable/ic_kolang" />
 
     </FrameLayout>
 </LinearLayout>

@@ -27,7 +27,7 @@
             android:layout_marginTop="15dp"
             android:textColor="@color/msg_color"
             android:text="@string/do_notify"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <com.kyleduo.switchbutton.SwitchButton
             android:id="@+id/switch_btn"
@@ -54,9 +54,7 @@
         android:textColor="@color/my_white"
         android:textSize="16sp"
         android:text="@string/action_yeah"
-        android:background="@drawable/setting_ok_btn">
-
-    </com.adp.chabok.ui.Button>
+        android:background="@drawable/setting_ok_btn"/>
 
 
 </LinearLayout>

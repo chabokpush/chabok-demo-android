@@ -1,9 +1,12 @@
 package com.adp.chabok.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,12 +18,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
@@ -29,6 +28,7 @@ import com.adp.chabok.fragments.DiscoverFragment;
 import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
+import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private Location mCurrentLocation;
     private String eventName = "";
     private String currentFragmentTag;
-    private long discoveryStartTime;
 
 
     @Override
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame, new InboxFragment())
                     .commit();
+            currentFragmentTag = INBOX_FRAGMENT;
         }
 
         mSensorListener = new SensorEventListener() {
@@ -94,13 +94,12 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta;
 
-                if (mAccel > 20) {
+                if (mAccel > 10) {
 
-                    if (getFragmentManager().getBackStackEntryCount() == 0) {
-                        if (currentFragmentTag != DISCOVER_FRAGMENT) {
-                            navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-                            setUserStatus(STATUS_DIGGING);
-                        }
+                    if (getFragmentManager().getBackStackEntryCount() == 0 && !DISCOVER_FRAGMENT.equals(currentFragmentTag)) {
+                        navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                        setUserStatus(STATUS_DIGGING);
+
                     }
 
                 }
@@ -289,23 +288,15 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     }
 
     private void showLocationUnavailable() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.location_unavailable, null);
-        ((TextView) dialogView.findViewById(R.id.title)).setText(R.string.attention);
-        ((TextView) dialogView.findViewById(R.id.message)).setText(R.string.location_unavailable);
 
-        dialogBuilder.setView(dialogView);
-        final AlertDialog dialog = dialogBuilder.create();
+        CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(MainActivity.this, getResources().getString(R.string.location_unavailable));
+        AlertDialog dialog = dialogBuilder.create();
         dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
 
-        Button confirmButton = (Button) dialogView.findViewById(R.id.ok);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
     }
 
     private void startLocation() {
@@ -319,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     public void showDiggingResult(EventMessage result) {
 
+        getSupportFragmentManager().popBackStack();
         if (result != null) {
             try {
                 JSONObject data = result.getData();

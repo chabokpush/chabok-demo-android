@@ -54,37 +54,10 @@
         <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
     </style>
 
-    <style name="Text.senderName_out">
-        <item name="android:singleLine">false</item>
-        <item name="android:textSize">@dimen/text_sender_name_size</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:typeface">normal</item>
-        <item name="android:textColor">@color/colorViolet3</item>
-        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
-    </style>
-
-    <style name="Text.content">
-        <item name="android:textStyle">normal</item>
-        <item name="android:typeface">normal</item>
-        <item name="android:singleLine">false</item>
-        <item name="android:textSize">@dimen/text_content_size</item>
-        <item name="android:textColor">@color/textTitle</item>
-        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
-    </style>
-
-    <style name="Text.message">
-        <item name="android:typeface">normal</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:singleLine">false</item>
-        <item name="android:textSize">@dimen/text_content_size</item>
-        <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
-    </style>
-
     <style name="Text.hints">
         <item name="android:textStyle">normal</item>
         <item name="android:singleLine">false</item>
-        <item name="android:textColor">@color/menu_item_hint_text_color</item>
+        <item name="android:textColor">@color/error_color</item>
     </style>
 
     <style name="Text.SettingItem">

@@ -75,6 +75,7 @@
     <color name="switch_btn">#31A645</color>
     <color name="setting_btn">#3286FF</color>
     <color name="separator">#DEDEDE</color>
+    <color name="error_color">#EC3237</color>
 
 
 </resources>

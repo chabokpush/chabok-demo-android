@@ -17,10 +17,10 @@ public class CustomDialogBuilder extends AlertDialog.Builder {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.fragment_error, (ViewGroup) context.findViewById(R.id.chabok_diag_root));
 
-        TextView text = (TextView) layout.findViewById(R.id.error_fragment_title);
+        TextView text =  layout.findViewById(R.id.error_fragment_title);
         text.setText(message);
 
-        Button confirm = (Button) layout.findViewById(R.id.confirmButton_error_fragment);
+        Button confirm = layout.findViewById(R.id.ok_btn);
         confirm.setOnClickListener(new View.OnClickListener() {
 
             @Override

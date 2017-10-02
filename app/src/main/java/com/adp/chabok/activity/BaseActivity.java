@@ -80,20 +80,20 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void updateConnectionStatus(ConnectionStatus status) {
 
-        TextView status_text = (TextView) findViewById(R.id.textView_status);
-        if (status_text != null && status != null) {
-            switch (status) {
-                case CONNECTED:
-                    status_text.setText(getResources().getString(R.string.action_online));
-                    break;
-                case CONNECTING:
-                    status_text.setText(getResources().getString(R.string.action_trying_to_connect));
-                    break;
-                case DISCONNECTED:
-                    status_text.setText(getResources().getString(R.string.action_offline));
-                    break;
-            }
-        }
+//        TextView status_text = (TextView) findViewById(R.id.textView_status);
+//        if (status_text != null && status != null) {
+//            switch (status) {
+//                case CONNECTED:
+//                    status_text.setText(getResources().getString(R.string.action_online));
+//                    break;
+//                case CONNECTING:
+//                    status_text.setText(getResources().getString(R.string.action_trying_to_connect));
+//                    break;
+//                case DISCONNECTED:
+//                    status_text.setText(getResources().getString(R.string.action_offline));
+//                    break;
+//            }
+//        }
     }
 
 }
