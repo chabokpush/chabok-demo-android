@@ -74,6 +74,7 @@
     <color name="dialog_header_bg">#F7F7F7</color>
     <color name="switch_btn">#31A645</color>
     <color name="setting_btn">#3286FF</color>
+    <color name="separator">#DEDEDE</color>
 
 
 </resources>

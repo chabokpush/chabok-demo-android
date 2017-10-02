@@ -73,6 +73,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="3dp"
+                android:clickable="true"
                 android:onClick="sendMessage"
                 android:background="@drawable/send_button_bg">
 
