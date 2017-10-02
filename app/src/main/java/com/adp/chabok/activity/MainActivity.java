@@ -39,8 +39,6 @@ import com.adpdigital.push.location.OnLocationUpdateListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Calendar;
-
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 if (mAccel > 20) {
 
                     if (getFragmentManager().getBackStackEntryCount() == 0) {
-                        if(currentFragmentTag != DISCOVER_FRAGMENT) {
+                        if (currentFragmentTag != DISCOVER_FRAGMENT) {
                             navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
                             setUserStatus(STATUS_DIGGING);
                         }
@@ -277,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
             //startLocation();
-            if(locationManger.getLocationOnLaunch() != null) {
+            if (locationManger.getLocationOnLaunch() != null) {
                 mCurrentLocation = locationManger.getLocationOnLaunch();
                 Utils.setUserStatus(status, mCurrentLocation);
             } else {

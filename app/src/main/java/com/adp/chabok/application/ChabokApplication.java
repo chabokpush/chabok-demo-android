@@ -74,7 +74,7 @@ public class ChabokApplication extends Application {
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
                 if (!"".equals(clientNo)) {
-                    adpPush.register(clientNo, new String[]{/*Constants.CHANNEL_NAME, */Constants.CAPTAIN_CHANNEL_NAME});
+                    adpPush.register(clientNo, new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
                 }
             }
 

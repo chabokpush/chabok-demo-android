@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +18,7 @@ import android.widget.ImageView;
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.ui.Button;
 import com.kyleduo.switchbutton.SwitchButton;
 
 public class AboutActivity extends AppCompatActivity {
@@ -45,34 +44,46 @@ public class AboutActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) AboutActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         @SuppressLint("InflateParams")
-        View dialogView = inflater.inflate(R.layout.activity_settings, null);
+        View dialogView = inflater.inflate(R.layout.settings_dialog, null);
 
         dialogBuilder.setView(dialogView);
-        AlertDialog dialog = dialogBuilder.create();
+        final AlertDialog dialog = dialogBuilder.create();
         dialog.show();
 
-        final ChabokApplication app = (ChabokApplication) getApplication();
-
-
-        final SwitchButton s1 = dialogView.findViewById(R.id.switch1);
-        final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if (myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false)) {
-            s1.setChecked(false);
-        } else {
-            s1.setChecked(true);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        s1.setOnClickListener(new View.OnClickListener() {
+
+        final ChabokApplication app = (ChabokApplication) getApplication();
+        final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        final SwitchButton switchBtn = dialogView.findViewById(R.id.switch_btn);
+        Button okBtn = dialogView.findViewById(R.id.ok_btn);
+
+        if (myPref.getBoolean(Constants.PREFERENCE_OFF_NOTIFY, false)) {
+            switchBtn.setChecked(false);
+        } else {
+            switchBtn.setChecked(true);
+        }
+
+        switchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (s1.isChecked()) {
+                if (switchBtn.isChecked()) {
                     myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, false).apply();
                     app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, "default", true);
                 } else {
                     myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, true).apply();
                     app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, null, false);
                 }
+            }
+        });
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
 

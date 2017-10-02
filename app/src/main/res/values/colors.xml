@@ -3,9 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#FF4081</color>
-    <!--<color name="colorPrimary">#007fe8</color>-->
-    <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <!--<color name="colorAccent">#FF4081</color>-->
     <color name="textColorPrimary">#2b2b2b</color>
     <color name="textColorSecondary">#d5d5da</color>
     <color name="messageBackGround">#e6e7ec</color>
@@ -23,19 +20,7 @@
     <color name="colorViolet4">#efe9f2</color>
 
     <color name="colorGreen1">#01e3c1</color>
-    <color name="colorGreen2">#00325d</color>
-
-
-    <color name="menu_item_1_background_color">#787d81</color>
-    <color name="menu_item_1_background_color_pressed">#64696c</color>
-    <color name="menu_item_2_background_color">#6f7377</color>
-    <color name="menu_item_2_background_color_pressed">#5a5e61</color>
-
-    <color name="setting_phone_background_color">#8c9297</color>
-    <color name="setting_done_key_background_color">#00b6cb</color>
-    <color name="setting_done_key_background_color_pressed">#009daf</color>
-    <color name="setting_done_key_background_color_darker">#0097a8</color>
-    <color name="setting_done_key_background_color_darker_pressed">#008190</color>
+    <color name="colorGreen2">#00325d</color>              `1
 
     <color name="menu_item_text_color">#ffffff</color>
     <color name="menu_item_hint_text_color">#acb0b4</color>
@@ -87,6 +72,8 @@
     <color name="chat_date_color">#8F8E94</color>
     <color name="black">#000000</color>
     <color name="dialog_header_bg">#F7F7F7</color>
+    <color name="switch_btn">#31A645</color>
+    <color name="setting_btn">#3286FF</color>
 
 
 </resources>
