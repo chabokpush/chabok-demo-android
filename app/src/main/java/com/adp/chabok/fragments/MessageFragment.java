@@ -1,6 +1,8 @@
 package com.adp.chabok.fragments;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
@@ -62,6 +65,16 @@ public class MessageFragment extends Fragment {
 
         TextView title = fragmentView.findViewById(R.id.action_bar_title);
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_LIGHT_FONT));
+
+        ImageView demoBtn = fragmentView.findViewById(R.id.map_demo);
+        demoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo)));
+                startActivity(i);
+            }
+        });
 
         EditText msg = fragmentView.findViewById(R.id.editText_out_message);
         msg.addTextChangedListener(new TextWatcher() {

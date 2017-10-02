@@ -60,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:src="@drawable/ic_check_gray" />
+                android:src="@drawable/ic_not_sent" />
 
 
             <com.adp.chabok.ui.TextView
@@ -83,7 +83,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/my_message_date"
                 android:layout_toStartOf="@+id/my_message_date"
-                android:src="@drawable/ic_blink" />
+                android:src="@drawable/ic_eye" />
 
             <com.adp.chabok.ui.TextView
                 android:id="@+id/seen_counter"

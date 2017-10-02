@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 
 import com.adp.chabok.R;
 import com.adp.chabok.ui.CustomDialogBuilder;
+import com.adp.chabok.ui.OnCustomListener;
 
 import java.util.regex.Pattern;
 
@@ -36,11 +37,7 @@ public class Validator {
 
         if (!result) {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, errorMsg);
-            dialog = dialogBuilder.create();
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
+            createAndShowDialog(dialogBuilder);
 
         }
 
@@ -52,27 +49,18 @@ public class Validator {
         if ((src == null) || (src.trim().isEmpty())) {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity,
                     activity.getString(R.string.msg_null_not_allowed, activity.getString(label)));
-            dialog = dialogBuilder.create();
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
+            createAndShowDialog(dialogBuilder);
 
             return false;
         }
         return true;
     }
 
- public static boolean validateName(Activity activity, String src) {
+    public static boolean validateName(Activity activity, String src) {
         if (src.length() < 3) {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity,
                     activity.getString(R.string.msg_invalid_name));
-            dialog = dialogBuilder.create();
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
-
+            createAndShowDialog(dialogBuilder);
             return false;
         }
         return true;
@@ -83,8 +71,7 @@ public class Validator {
 
         if (!EMAIL_ADDRESS_PATTERN.matcher(string).matches()) {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, activity.getResources().getString(R.string.msg_invalid_email));
-            dialog = dialogBuilder.create();
-            dialog.show();
+            createAndShowDialog(dialogBuilder);
             return false;
         }
         return true;
@@ -94,11 +81,7 @@ public class Validator {
 
         if (!IRAN_MOBILE_PATTERN.matcher(phoneNumber).matches()) {
             CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(activity, activity.getResources().getString(R.string.msg_invalid_mobile));
-            dialog = dialogBuilder.create();
-            dialog.show();
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            }
+            createAndShowDialog(dialogBuilder);
 
             return false;
         }
@@ -113,6 +96,20 @@ public class Validator {
         }
         return "98".concat(phoneNo);
 
+    }
+
+    private static void createAndShowDialog(CustomDialogBuilder dialogBuilder) {
+        dialog = dialogBuilder.create();
+        dialogBuilder.setCustomEventListener(new OnCustomListener() {
+            @Override
+            public void onEvent() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
 
 

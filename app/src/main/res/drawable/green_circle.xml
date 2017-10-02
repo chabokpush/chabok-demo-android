@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/send_btn_bg"/>
+        android:color="@color/connected_status"/>
 
     <size
         android:width="6dp"

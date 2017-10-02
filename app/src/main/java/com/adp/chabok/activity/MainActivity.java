@@ -29,6 +29,7 @@ import com.adp.chabok.fragments.InboxFragment;
 import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
 import com.adp.chabok.ui.CustomDialogBuilder;
+import com.adp.chabok.ui.OnCustomListener;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame, new InboxFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
             currentFragmentTag = INBOX_FRAGMENT;
         }
 
@@ -135,20 +136,20 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
             case DISCOVER_FRAGMENT:
                 fragment = new DiscoverFragment();
-                tr.replace(R.id.frame, fragment, DISCOVER_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                tr.replace(R.id.frame, fragment, DISCOVER_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commitAllowingStateLoss();
                 currentFragmentTag = DISCOVER_FRAGMENT;
                 break;
 
             case REWARD_FRAGMENT:
                 fragment = new RewardFragment();
                 fragment.setArguments(bundle);
-                tr.replace(R.id.frame, fragment, REWARD_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                tr.replace(R.id.frame, fragment, REWARD_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commitAllowingStateLoss();
                 currentFragmentTag = REWARD_FRAGMENT;
                 break;
 
             case NOT_FOUND_FRAGMENT:
                 fragment = new NotFoundFragment();
-                tr.replace(R.id.frame, fragment, NOT_FOUND_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commit();
+                tr.replace(R.id.frame, fragment, NOT_FOUND_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commitAllowingStateLoss();
                 currentFragmentTag = NOT_FOUND_FRAGMENT;
                 break;
 
@@ -290,8 +291,14 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private void showLocationUnavailable() {
 
         CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(MainActivity.this, getResources().getString(R.string.location_unavailable));
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
+        final AlertDialog dialog = dialogBuilder.create();
+        dialogBuilder.setCustomEventListener(new OnCustomListener() {
+            @Override
+            public void onEvent() {
+                dialog.dismiss();
+                getSupportFragmentManager().popBackStack();
+            }
+        });        dialog.show();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }

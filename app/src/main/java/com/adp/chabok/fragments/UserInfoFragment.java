@@ -18,11 +18,10 @@ import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
-import com.adp.chabok.common.Utils;
 import com.adp.chabok.common.Validator;
 import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.EditText;
-import com.adp.chabok.ui.OnCustomEventListener;
+import com.adp.chabok.ui.OnCustomListener;
 import com.adpdigital.push.AdpPushClient;
 
 import java.util.HashMap;
@@ -97,7 +96,7 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
-        contactInfo.setCustomEventListener(new OnCustomEventListener() {
+        contactInfo.setCustomEventListener(new OnCustomListener() {
             public void onEvent() {
 
                 scaleBackLogo();
@@ -105,7 +104,7 @@ public class UserInfoFragment extends Fragment {
 
         });
 
-        fullName.setCustomEventListener(new OnCustomEventListener() {
+        fullName.setCustomEventListener(new OnCustomListener() {
             public void onEvent() {
 
                 scaleBackLogo();

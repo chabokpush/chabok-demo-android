@@ -47,6 +47,7 @@
     <string name="hint_company">نام شرکت (اختیاری)</string>
     <string name="hint_email">آدرس ایمیل</string>
     <string name="hint_code_no">کد فعال سازی</string>
+    <string name="outgoing_message">متن پیام را وارد کنید</string>
 
 
     //----anounce
@@ -84,6 +85,7 @@
     <string name="lbl_chabok_about">محصولی از شرکت آتیه‌داده‌پرداز</string>
     <string name="lbl_chabok_phone">021-89678</string>
     <string name="lbl_chabok_url">http://chabokpush.com</string>
+    <string name="lbl_map_demo">http://demo.chabokpush.com/?location=%1$d,%2$d</string>
     <string name="lbl_notification_disable">غیر فعال سازی نوتیفیکیشن</string>
     <string name="lbl_chabok_fa">کاپیتان چابک</string>
     <string name="lbl_chabok_en">Capitan Chabok</string>

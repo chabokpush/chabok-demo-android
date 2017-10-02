@@ -4,9 +4,9 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/send_btn_bg"/>
+        android:color="@color/brown_btn_bg"/>
 
     <size
-        android:width="6dp"
-        android:height="6dp"/>
+        android:width="100dp"
+        android:height="100dp"/>
 </shape>

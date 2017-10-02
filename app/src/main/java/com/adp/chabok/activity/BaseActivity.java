@@ -2,6 +2,7 @@ package com.adp.chabok.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
@@ -9,6 +10,10 @@ import com.adp.chabok.ui.TextView;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
+
+import static com.adpdigital.push.ConnectionStatus.CONNECTED;
+import static com.adpdigital.push.ConnectionStatus.CONNECTING;
+import static com.adpdigital.push.ConnectionStatus.DISCONNECTED;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -80,20 +85,20 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void updateConnectionStatus(ConnectionStatus status) {
 
-//        TextView status_text = (TextView) findViewById(R.id.textView_status);
-//        if (status_text != null && status != null) {
-//            switch (status) {
-//                case CONNECTED:
-//                    status_text.setText(getResources().getString(R.string.action_online));
-//                    break;
-//                case CONNECTING:
-//                    status_text.setText(getResources().getString(R.string.action_trying_to_connect));
-//                    break;
-//                case DISCONNECTED:
-//                    status_text.setText(getResources().getString(R.string.action_offline));
-//                    break;
-//            }
-//        }
+        ImageView connectionStatus = findViewById(R.id.connection_status);
+        if (connectionStatus != null && status != null) {
+            switch (status) {
+                case CONNECTED:
+                    connectionStatus.setBackgroundResource(R.drawable.green_circle);
+                    break;
+                case CONNECTING:
+                    connectionStatus.setBackgroundResource(R.drawable.red_circle);
+                    break;
+                case DISCONNECTED:
+                    connectionStatus.setBackgroundResource(R.drawable.red_circle);
+                    break;
+            }
+        }
     }
 
 }

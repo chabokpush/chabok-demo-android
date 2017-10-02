@@ -1,7 +1,7 @@
 package com.adp.chabok.ui;
 
 
-public interface OnCustomEventListener {
+public interface OnCustomListener {
 
     void onEvent();
 }

@@ -76,6 +76,10 @@
     <color name="setting_btn">#3286FF</color>
     <color name="separator">#DEDEDE</color>
     <color name="error_color">#EC3237</color>
+    <color name="connected_status">#44DB5E</color>
+    <color name="disconnected_status">#FE2851</color>
+    <color name="msg_hint_color">#A8A7B1</color>
+
 
 
 </resources>

@@ -10,7 +10,7 @@ import com.adp.chabok.common.Constants;
 
 public class EditText extends android.support.v7.widget.AppCompatEditText {
 
-    OnCustomEventListener mListener;
+    OnCustomListener mListener;
 
     public EditText(Context context) {
         super(context);
@@ -30,7 +30,7 @@ public class EditText extends android.support.v7.widget.AppCompatEditText {
         setTypeface(tf);
     }
 
-    public void setCustomEventListener(OnCustomEventListener eventListener) {
+    public void setCustomEventListener(OnCustomListener eventListener) {
         mListener = eventListener;
     }
 
