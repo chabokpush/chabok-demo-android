@@ -47,7 +47,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
 
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_message_item_in, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_message_item, viewGroup, false);
         return new MessageViewHolder(v);
     }
 
@@ -60,7 +60,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
             messageViewHolder.incomingMessage.setVisibility(View.GONE);
             messageViewHolder.myMessage.setVisibility(View.VISIBLE);
-            String messageDate = DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            String messageDate = DateUtil.getTimeNoDateNoSecond(items.get(i).getSentDate(), false) + " " +
+                    DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
             messageViewHolder.messageDate.setText(messageDate);
             messageViewHolder.messageText.setText(items.get(i).getMessage());
             messageViewHolder.messageSeen.setText(String.valueOf(items.get(i).getSeenCounter()));
@@ -68,12 +69,15 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             switch (items.get(i).getSendStatus()) {
                 case 0:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_not_sent);
+                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.not_sent));
                     break;
                 case 1:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_delivered);
+                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.delivered));
                     break;
                 default:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_not_sent);
+                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.not_sent));
                     break;
             }
 
@@ -82,7 +86,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
             messageViewHolder.incomingMessage.setVisibility(View.VISIBLE);
             messageViewHolder.myMessage.setVisibility(View.GONE);
-            String messageDateOut = DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
+            String messageDateOut =  DateUtil.getTimeNoDateNoSecond(items.get(i).getReceivedDate(), false) + " " +
+                    DateUtil.getSolarDate(context, new Date(items.get(i).getReceivedDate().getTime()), false, false);
             messageViewHolder.incomingMessageDate.setText(messageDateOut);
             messageViewHolder.incomingMessageText.setText(items.get(i).getMessage());
             messageViewHolder.messageSenderName.setText(getSenderName(items.get(i)));
@@ -129,28 +134,20 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
     public void updateDeliveredCount(String myMessageServerId, Map<String, MessageTO> MessageServerIdMap) {
 
-            if (MessageServerIdMap != null && MessageServerIdMap.get(myMessageServerId) != null) {
+        if (MessageServerIdMap != null && MessageServerIdMap.get(myMessageServerId) != null) {
 
-                int position = items.indexOf(MessageServerIdMap.get(myMessageServerId));
-                items.get(position).setSeenCounter(items.get(position).getSeenCounter() + 1);
-                this.notifyItemChanged(position);
-            }
+            int position = items.indexOf(MessageServerIdMap.get(myMessageServerId));
+            items.get(position).setSeenCounter(items.get(position).getSeenCounter() + 1);
+            this.notifyItemChanged(position);
+        }
 
     }
 
     class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout myMessage;
-        TextView messageDate;
-        TextView messageText;
-        TextView messageSeen;
+        RelativeLayout myMessage, incomingMessage;
+        TextView messageDate, messageText, messageSeen, sendStatusTxt, messageSenderName, incomingMessageDate, incomingMessageText;
         ImageView sendStatus;
-
-
-        RelativeLayout incomingMessage;
-        TextView messageSenderName;
-        TextView incomingMessageDate;
-        TextView incomingMessageText;
 
         MessageViewHolder(View itemView) {
             super(itemView);
@@ -158,7 +155,8 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             messageDate = itemView.findViewById(R.id.my_message_date);
             messageText = itemView.findViewById(R.id.my_message_text);
             messageSeen = itemView.findViewById(R.id.seen_counter);
-            sendStatus = itemView.findViewById(R.id.my_mesage_send);
+            sendStatus = itemView.findViewById(R.id.my_message_send);
+            sendStatusTxt = itemView.findViewById(R.id.my_message_send_txt);
 
             incomingMessage = itemView.findViewById(R.id.incoming_message_layout);
             messageSenderName = itemView.findViewById(R.id.incoming_mesage_name);

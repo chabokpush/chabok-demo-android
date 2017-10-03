@@ -52,7 +52,7 @@
             android:gravity="right">
 
             <ImageView
-                android:id="@+id/my_mesage_send"
+                android:id="@+id/my_message_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -62,17 +62,16 @@
                 android:layout_marginStart="5dp"
                 android:src="@drawable/ic_not_sent" />
 
-
             <com.adp.chabok.ui.TextView
-                android:id="@+id/my_message_date"
+                android:id="@+id/my_message_send_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_toLeftOf="@+id/my_mesage_send"
-                android:layout_toStartOf="@+id/my_mesage_send"
-                android:text="1394/11/15"
+                android:layout_toLeftOf="@id/my_message_send"
+                android:layout_toStartOf="@id/my_message_send"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:gravity="right"
                 android:textColor="@color/chat_date_color"
                 android:textSize="8sp" />
 
@@ -81,9 +80,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/my_message_date"
-                android:layout_toStartOf="@+id/my_message_date"
-                android:layout_alignTop="@id/my_mesage_send"
+                android:layout_toLeftOf="@+id/my_message_send_txt"
+                android:layout_toStartOf="@+id/my_message_send_txt"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_alignTop="@id/my_message_send"
                 android:src="@drawable/ic_eye" />
 
             <com.adp.chabok.ui.TextView
@@ -91,14 +92,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@+id/imageView_seen"
-                android:layout_toStartOf="@+id/imageView_seen"
+                android:layout_toLeftOf="@id/imageView_seen"
+                android:layout_toStartOf="@id/imageView_seen"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:gravity="right"
-                android:text="12"
                 android:textColor="@color/chat_date_color"
                 android:textSize="8sp" />
+
+            <com.adp.chabok.ui.TextView
+                android:id="@+id/my_message_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/seen_counter"
+                android:layout_toStartOf="@id/seen_counter"
+                android:textColor="@color/chat_date_color"
+                android:textSize="8sp" />
+
 
 
         </RelativeLayout>
