@@ -24,7 +24,6 @@ import com.adp.chabok.common.DateUtil;
 import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
-import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.ui.EditText;
 
@@ -40,7 +39,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView rv;
     private CardViewAdapter messageAdapter;
     private List<MessageTO> messagesList;
-    private Map<String, Integer> serverIdPositionMap;
+    private Map<String, MessageTO> messageServerIdMap;
 
 
     public static MessageFragment getInstance() {
@@ -61,7 +60,7 @@ public class MessageFragment extends Fragment {
         return fragmentView;
     }
 
-    private void initView(){
+    private void initView() {
 
         TextView title = fragmentView.findViewById(R.id.action_bar_title);
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_LIGHT_FONT));
@@ -86,9 +85,9 @@ public class MessageFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 Log.d(TAG, "onTextChanged: start: " + start + " ,before: " + before + " ,count: " + count);
-                if(count == 1 && (count > before)) {
+                if (count == 1 && (count > before)) {
                     Utils.setUserStatus(Constants.STATUS_TYPING, null);
-                } else if(count == 0 && before == 1) {
+                } else if (count == 0 && before == 1) {
                     Utils.setUserStatus(Constants.STATUS_IDLE, null);
                 }
             }
@@ -119,16 +118,16 @@ public class MessageFragment extends Fragment {
         ChabokDAO dao = ChabokDAOImpl.getInstance(ChabokApplication.getContext());
         messagesList = dao.getMessages("receivedDate DESC");
         messagesList = prepareData(messagesList);
-        serverIdPositionMap = setupMap();
+        setupMap();
 
     }
 
-    private Map<String,Integer> setupMap() {
-        Map<String,Integer> map = new HashMap<>();
+    private void setupMap() {
+        messageServerIdMap = new HashMap<>();
         for (int i = 0; i < messagesList.size(); i++) {
-            map.put(messagesList.get(i).getServerId(), i);
+            messageServerIdMap.put(messagesList.get(i).getServerId(), messagesList.get(i));
         }
-        return map;
+
     }
 
     public void initializeAdapter() {
@@ -173,16 +172,17 @@ public class MessageFragment extends Fragment {
     }
 
     public void updateMessageList(MessageTO message) {
-        messageAdapter.updateMessageList(message, serverIdPositionMap);
+        messageServerIdMap.put(message.getServerId(), message);
+        messageAdapter.updateMessageList(message);
 
     }
 
     public void updateMessageItem(String myMessageServerId) {
-        messageAdapter.updateMessageItem(myMessageServerId, serverIdPositionMap);
+        messageAdapter.updateMessageItem(myMessageServerId, messageServerIdMap);
 
     }
 
-    public void updateDeliveredCount(DeliveredMessage deliveredMessage) {
-        messageAdapter.updateDeliveredCount(deliveredMessage.getMap(), serverIdPositionMap);
+    public void updateDeliveredCount(String myMessageServerId) {
+        messageAdapter.updateDeliveredCount(myMessageServerId, messageServerIdMap);
     }
 }

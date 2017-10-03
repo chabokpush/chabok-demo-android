@@ -14,12 +14,11 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.activity.IntroActivity;
+import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
-import com.adp.chabok.data.models.DeliveredMessage;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.ChabokNotification;
 import com.adpdigital.push.DeliveryMessage;
@@ -27,14 +26,11 @@ import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChabokApplication extends Application {
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
-    private Map<String, Integer> serverIdDeliveredCountMap;
     private AdpPushClient adpPush = null;
     private int messagesCount = 0;
     private ArrayList<String> lines = new ArrayList<>();
@@ -165,32 +161,14 @@ public class ChabokApplication extends Application {
         return adpPush;
     }
 
+    @SuppressWarnings("unused")
     public void onEvent(DeliveryMessage message) {
 
         ChabokDAO dao = ChabokDAOImpl.getInstance(this);
         dao.updateCounter(message.getDeliveredMessageId());
 
-        if (serverIdDeliveredCountMap == null) {
-            serverIdDeliveredCountMap = new HashMap<>();
-        }
-
-        int count = 1;
-        if (serverIdDeliveredCountMap.get(message.getDeliveredMessageId()) != null) {
-            count = serverIdDeliveredCountMap.get(message.getDeliveredMessageId()) + 1;
-        }
-        serverIdDeliveredCountMap.put(message.getDeliveredMessageId(), count);
-
-        final DeliveredMessage deliveredMessage = new DeliveredMessage();
-        deliveredMessage.setMap(serverIdDeliveredCountMap);
-
-        sendResult(deliveredMessage);
-
-    }
-
-
-    public void sendResult(DeliveredMessage deliveredMessage) {
         Intent intent = new Intent(Constants.SEND_BROADCAST);
-        intent.putExtra(Constants.DELIVERED_MESSAGE, deliveredMessage);
+        intent.putExtra(Constants.DELIVERED_MESSAGE_SERVER_ID, message.getDeliveredMessageId());
         LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
         broadcaster.sendBroadcast(intent);
 
@@ -225,7 +203,6 @@ public class ChabokApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        serverIdDeliveredCountMap = new HashMap<>();
         getPushClient(IntroActivity.class);
         instance = this;
 

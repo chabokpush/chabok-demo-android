@@ -83,6 +83,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/my_message_date"
                 android:layout_toStartOf="@+id/my_message_date"
+                android:layout_alignTop="@id/my_mesage_send"
                 android:src="@drawable/ic_eye" />
 
             <com.adp.chabok.ui.TextView
@@ -161,7 +162,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_toRightOf="@+id/incoming_mesage_name"
                 android:layout_toEndOf="@+id/incoming_mesage_name"
-                android:text="1394/11/15"
                 android:textSize="8sp"
                 android:textColor="@color/chat_date_color" />
 
@@ -172,6 +172,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignTop="@id/incoming_message_date"
                 android:layout_marginLeft="5dp"
                 android:textSize="8sp"
                 android:textColor="@android:color/black"

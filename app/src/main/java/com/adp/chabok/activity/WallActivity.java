@@ -18,7 +18,6 @@ import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
-import com.adp.chabok.data.models.DeliveredMessage;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.fragments.MessageFragment;
 import com.adp.chabok.ui.EditText;
@@ -59,13 +58,17 @@ public class WallActivity extends BaseActivity {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getExtras().get(Constants.DELIVERED_MESSAGE) != null) {
-                    DeliveredMessage deliveredMessage = (DeliveredMessage) intent.getExtras().get(Constants.DELIVERED_MESSAGE);
-                    messageFragment.updateDeliveredCount(deliveredMessage);
+                if (intent.getExtras().get(Constants.DELIVERED_MESSAGE_SERVER_ID) != null) {
+                    String myMessageServerId = intent.getExtras().getString(Constants.DELIVERED_MESSAGE_SERVER_ID);
+                    messageFragment.updateDeliveredCount(myMessageServerId);
 
                 } else if (intent.getExtras().get(Constants.NEW_MESSAGE) != null) {
                     MessageTO newMessage = (MessageTO) intent.getExtras().get(Constants.NEW_MESSAGE);
                     messageFragment.updateMessageList(newMessage);
+
+                } else if (intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null) {
+                    String myMessageServerId = intent.getExtras().getString(Constants.MY_MESSAGE_SERVER_ID);
+                    messageFragment.updateMessageItem(myMessageServerId);
                 }
 
             }
@@ -83,7 +86,6 @@ public class WallActivity extends BaseActivity {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.SEND_BROADCAST);
-        intentFilter.addAction(Constants.WALL_MESSAGE_RECEIVED);
         LocalBroadcastManager.getInstance(WallActivity.this).registerReceiver(receiver, intentFilter);
     }
 
@@ -91,21 +93,6 @@ public class WallActivity extends BaseActivity {
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         super.onStop();
-    }
-
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if (intent.getBooleanExtra(Constants.RELOAD_MESSAEGS, false)) {
-            intent.removeExtra(Constants.RELOAD_MESSAEGS);
-           if (intent.getExtras().get(Constants.MY_MESSAGE_SERVER_ID) != null) {
-                String myMessageServerId = intent.getExtras().getString(Constants.MY_MESSAGE_SERVER_ID);
-                messageFragment.updateMessageItem(myMessageServerId);
-            }
-
-        }
-
     }
 
     public void sendMessage(View v) {

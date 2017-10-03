@@ -91,7 +91,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
                 dao.saveMessage(newMessage, 0);
 
                 if (AdpPushClient.get().isForeground()) {
-                    Intent wall = new Intent(Constants.WALL_MESSAGE_RECEIVED);
+                    Intent wall = new Intent(Constants.SEND_BROADCAST);
                     wall.putExtra(Constants.NEW_MESSAGE, newMessage);
                     broadcaster.sendBroadcast(wall);
                 }
@@ -99,11 +99,9 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
             } else {
                 dao.updateSendStatus(message.getSentId());
                 if (AdpPushClient.get().isForeground()) {
-                    Intent reloadIntent = new Intent(context, WallActivity.class);
-                    reloadIntent.putExtra(Constants.RELOAD_MESSAEGS, true);
-                    reloadIntent.putExtra(Constants.MY_MESSAGE_SERVER_ID, message.getSentId());
-                    reloadIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(reloadIntent);
+                    Intent intent = new Intent(Constants.SEND_BROADCAST);
+                    intent.putExtra(Constants.MY_MESSAGE_SERVER_ID, message.getSentId());
+                    broadcaster.sendBroadcast(intent);
                 }
             }
         }

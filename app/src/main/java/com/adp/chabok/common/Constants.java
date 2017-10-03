@@ -19,16 +19,15 @@ public interface Constants {
     String PREFERENCE_CONTACT_INFO = "contact_info";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_OFF_NOTIFY = "notify";
-    String RELOAD_MESSAEGS = "RELOAD_MESSAEGS";
-    String NEW_MESSAGE = "NEW_MESSAGE";
-    String MY_MESSAGE_SERVER_ID = "MY_MESSAGE_SERVER_ID";
 
     String CHANNEL_NAME = "public/wall";
     String CAPTAIN_CHANNEL_NAME = "captain";
     String KEY_NAME = "name";
 
     String SEND_BROADCAST = "SEND_BROADCAST_TO_WALL_ACTIVITY";
-    String DELIVERED_MESSAGE = "DELIVERED_MESSAGE";
+    String DELIVERED_MESSAGE_SERVER_ID = "DELIVERED_MESSAGE_SERVER_ID";
+    String NEW_MESSAGE = "NEW_MESSAGE";
+    String MY_MESSAGE_SERVER_ID = "MY_MESSAGE_SERVER_ID";
 
     String EVENT_STATUS = "captainStatus";
     String EVENT_TREASURE = "treasure";
@@ -41,7 +40,6 @@ public interface Constants {
     String INBOX_IMAGE_URL = "imgUrl";
     String INBOX_IMAGE_LINK = "imgLink";
 
-    String WALL_MESSAGE_RECEIVED = "wall_message_received";
     String CAPTAIN_MESSAGE_RECEIVED = "captain_message_received";
     String CAPTAIN_NEW_MESSAGE = "captain_new_message";
 

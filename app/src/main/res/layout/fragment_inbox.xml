@@ -23,9 +23,9 @@
             android:layout_height="100dp"
             android:layout_gravity="bottom|center"
             android:layout_margin="@dimen/fab_margin"
-            app:borderWidth="0dp"
             android:scaleType="centerInside"
             android:background="@drawable/brown_circle"
+            app:borderWidth="0dp"
             app:backgroundTint="@color/brown_btn_bg"
             app:srcCompat="@drawable/ic_kolang" />
 

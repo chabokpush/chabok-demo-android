@@ -113,32 +113,32 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
 
     }
 
-    public void updateMessageList(MessageTO message, Map<String, Integer> serverIdPositionMap) {
+    public void updateMessageList(MessageTO message) {
         items.add(0, message);
-        serverIdPositionMap.put(message.getServerId(), items.size() - 1);
         this.notifyDataSetChanged();
     }
 
-    public void updateMessageItem(String myMessageServerId, Map<String, Integer> serverIdPositionMap) {
-        if(serverIdPositionMap != null && serverIdPositionMap.get(myMessageServerId) != null) {
-            int position = items.size() - serverIdPositionMap.get(myMessageServerId) - 1;
+    public void updateMessageItem(String myMessageServerId, Map<String, MessageTO> MessageServerIdMap) {
+        if (MessageServerIdMap != null && MessageServerIdMap.get(myMessageServerId) != null) {
+
+            int position = items.indexOf(MessageServerIdMap.get(myMessageServerId));
             items.get(position).setSendStatus(1);
             this.notifyItemChanged(position);
         }
     }
 
-    public void updateDeliveredCount(Map<String, Integer> serverIdDeliveredCountMap, Map<String, Integer> serverIdPositionMap) {
-        for (String serverId : serverIdDeliveredCountMap.keySet()) {
-            if(serverIdPositionMap != null && serverIdPositionMap.get(serverId) != null) {
-                int position = items.size() - serverIdPositionMap.get(serverId) - 1;
-                items.get(position).setSeenCounter(items.get(position).getSeenCounter() + serverIdDeliveredCountMap.get(serverId));
+    public void updateDeliveredCount(String myMessageServerId, Map<String, MessageTO> MessageServerIdMap) {
+
+            if (MessageServerIdMap != null && MessageServerIdMap.get(myMessageServerId) != null) {
+
+                int position = items.indexOf(MessageServerIdMap.get(myMessageServerId));
+                items.get(position).setSeenCounter(items.get(position).getSeenCounter() + 1);
                 this.notifyItemChanged(position);
             }
-        }
 
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout myMessage;
         TextView messageDate;
