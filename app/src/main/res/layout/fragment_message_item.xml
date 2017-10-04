@@ -69,8 +69,8 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/my_message_send"
                 android:layout_toStartOf="@id/my_message_send"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:gravity="right"
                 android:textColor="@color/chat_date_color"
                 android:textSize="8sp" />
@@ -94,8 +94,8 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/imageView_seen"
                 android:layout_toStartOf="@id/imageView_seen"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:gravity="right"
                 android:textColor="@color/chat_date_color"
                 android:textSize="8sp" />

@@ -1,7 +1,10 @@
 package com.adp.chabok.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
+import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.activity.adapters.CardViewAdapter;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
@@ -26,8 +30,9 @@ import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
+import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adp.chabok.ui.EditText;
-import com.google.android.gms.location.LocationListener;
+import com.adp.chabok.ui.OnCustomListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -73,15 +78,15 @@ public class MessageFragment extends Fragment {
         demoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
+                Location location = ChabokApplication.getInstance().getLocationManger().getLastLocation();
+                if(location != null){
 
-                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
-                                String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
-                        startActivity(i);
-                    }
-                });
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
+                            String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
+                    startActivity(i);
+                }else {
+                    showLocationUnavailable();
+                }
 
 
             }
@@ -118,9 +123,21 @@ public class MessageFragment extends Fragment {
         initializeAdapter();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void showLocationUnavailable() {
+
+        CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(getActivity(), getResources().getString(R.string.location_unavailable));
+        final AlertDialog dialog = dialogBuilder.create();
+        dialogBuilder.setCustomEventListener(new OnCustomListener() {
+            @Override
+            public void onEvent() {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
 
     }

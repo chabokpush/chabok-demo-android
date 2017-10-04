@@ -157,6 +157,8 @@ public class UserInfoFragment extends Fragment {
                         client.setUserInfo(userInfo);
 
                         client.register(userId , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
+//                        client.getLocationManager().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
+                        client.getLocationManager().startTrackingMe(3 * 60 * 60, 10, 0);
 
                         ((IntroActivity) getActivity()).gotToMain();
 

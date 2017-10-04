@@ -69,7 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
             switch (items.get(i).getSendStatus()) {
                 case 0:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_not_sent);
-                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.not_sent));
+                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.sending));
                     break;
                 case 1:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_delivered);
@@ -77,7 +77,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.Messag
                     break;
                 default:
                     messageViewHolder.sendStatus.setImageResource(R.drawable.ic_not_sent);
-                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.not_sent));
+                    messageViewHolder.sendStatusTxt.setText(context.getString(R.string.sending));
                     break;
             }
 

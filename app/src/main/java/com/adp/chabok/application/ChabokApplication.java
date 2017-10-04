@@ -264,13 +264,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         adpPush.enableEventDelivery(EVENT_TREASURE);
         locationManger = adpPush.getLocationManager();
 
-        locationManger.requestSingleLocation(new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("LOCATION PROVIDER: ", location.getProvider());
-                mCurrentLocation = location;
-            }
-        });
+        locationManger.enableLocationOnLaunch();
         locationManger.addListener(this);
 
     }
