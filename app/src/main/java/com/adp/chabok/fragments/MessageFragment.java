@@ -2,6 +2,7 @@ package com.adp.chabok.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
 import com.adp.chabok.ui.EditText;
+import com.google.android.gms.location.LocationListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -66,12 +68,34 @@ public class MessageFragment extends Fragment {
         title.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_LIGHT_FONT));
 
         ImageView demoBtn = fragmentView.findViewById(R.id.map_demo);
+
+
+        ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("LOCATION>>>>>>>>>>>>", location.getProvider());
+
+            }
+        });
+
+
         demoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
+//                    @Override
+//                    public void onLocationChanged(Location location) {
+//                        Log.i("LOCATION>>>>>>>>>>>>", location.getProvider());
 
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo)));
+                Location location = ChabokApplication.getInstance().getmCurrentLocation();
+
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
+                        String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
                 startActivity(i);
+//                    }
+//                });
+
+
             }
         });
 

@@ -11,10 +11,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -30,21 +28,16 @@ import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
 import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adp.chabok.ui.OnCustomListener;
-import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.EventMessage;
 import com.adpdigital.push.location.LocationAccuracy;
-import com.adpdigital.push.location.LocationManager;
-import com.adpdigital.push.location.LocationParams;
-import com.adpdigital.push.location.OnLocationUpdateListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
-public class MainActivity extends AppCompatActivity implements OnLocationUpdateListener {
+public class MainActivity extends AppCompatActivity {
 
     public static final String DISCOVER_FRAGMENT = "discover";
     public static final String REWARD_FRAGMENT = "reward";
@@ -56,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.HIGH;
     private static final int SMALLEST_DISTANCE = 0;
     private static final int INTERVAL = 5000;
-    private static final boolean singleUpdate = true;
-    private static final boolean backgroundEnabled = false;
 
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -65,9 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
 
-    private LocationManager locationManger;
-    private Location mCurrentLocation;
-    private String eventName = "";
     private String currentFragmentTag;
 
 
@@ -76,7 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ChabokApplication.getInstance().getPushClient().addListener(this);
+
         checkPermissions();
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame, new InboxFragment())
@@ -116,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
-        initializeLocationManager();
     }
 
     public void navigateToFragment(String tag, Bundle bundle) {
@@ -201,55 +191,9 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
-            locationManger.resume();
+            ChabokApplication.getInstance().getLocationManger().resume();
         } else {
             finish();
-        }
-    }
-
-    private void initializeLocationManager() {
-        final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
-        client.addListener(this);
-        client.enableEventDelivery(EVENT_TREASURE);
-        locationManger = client.getLocationManager();
-
-        //startLocation();
-        locationManger.enableLocationOnLaunch(this);
-        /*LocationParams locationParams = new LocationParams.Builder()
-                .setAccuracy(LOCATION_ACCURACY)
-                .setDistance(SMALLEST_DISTANCE)
-                .setInterval(INTERVAL).build();
-
-        locationManger.start(this,
-                locationParams,
-                backgroundEnabled, singleUpdate, LocationService.ACTION);*/
-
-    }
-
-    private void updateUI(Location location) {
-        if (location != null) {
-            Log.d(TAG, "updateUI: Provider: " + location.getProvider());
-            //TODO: update ui after location updated
-            if (STATUS_DIGGING.equalsIgnoreCase(eventName)) {
-                Utils.setUserStatus(STATUS_DIGGING, location);
-                eventName = "";
-            }
-        }
-    }
-
-    @Override
-    public void onLocationUpdated(Location location) {
-        mCurrentLocation = location;
-        Log.d(TAG, "onLocationChanged: Longitude: " + mCurrentLocation.getLongitude());
-        updateUI(location);
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnected: called");
-        if (mCurrentLocation == null) {
-            mCurrentLocation = locationManger.getLastLocation();
-            updateUI(mCurrentLocation);
         }
     }
 
@@ -264,23 +208,16 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
             });
         }
     }
-    /*public void onEvent(ConnectionStatus state) {
-        if (state == ConnectionStatus.CONNECTED) {
-            Log.d(TAG, "onEvent: called, connected");
-
-        }
-    }*/
-
 
     public void setUserStatus(String status) {
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
-            //startLocation();
-            if (locationManger.getLocationOnLaunch() != null) {
-                mCurrentLocation = locationManger.getLocationOnLaunch();
-                Utils.setUserStatus(status, mCurrentLocation);
+
+            if (ChabokApplication.getInstance().getLocationManger().getLastLocation() != null) {
+                ChabokApplication.getInstance().setmCurrentLocation(ChabokApplication.getInstance().getLocationManger().getLastLocation());
+                Utils.setUserStatus(status, ChabokApplication.getInstance().getmCurrentLocation());
             } else {
                 showLocationUnavailable();
-                eventName = STATUS_DIGGING;
+                ChabokApplication.getInstance().setEventName(STATUS_DIGGING);
             }
         } else {
             Utils.setUserStatus(status, null);
@@ -298,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
                 dialog.dismiss();
                 getSupportFragmentManager().popBackStack();
             }
-        });        dialog.show();
+        });
+        dialog.show();
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -306,14 +244,13 @@ public class MainActivity extends AppCompatActivity implements OnLocationUpdateL
 
     }
 
-    private void startLocation() {
-        locationManger.start(this,
+    /*private void startLocation() {
+        locationManger.startLocationUpdates(
                 new LocationParams.Builder()
                         .setAccuracy(LOCATION_ACCURACY)
                         .setDistance(SMALLEST_DISTANCE)
-                        .setInterval(INTERVAL).build(),
-                false, true, "");
-    }
+                        .setInterval(INTERVAL).build());
+    }*/
 
     public void showDiggingResult(EventMessage result) {
 

@@ -88,7 +88,7 @@
     <string name="lbl_chabok_about">محصولی از شرکت آتیه‌داده‌پرداز</string>
     <string name="lbl_chabok_phone">021-89678</string>
     <string name="lbl_chabok_url">http://chabokpush.com</string>
-    <string name="lbl_map_demo">http://demo.chabokpush.com/?location=%1$d,%2$d</string>
+    <string name="lbl_map_demo">http://demo.chabokpush.com/?location=%1$s,%2$s</string>
     <string name="lbl_notification_disable">غیر فعال سازی نوتیفیکیشن</string>
     <string name="lbl_chabok_fa">کاپیتان چابک</string>
     <string name="lbl_chabok_en">Capitan Chabok</string>

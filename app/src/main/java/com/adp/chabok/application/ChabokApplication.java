@@ -5,18 +5,23 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.common.Constants;
+import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
@@ -24,10 +29,16 @@ import com.adpdigital.push.ChabokNotification;
 import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
+import com.adpdigital.push.location.LocationManager;
+import com.adpdigital.push.location.OnLocationUpdateListener;
+import com.google.android.gms.location.LocationListener;
 
 import java.util.ArrayList;
 
-public class ChabokApplication extends Application {
+import static com.adp.chabok.common.Constants.EVENT_TREASURE;
+import static com.adp.chabok.common.Constants.STATUS_DIGGING;
+
+public class ChabokApplication extends Application implements OnLocationUpdateListener {
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
@@ -35,6 +46,10 @@ public class ChabokApplication extends Application {
     private int messagesCount = 0;
     private ArrayList<String> lines = new ArrayList<>();
     private SharedPreferences myPref;
+
+    private LocationManager locationManger;
+    private Location mCurrentLocation;
+    private String eventName = "";
 
     public static Context getContext() {
         return instance.getApplicationContext();
@@ -205,6 +220,7 @@ public class ChabokApplication extends Application {
         super.onCreate();
         getPushClient(IntroActivity.class);
         instance = this;
+        initializeLocationManager();
 
     }
 
@@ -216,4 +232,66 @@ public class ChabokApplication extends Application {
         super.onTerminate();
     }
 
+
+
+    @Override
+    public void onLocationUpdated(Location location) {
+        mCurrentLocation = location;
+        updateUserStatus(location);
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        if (mCurrentLocation == null) {
+            mCurrentLocation = locationManger.getLastLocation();
+            updateUserStatus(mCurrentLocation);
+        }
+    }
+
+    private void updateUserStatus(Location location) {
+        if (location != null) {
+            if (STATUS_DIGGING.equalsIgnoreCase(eventName)) {
+                Utils.setUserStatus(STATUS_DIGGING, location);
+                eventName = "";
+            }
+        }
+    }
+
+    private void initializeLocationManager() {
+
+        adpPush.addListener(this);
+        adpPush.enableEventDelivery(EVENT_TREASURE);
+        locationManger = adpPush.getLocationManager();
+
+        locationManger.requestSingleLocation(new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("LOCATION PROVIDER: ", location.getProvider());
+                mCurrentLocation = location;
+            }
+        });
+        locationManger.addListener(this);
+
+    }
+
+    public LocationManager getLocationManger() {
+        return locationManger;
+    }
+
+    public Location getmCurrentLocation() {
+        return mCurrentLocation;
+    }
+
+    public void setmCurrentLocation(Location mCurrentLocation) {
+        this.mCurrentLocation = mCurrentLocation;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
 }
