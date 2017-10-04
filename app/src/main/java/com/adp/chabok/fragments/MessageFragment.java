@@ -70,30 +70,18 @@ public class MessageFragment extends Fragment {
         ImageView demoBtn = fragmentView.findViewById(R.id.map_demo);
 
 
-        ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("LOCATION>>>>>>>>>>>>", location.getProvider());
-
-            }
-        });
-
-
         demoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
-//                    @Override
-//                    public void onLocationChanged(Location location) {
-//                        Log.i("LOCATION>>>>>>>>>>>>", location.getProvider());
+                ChabokApplication.getInstance().getLocationManger().requestSingleLocation(new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
 
-                Location location = ChabokApplication.getInstance().getmCurrentLocation();
-
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
-                        String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
-                startActivity(i);
-//                    }
-//                });
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
+                                String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
+                        startActivity(i);
+                    }
+                });
 
 
             }
