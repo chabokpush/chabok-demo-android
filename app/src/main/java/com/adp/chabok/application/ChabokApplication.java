@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
@@ -31,7 +30,6 @@ import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 import com.adpdigital.push.location.LocationManager;
 import com.adpdigital.push.location.OnLocationUpdateListener;
-import com.google.android.gms.location.LocationListener;
 
 import java.util.ArrayList;
 
@@ -231,7 +229,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         adpPush.dismiss();
         super.onTerminate();
     }
-
 
 
     @Override

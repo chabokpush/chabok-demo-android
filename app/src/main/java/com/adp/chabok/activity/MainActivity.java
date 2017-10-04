@@ -29,7 +29,6 @@ import com.adp.chabok.fragments.RewardFragment;
 import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adp.chabok.ui.OnCustomListener;
 import com.adpdigital.push.EventMessage;
-import com.adpdigital.push.location.LocationAccuracy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,10 +44,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String INBOX_FRAGMENT = "inbox";
     public static final String REWARD_MESSAGE = "reward-message";
     private static final String TAG = "MainActivity";
-
-    private static final LocationAccuracy LOCATION_ACCURACY = LocationAccuracy.HIGH;
-    private static final int SMALLEST_DISTANCE = 0;
-    private static final int INTERVAL = 5000;
 
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -89,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mAccel > 10) {
 
                     if (getFragmentManager().getBackStackEntryCount() == 0 && INBOX_FRAGMENT.equals(currentFragmentTag)) {
-                        if(checkLocationAndSetStatus(STATUS_DIGGING)){
+                        if (checkLocationAndSetStatus(STATUS_DIGGING)) {
 
                             navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
                         }
@@ -193,9 +188,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
-            //ChabokApplication.getInstance().getLocationManger().resume();
-//            ChabokApplication.getInstance().getPushClient().getLocationManager().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
-            ChabokApplication.getInstance().getPushClient().getLocationManager().startTrackingMe(3 * 60 * 60, 10, 0);
+            ChabokApplication.getInstance().getPushClient().getLocationManager().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
 
         } else {
             finish();
