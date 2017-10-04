@@ -46,12 +46,13 @@ public class LocationService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i(TAG + "*****", intent.getAction() + "********");
         boolean result = LocationResult.hasResult(intent);
         LocationResult resultData = LocationResult.extractResult(intent);
         if(resultData != null) {
             Location location = resultData.getLastLocation();
             publishLocation(location);
-            createNotification(location);
+//            createNotification(location);
             Log.d(TAG, "onHandleIntent: onHandle called, result: " + result + "\n"
             + "lat: " + location.getLatitude() + " , lon: " + location.getLongitude());
         }

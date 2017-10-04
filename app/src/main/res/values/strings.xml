@@ -41,6 +41,7 @@
     <string name="do_notify">اطلاع از پیام‌های جدید</string>
     <string name="sent">ارسال شد</string>
     <string name="not_sent">خطا در ارسال</string>
+    <string name="sending">در حال ارسال</string>
     <string name="delivered">تحویل داده شد</string>
 
     //----hints

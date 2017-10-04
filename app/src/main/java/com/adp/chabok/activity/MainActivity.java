@@ -88,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mAccel > 10) {
 
-                    if (getFragmentManager().getBackStackEntryCount() == 0 && !DISCOVER_FRAGMENT.equals(currentFragmentTag)) {
-                        navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-                        setUserStatus(STATUS_DIGGING);
+                    if (getFragmentManager().getBackStackEntryCount() == 0 && INBOX_FRAGMENT.equals(currentFragmentTag)) {
+                        if(checkLocationAndSetStatus(STATUS_DIGGING)){
+
+                            navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                        }
 
                     }
 
@@ -209,10 +211,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setUserStatus(String status) {
+    public boolean checkLocationAndSetStatus(String status) {
+        boolean isLocationAvailable = false;
+
         if (STATUS_DIGGING.equalsIgnoreCase(status)) {
 
             if (ChabokApplication.getInstance().getLocationManger().getLastLocation() != null) {
+                isLocationAvailable = true;
                 ChabokApplication.getInstance().setmCurrentLocation(ChabokApplication.getInstance().getLocationManger().getLastLocation());
                 Utils.setUserStatus(status, ChabokApplication.getInstance().getmCurrentLocation());
             } else {
@@ -222,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Utils.setUserStatus(status, null);
         }
-
+        return isLocationAvailable;
     }
 
     private void showLocationUnavailable() {

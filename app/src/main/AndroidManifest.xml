@@ -77,7 +77,7 @@
 
         <service android:enabled="true" android:name=".service.LocationService" >
             <intent-filter>
-                <action android:name="com.adp.chabok.intent.action.PENDING_INTENT_SERVICE" />
+                <action android:name="com.adpdigital.push.intent.action.PENDING_INTENT_SERVICE" />
             </intent-filter>
         </service>
     </application>

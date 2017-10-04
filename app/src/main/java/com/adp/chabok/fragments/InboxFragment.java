@@ -61,8 +61,10 @@ public class InboxFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(Utils.isNetworkAvailable(getActivity())) {
-                    ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
-                    ((MainActivity) getActivity()).setUserStatus(STATUS_DIGGING);
+                    if(((MainActivity) getActivity()).checkLocationAndSetStatus(STATUS_DIGGING)){
+
+                        ((MainActivity) getActivity()).navigateToFragment(MainActivity.DISCOVER_FRAGMENT, null);
+                    }
                 } else {
                     Snackbar.make(view, R.string.internet_error_desc, Snackbar.LENGTH_LONG).show();
                 }
@@ -122,12 +124,11 @@ public class InboxFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.CAPTAIN_MESSAGE_RECEIVED);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
-
     }
 
     @Override
