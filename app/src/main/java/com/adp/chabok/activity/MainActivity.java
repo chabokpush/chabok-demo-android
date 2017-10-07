@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ChabokApplication.getInstance().getPushClient().addListener(this);
+        ChabokApplication.getInstance().initializeLocationManager();
 
         checkPermissions();
 
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
 //            ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
-            ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 5 * 60, 60, 1);
+            ChabokApplication.getInstance().getLocationManger().startTrackingMe(2 * 60, 10, 0);
 
         } else {
             finish();

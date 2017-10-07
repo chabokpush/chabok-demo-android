@@ -225,7 +225,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         instance = this;
         adpPush.addListener(this);
         adpPush.enableEventDelivery(EVENT_TREASURE);
-        initializeLocationManager();
 
     }
 
@@ -262,10 +261,9 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         }
     }
 
-    private void initializeLocationManager() {
+    public void initializeLocationManager() {
 
         locationManger = LocationManager.init(getContext());
-
         locationManger.addListener(this);
     }
 

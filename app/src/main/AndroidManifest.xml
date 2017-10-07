@@ -75,11 +75,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
 
-        <service android:enabled="true" android:name=".service.LocationService" >
-            <intent-filter>
-                <action android:name="com.adpdigital.push.intent.action.PENDING_INTENT_SERVICE" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
