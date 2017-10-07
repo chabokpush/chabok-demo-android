@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             Log.d(TAG, "checkPermissions: permissions already granted");
+            ChabokApplication.getInstance().getLocationManger().enableLocationOnLaunch();
         }
     }
 

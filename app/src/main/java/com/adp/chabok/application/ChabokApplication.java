@@ -266,9 +266,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
         locationManger = LocationManager.init(getContext());
 
-//        locationManger.enableLocationOnLaunch();
         locationManger.addListener(this);
-
     }
 
     public LocationManager getLocationManger() {
