@@ -15,7 +15,6 @@ public interface Constants {
     String APPLICATION_MEDIUM_FONT = "fonts/iransans_medium.ttf";
     String APPLICATION_LIGHT_FONT = "fonts/iransans_light.ttf";
     String APPLICATION_NORMAL_FONT = "fonts/iransans.ttf";
-    String PREFERENCE_EMAIL_ADD = "email_add";
     String PREFERENCE_CONTACT_INFO = "contact_info";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_OFF_NOTIFY = "notify";

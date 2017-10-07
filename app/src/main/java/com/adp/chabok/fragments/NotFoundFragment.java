@@ -28,6 +28,7 @@ public class NotFoundFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity)getActivity()).setCurrentFragmentTag(MainActivity.INBOX_FRAGMENT);
                 getActivity().getSupportFragmentManager().popBackStack();
 
             }

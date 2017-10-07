@@ -42,4 +42,34 @@ public class EditText extends android.support.v7.widget.AppCompatEditText {
         return super.onKeyPreIme(keyCode, event);
     }
 
+
+    public void setText(CharSequence text, BufferType type) {
+
+        text = uniform(text.toString());
+        super.setText(text, type);
+
+    }
+
+
+    private String uniform(String input) {
+
+        String uniformConverted = input;
+
+        uniformConverted = uniformConverted
+                .replace("۰", "0")
+                .replace("۱", "1")
+                .replace("۲", "2")
+                .replace("۳", "3")
+                .replace("۴", "4")
+                .replace("۵", "5")
+                .replace("۶", "6")
+                .replace("۷", "7")
+                .replace("۸", "8")
+                .replace("۹", "9");
+
+
+        return uniformConverted;
+
+    }
+
 }

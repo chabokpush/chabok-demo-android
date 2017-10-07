@@ -18,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
+import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.Utils;
@@ -91,7 +92,11 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                 @Override
                 public Class getActivityClass(ChabokNotification chabokNotification) {
-                    return WallActivity.class;
+                    if (chabokNotification.getMessage() != null && chabokNotification.getMessage().getTopicName() != null) {
+                        String topic = chabokNotification.getMessage().getTopicName();
+                        return topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME) ? MainActivity.class : WallActivity.class;
+                    } else return WallActivity.class;
+
                 }
 
 
@@ -104,7 +109,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                         lines.add(pushMessage.getBody());
 
                         if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
-                            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_EMAIL_ADD, ""))) {   // it's users own message
+                            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {   // it's users own message
                                 return false;
                             } else {
                                 if (!pushMessage.getSenderId().trim().equals("")) {  // it's  from users and have proper sender name
@@ -218,6 +223,8 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         super.onCreate();
         getPushClient(IntroActivity.class);
         instance = this;
+        adpPush.addListener(this);
+        adpPush.enableEventDelivery(EVENT_TREASURE);
         initializeLocationManager();
 
     }
@@ -257,11 +264,9 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
     private void initializeLocationManager() {
 
-        adpPush.addListener(this);
-        adpPush.enableEventDelivery(EVENT_TREASURE);
-        locationManger = adpPush.getLocationManager();
+        locationManger = LocationManager.init(getContext());
 
-        //locationManger.enableLocationOnLaunch();
+//        locationManger.enableLocationOnLaunch();
         locationManger.addListener(this);
 
     }

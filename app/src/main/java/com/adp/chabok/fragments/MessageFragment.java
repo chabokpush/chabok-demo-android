@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.activity.adapters.CardViewAdapter;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;

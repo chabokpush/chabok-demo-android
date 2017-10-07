@@ -169,6 +169,18 @@ public class MainActivity extends AppCompatActivity {
         mSensorManager.unregisterListener(mSensorListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        currentFragmentTag = INBOX_FRAGMENT;
+    }
+
+
+    public void setCurrentFragmentTag(String currentFragmentTag) {
+        this.currentFragmentTag = currentFragmentTag;
+    }
+
+
     private void checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -188,7 +200,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
-            ChabokApplication.getInstance().getPushClient().getLocationManager().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
+//            ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
+            ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 5 * 60, 60, 1);
 
         } else {
             finish();
@@ -245,17 +258,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*private void startLocation() {
-        locationManger.startLocationUpdates(
-                new LocationParams.Builder()
-                        .setAccuracy(LOCATION_ACCURACY)
-                        .setDistance(SMALLEST_DISTANCE)
-                        .setInterval(INTERVAL).build());
-    }*/
-
     public void showDiggingResult(EventMessage result) {
 
-        getSupportFragmentManager().popBackStack();
+        if (!INBOX_FRAGMENT.equals(currentFragmentTag)) {
+            getSupportFragmentManager().popBackStack();
+        }
+
         if (result != null) {
             try {
                 JSONObject data = result.getData();
