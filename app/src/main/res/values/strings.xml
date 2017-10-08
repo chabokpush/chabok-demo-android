@@ -137,6 +137,7 @@
     <string name="attention">توجه</string>
     <string name="location_unavailable">در حال حاضر سرویس مکان‌یابی قابل دسترس نیست.</string>
     <string name="internet_error_desc">اتصال به اینترنت را بررسی کرده \n و دوباره تلاش کنید</string>
+    <string name="should_allow">برای استفاده از قابلیت‌های این برنامه بایستی اجازه دسترسی به مکان را فعال نمایید.</string>
 
 
 </resources>
