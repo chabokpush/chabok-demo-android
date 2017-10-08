@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layoutDirection="ltr"
     tools:context="com.adp.chabok.activity.IntroActivity"
     tools:showIn="@layout/activity_intro">
 

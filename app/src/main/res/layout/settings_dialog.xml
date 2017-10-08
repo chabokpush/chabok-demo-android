@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:gravity="center"
+    android:layoutDirection="ltr"
     android:orientation="vertical">
 
 

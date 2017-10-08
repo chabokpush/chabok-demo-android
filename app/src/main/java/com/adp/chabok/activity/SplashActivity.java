@@ -22,10 +22,6 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
 
-        Typeface mediumTypeface = Typeface.createFromAsset(getAssets(), Constants.APPLICATION_MEDIUM_FONT);
-        TextView designedBy = findViewById(R.id.designed_by);
-        designedBy.setTypeface(mediumTypeface);
-
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
 
