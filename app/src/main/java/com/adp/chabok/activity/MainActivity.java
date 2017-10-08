@@ -205,7 +205,23 @@ public class MainActivity extends AppCompatActivity {
             ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 50);
 
         } else {
-            finish();
+            showShouldAllowDialog();
+        }
+    }
+
+    private void showShouldAllowDialog() {
+        CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(MainActivity.this, getResources().getString(R.string.should_allow));
+        final AlertDialog dialog = dialogBuilder.create();
+        dialogBuilder.setCustomEventListener(new OnCustomListener() {
+            @Override
+            public void onEvent() {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 
