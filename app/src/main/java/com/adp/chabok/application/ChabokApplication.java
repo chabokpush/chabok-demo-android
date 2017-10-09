@@ -1,7 +1,9 @@
 package com.adp.chabok.application;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +36,8 @@ import com.adpdigital.push.location.OnLocationUpdateListener;
 
 import java.util.ArrayList;
 
+import static com.adp.chabok.common.Constants.CAPTAIN_CHANNEL_NAME;
+import static com.adp.chabok.common.Constants.CHANNEL_NAME;
 import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
@@ -44,6 +48,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private AdpPushClient adpPush = null;
     private int messagesCount = 0;
     private ArrayList<String> lines = new ArrayList<>();
+    private boolean buildNotification = true;
     private SharedPreferences myPref;
 
     private LocationManager locationManger;
@@ -84,7 +89,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                 myPref = PreferenceManager.getDefaultSharedPreferences(this);
                 String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
                 if (!"".equals(clientNo)) {
-                    adpPush.register(clientNo, new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
+                    adpPush.register(clientNo, new String[]{CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
                 }
             }
 
@@ -100,73 +105,37 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                 }
 
 
+                @SuppressWarnings("SimplifiableIfStatement")
                 @Override
                 public boolean buildNotification(ChabokNotification chabokNotification, NotificationCompat.Builder builder) {
 
                     PushMessage pushMessage = chabokNotification.getMessage();
 
                     if (pushMessage != null) {
-                        lines.add(pushMessage.getBody());
 
-                        if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
-                            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {   // it's users own message
-                                return false;
-                            } else {
-                                if (!pushMessage.getSenderId().trim().equals("")) {  // it's  from users and have proper sender name
 
-                                    builder.setTicker(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
-                                    builder.setContentText(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
-                                }
-                            }
+                        ActivityManager am = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
 
-                        } else {   //it's from server
+                        if ((pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME) && cn.getClassName().equals(MainActivity.class.getName())) ||
+                                (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()))) {
+                            buildNotification = false;
 
-                            builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
-                            builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
-
+                        } else {
+                            buildNotification = decideAndBuildNotifications(pushMessage, builder);
                         }
+
+
                     } else {
                         lines.add(chabokNotification.getText());
+
                     }
 
-                    NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
-                    messagesCount++;
-                    builder.setSmallIcon(getNotificationIcon());
-
-                    if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
-                        if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
-                            mNotificationManager.cancelAll();
-                        }
-                        builder.setGroup(NOTIFICATION_GROUP_KEY);
-                        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
-                                .setSummaryText(messagesCount + " new messages")
-                                .setBigContentTitle(getString(R.string.app_name));
-                        int count = 0;
-                        for (int i = lines.size() - 1; i >= 0 && count < 5; i--) {
-                            inboxStyle.addLine(lines.get(i));
-                            count++;
-                        }
-                        builder.setContentTitle(getString(R.string.app_name))
-                                .setContentText(messagesCount + " new messages")
-                                .setStyle(inboxStyle)
-                                .setNumber(messagesCount)
-                                .setGroupSummary(true);
-                        Notification notification = builder.build();
-                        mNotificationManager.notify(SUMMARY_NOTIFICATION_LIMIT + 1, notification);
-
-                    } else {
-                        Notification notification = builder.build();
-                        mNotificationManager.notify(messagesCount + 1, notification);
+                    if (buildNotification) {
+                        compactNotifications(builder);
                     }
 
-
-                    if (getApplicationContext() instanceof WallActivity) {
-                        ring();
-                        return false;    // user in message tab
-                    }
-
-                    return false;
-
+                    return buildNotification;
                 }
             };
             adpPush.addNotificationHandler(nh);
@@ -177,6 +146,64 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         }
 
         return adpPush;
+    }
+
+    private boolean decideAndBuildNotifications(PushMessage pushMessage, NotificationCompat.Builder builder) {
+        lines.add(pushMessage.getBody());
+
+        if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
+
+            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {   // it's users own message
+                return false;
+
+            } else if (!pushMessage.getSenderId().trim().equals("")) {  // it's from users and have proper sender name
+
+                builder.setTicker(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
+                builder.setContentText(pushMessage.getData().optString(Constants.KEY_NAME) + ": " + pushMessage.getBody());
+
+            }
+
+        } else {   //it's from server
+
+            builder.setTicker(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
+            builder.setContentText(getResources().getString(R.string.app_name) + ": " + pushMessage.getBody());
+
+        }
+
+        return true;
+    }
+
+
+    private void compactNotifications(NotificationCompat.Builder builder) {
+        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
+        messagesCount++;
+        builder.setSmallIcon(getNotificationIcon());
+
+        if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
+            if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
+                mNotificationManager.cancelAll();
+            }
+            builder.setGroup(NOTIFICATION_GROUP_KEY);
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
+                    .setSummaryText(messagesCount + " new messages")
+                    .setBigContentTitle(getString(R.string.app_name));
+            int count = 0;
+            for (int i = lines.size() - 1; i >= 0 && count < 10; i--) {
+                inboxStyle.addLine(lines.get(i));
+                count++;
+            }
+            builder.setContentTitle(getString(R.string.app_name))
+                    .setContentText(messagesCount + " new messages")
+                    .setStyle(inboxStyle)
+                    .setNumber(messagesCount)
+                    .setGroupSummary(true);
+            Notification notification = builder.build();
+            mNotificationManager.notify(SUMMARY_NOTIFICATION_LIMIT + 1, notification);
+
+        } else {
+            Notification notification = builder.build();
+            mNotificationManager.notify(messagesCount + 1, notification);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -277,10 +304,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
     public void setmCurrentLocation(Location mCurrentLocation) {
         this.mCurrentLocation = mCurrentLocation;
-    }
-
-    public String getEventName() {
-        return eventName;
     }
 
     public void setEventName(String eventName) {
