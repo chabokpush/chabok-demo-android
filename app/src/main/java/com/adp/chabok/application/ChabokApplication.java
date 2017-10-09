@@ -8,15 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
@@ -55,13 +54,24 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private Location mCurrentLocation;
     private String eventName = "";
 
+    private Handler handler = new Handler();
+    private NotificationCompat.Builder compactBuilder;
+
     public static Context getContext() {
         return instance.getApplicationContext();
     }
 
-
     public static ChabokApplication getInstance() {
         return instance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        getPushClient(IntroActivity.class);
+        instance = this;
+        adpPush.addListener(this);
+        adpPush.enableEventDelivery(EVENT_TREASURE);
     }
 
     public void clearMessages() {
@@ -107,7 +117,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                 @SuppressWarnings("SimplifiableIfStatement")
                 @Override
-                public boolean buildNotification(ChabokNotification chabokNotification, NotificationCompat.Builder builder) {
+                public boolean buildNotification(ChabokNotification chabokNotification, final NotificationCompat.Builder builder) {
 
                     PushMessage pushMessage = chabokNotification.getMessage();
 
@@ -131,11 +141,18 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                     }
 
-                    if (buildNotification) {
-                        compactNotifications(builder);
-                    }
+                    compactBuilder = builder;
+                    final int delay = 1000;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (buildNotification && compactBuilder != null) {
+                                compactNotifications();
+                            }
+                        }
+                    }, delay);
 
-                    return buildNotification;
+                    return false;
                 }
             };
             adpPush.addNotificationHandler(nh);
@@ -149,7 +166,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     }
 
     private boolean decideAndBuildNotifications(PushMessage pushMessage, NotificationCompat.Builder builder) {
-        lines.add(pushMessage.getBody());
 
         if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
 
@@ -170,38 +186,40 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
         }
 
+        lines.add(pushMessage.getBody());
         return true;
     }
 
 
-    private void compactNotifications(NotificationCompat.Builder builder) {
+    private void compactNotifications() {
+        Log.i("compactNotifications ", "*************");
         NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
         messagesCount++;
-        builder.setSmallIcon(getNotificationIcon());
+        compactBuilder.setSmallIcon(getNotificationIcon());
 
         if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
             if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
                 mNotificationManager.cancelAll();
             }
-            builder.setGroup(NOTIFICATION_GROUP_KEY);
+            compactBuilder.setGroup(NOTIFICATION_GROUP_KEY);
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
                     .setSummaryText(messagesCount + " new messages")
                     .setBigContentTitle(getString(R.string.app_name));
             int count = 0;
-            for (int i = lines.size() - 1; i >= 0 && count < 10; i--) {
+            for (int i = lines.size() - 1; i >= 0 && count < 5; i--) {
                 inboxStyle.addLine(lines.get(i));
                 count++;
             }
-            builder.setContentTitle(getString(R.string.app_name))
+            compactBuilder.setContentTitle(getString(R.string.app_name))
                     .setContentText(messagesCount + " new messages")
                     .setStyle(inboxStyle)
                     .setNumber(messagesCount)
                     .setGroupSummary(true);
-            Notification notification = builder.build();
+            Notification notification = compactBuilder.build();
             mNotificationManager.notify(SUMMARY_NOTIFICATION_LIMIT + 1, notification);
 
         } else {
-            Notification notification = builder.build();
+            Notification notification = compactBuilder.build();
             mNotificationManager.notify(messagesCount + 1, notification);
         }
     }
@@ -229,30 +247,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
             throw new IllegalStateException("Adp Push Client not initialized");
         }
         return adpPush;
-    }
-
-
-    private void ring() {
-
-        try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        getPushClient(IntroActivity.class);
-        instance = this;
-        adpPush.addListener(this);
-        adpPush.enableEventDelivery(EVENT_TREASURE);
-
     }
 
 
