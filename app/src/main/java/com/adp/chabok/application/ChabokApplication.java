@@ -35,6 +35,7 @@ import com.adpdigital.push.location.OnLocationUpdateListener;
 
 import java.util.ArrayList;
 
+import static android.support.v4.app.NotificationCompat.GROUP_ALERT_SUMMARY;
 import static com.adp.chabok.common.Constants.CAPTAIN_CHANNEL_NAME;
 import static com.adp.chabok.common.Constants.CHANNEL_NAME;
 import static com.adp.chabok.common.Constants.EVENT_TREASURE;
@@ -45,7 +46,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
     private AdpPushClient adpPush = null;
-    private int messagesCount = 0;
     private ArrayList<String> lines = new ArrayList<>();
     private boolean buildNotification = true;
     private SharedPreferences myPref;
@@ -55,6 +55,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private String eventName = "";
 
     private Handler handler = new Handler();
+    private boolean handlerHasTask = false;
     private NotificationCompat.Builder compactBuilder;
 
     public static Context getContext() {
@@ -76,7 +77,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
     public void clearMessages() {
         lines.clear();
-        this.messagesCount = 0;
     }
 
     public synchronized AdpPushClient getPushClient(Class activityClass) {
@@ -123,11 +123,11 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                     if (pushMessage != null) {
 
-
                         ActivityManager am = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
                         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
 
-                        if ((pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME) && cn.getClassName().equals(MainActivity.class.getName())) ||
+                        if ((pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME) && cn.getClassName().equals(MainActivity.class.getName()) &&
+                                MainActivity.INBOX_FRAGMENT.equals(MainActivity.currentFragmentTag)) ||
                                 (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()))) {
                             buildNotification = false;
 
@@ -142,14 +142,17 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                     }
 
                     compactBuilder = builder;
-                    final int delay = 1000;
+                    final int delay = 2000;
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (buildNotification && compactBuilder != null) {
+                            if (!handlerHasTask && lines.size() > 0 && buildNotification && compactBuilder != null) {
+                                Log.i("handlerPostDelayed ", "<<<<<<<<<<<<<<<<<<<");
+                                handlerHasTask = true;
                                 compactNotifications();
                             }
                         }
+
                     }, delay);
 
                     return false;
@@ -194,13 +197,16 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private void compactNotifications() {
         Log.i("compactNotifications ", "*************");
         NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
-        messagesCount++;
         compactBuilder.setSmallIcon(getNotificationIcon());
 
+        int messagesCount = lines.size();
+        Log.i("messagesCount ****** ", String.valueOf(messagesCount) + " ******");
+
         if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
-            if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
-                mNotificationManager.cancelAll();
-            }
+
+//            if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
+//                mNotificationManager.cancelAll();
+//            }
             compactBuilder.setGroup(NOTIFICATION_GROUP_KEY);
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
                     .setSummaryText(messagesCount + " new messages")
@@ -214,14 +220,24 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                     .setContentText(messagesCount + " new messages")
                     .setStyle(inboxStyle)
                     .setNumber(messagesCount)
-                    .setGroupSummary(true);
+                    .setGroupSummary(true)
+                    .setGroupAlertBehavior(GROUP_ALERT_SUMMARY);
+
             Notification notification = compactBuilder.build();
-            mNotificationManager.notify(SUMMARY_NOTIFICATION_LIMIT + 1, notification);
+            mNotificationManager.notify(messagesCount, notification);
+
+            Log.i("mManager.notify ", "GROUP_ALERT_SUMMARY");
 
         } else {
+
             Notification notification = compactBuilder.build();
-            mNotificationManager.notify(messagesCount + 1, notification);
+            mNotificationManager.notify(messagesCount, notification);
+
+            Log.i("mManager.notify ", "GROUP_ALERT_ALL");
         }
+
+        clearMessages();
+        handlerHasTask = false;
     }
 
     @SuppressWarnings("unused")

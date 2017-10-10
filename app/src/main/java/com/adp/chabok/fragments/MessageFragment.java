@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
+import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.activity.adapters.CardViewAdapter;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
@@ -29,6 +30,7 @@ import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adp.chabok.data.models.MessageTO;
+import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adp.chabok.ui.EditText;
 import com.adp.chabok.ui.OnCustomListener;
@@ -78,16 +80,24 @@ public class MessageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Location location = ChabokApplication.getInstance().getLocationManger().getLastLocation();
-                if(location != null){
+                if (location != null) {
 
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.lbl_map_demo,
                             String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()))));
                     startActivity(i);
-                }else {
+                } else {
                     showLocationUnavailable();
                 }
 
 
+            }
+        });
+
+        Button doneBtn = fragmentView.findViewById(R.id.doneButton);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((WallActivity) getActivity()).sendMessage(view);
             }
         });
 

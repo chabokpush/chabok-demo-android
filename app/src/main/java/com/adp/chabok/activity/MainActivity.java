@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
 
-    private String currentFragmentTag;
+    public static String currentFragmentTag = INBOX_FRAGMENT;
 
 
     @Override
