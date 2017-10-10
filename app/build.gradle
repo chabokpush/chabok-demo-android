@@ -39,8 +39,8 @@ dependencies {
     compile "me.leolin:ShortcutBadger:$rootProject.shortcutBadgerVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     //compile "com.adpdigital.push:chabok-lib:$rootProject.chabokVersion"
-    compile(name: 'chabok-lib-2.8.2-rc1', ext: 'aar')
-    compile(name: 'chabok-lib-geo-2.8.1', ext: 'aar')
+    compile(name: 'chabok-lib-2.8.3', ext: 'aar')
+    compile(name: 'chabok-lib-geo-2.8.3', ext: 'aar')
     compile "com.kyleduo.switchbutton:library:$rootProject.switchbuttonLibrary"
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 

@@ -28,13 +28,13 @@
         android:textAlignment="center"
         android:textColor="@color/msg_color"
         android:background="@android:color/transparent"
-        android:textSize="24sp"/>
+        android:textSize="20sp"/>
 
     <com.adp.chabok.ui.Button
         android:id="@+id/ok_btn"
         android:layout_width="163dp"
         android:layout_height="63dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="30dp"
         android:textAlignment="center"
         android:gravity="center"
         android:text="@string/action_yeah"

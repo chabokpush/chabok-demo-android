@@ -75,7 +75,7 @@
     <string name="msg_plz_wait">لطفاً کمی صبر نمایید</string>
     <string name="msg_app_exit_confirm">آیا مایلید که از برنامه خارج شوید؟</string>
     <string name="msg_reward">%1$s</string>
-    <string name="msg_not_found">باید بیشتر کاوش کنیم.این طرفا خبری از گنج نیست!</string>
+    <string name="msg_not_found">باید بیشتر کاوش کنیم این اطراف خبری از گنج نیست، بیشتر در محوطه بچرخ و منتظر راهنمایی‌های ما باش!</string>
 
 
     //----labels
@@ -85,7 +85,7 @@
     <string name="lbl_mobile">شماره موبایل</string>
     <string name="lbl_adp_copy_right">طراحی و اجرا از آتیه داده پرداز</string>
     <string name="lbl_app_description">راهکاری برای ارتباط پیشرفته با کاربران</string>
-    <string name="lbl_chabok_address">تهران، خیابان ملاصدرا، خیابان شیرازی شمالی، خیابان حکیم اعظم، پلاک ۱۹</string>
+    <string name="lbl_chabok_address">میدان ونک، خیابان ملاصدرا، خیابان شیرازی شمالی، خیابان حکیم اعظم، پلاک ۱۹</string>
     <string name="lbl_chabok_about">محصولی از شرکت آتیه‌داده‌پرداز</string>
     <string name="lbl_chabok_phone">021-89678</string>
     <string name="lbl_chabok_url">http://chabokpush.com</string>
@@ -93,8 +93,8 @@
     <string name="lbl_notification_disable">غیر فعال سازی نوتیفیکیشن</string>
     <string name="lbl_chabok_fa">کاپیتان چابک</string>
     <string name="lbl_chabok_en">Capitan Chabok</string>
-    <string name="lbl_description">کاپیتان چابک، از یه نقشه خیلی قدیمی فهمیدیم کلی گنج زیر خاک این منطقه دفن شده.
- \n باید قبل از اینکه کسی پیداش کنه با کمک هم از زیر این خاک بیرون بیاریمش.</string>
+    <string name="lbl_description">از یک نقشه گنج قدیمی فهمیدیم که کلی گنج زیر خاک این منطقه دفن شده، تو میتونی با زدن کلنگ در محوطه نمایشگاه شانست رو امتحان کنی.
+ \n با توجه به قوانین این بازی، تعامل بیشتر و  راهنمایی ما برای پیدا کردن گنج، محل جغرافیایی شما برای ما و سایر کاربران این بازی قابل مشاهده خواهد بود.</string>
 
 
     //-------actions

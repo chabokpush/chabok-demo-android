@@ -16,11 +16,18 @@ import com.adp.chabok.ui.Button;
 
 public class NotFoundFragment extends Fragment {
 
+    private View view;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_not_found, container, false);
+        view = inflater.inflate(R.layout.fragment_not_found, container, false);
 
+        initView();
+        return view;
+    }
+
+    private void initView() {
         TextView msg = view.findViewById(R.id.not_found_msg);
         msg.setTypeface(Typeface.createFromAsset(getContext().getAssets(), Constants.APPLICATION_MEDIUM_FONT));
 
@@ -28,13 +35,12 @@ public class NotFoundFragment extends Fragment {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).setCurrentFragmentTag(MainActivity.INBOX_FRAGMENT);
+                MainActivity.currentFragmentTag = MainActivity.INBOX_FRAGMENT;
                 getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });
 
-        return view;
     }
 
 }

@@ -44,15 +44,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String INBOX_FRAGMENT = "inbox";
     public static final String REWARD_MESSAGE = "reward-message";
     private static final String TAG = "MainActivity";
-
+    public static String currentFragmentTag = INBOX_FRAGMENT;
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
-
-    public static String currentFragmentTag = INBOX_FRAGMENT;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,12 +173,6 @@ public class MainActivity extends AppCompatActivity {
         currentFragmentTag = INBOX_FRAGMENT;
     }
 
-
-    public void setCurrentFragmentTag(String currentFragmentTag) {
-        this.currentFragmentTag = currentFragmentTag;
-    }
-
-
     private void checkPermissions() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -225,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("unused")
     public void onEvent(final EventMessage message) {
         if (message != null && !this.isFinishing()) {
             runOnUiThread(new Runnable() {

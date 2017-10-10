@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -32,8 +36,10 @@ import com.adpdigital.push.NotificationHandler;
 import com.adpdigital.push.PushMessage;
 import com.adpdigital.push.location.LocationManager;
 import com.adpdigital.push.location.OnLocationUpdateListener;
+import com.google.android.gms.common.ConnectionResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.support.v4.app.NotificationCompat.GROUP_ALERT_SUMMARY;
 import static com.adp.chabok.common.Constants.CAPTAIN_CHANNEL_NAME;
@@ -114,8 +120,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                 }
 
-
-                @SuppressWarnings("SimplifiableIfStatement")
                 @Override
                 public boolean buildNotification(ChabokNotification chabokNotification, final NotificationCompat.Builder builder) {
 
@@ -123,18 +127,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                     if (pushMessage != null) {
 
-                        ActivityManager am = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
-                        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
-
-                        if ((pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME) && cn.getClassName().equals(MainActivity.class.getName()) &&
-                                MainActivity.INBOX_FRAGMENT.equals(MainActivity.currentFragmentTag)) ||
-                                (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()))) {
-                            buildNotification = false;
-
-                        } else {
-                            buildNotification = decideAndBuildNotifications(pushMessage, builder);
-                        }
-
+                        buildNotification = !messageIsForCurrentActivity(pushMessage) && decideAndBuildNotifications(pushMessage, builder);
 
                     } else {
                         lines.add(chabokNotification.getText());
@@ -168,6 +161,25 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         return adpPush;
     }
 
+    private boolean messageIsForCurrentActivity(PushMessage pushMessage) {
+
+        ActivityManager am = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.AppTask> tasks;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            tasks = am.getAppTasks();
+            ComponentName cn = tasks.size() > 0 ? tasks.get(0).getTaskInfo().topActivity : null;
+
+            if (cn != null) {
+                return (pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME)
+                        && cn.getClassName().equals(MainActivity.class.getName())
+                        && MainActivity.INBOX_FRAGMENT.equals(MainActivity.currentFragmentTag))
+                        || (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()));
+            }
+        }
+
+        return false;
+    }
+
     private boolean decideAndBuildNotifications(PushMessage pushMessage, NotificationCompat.Builder builder) {
 
         if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
@@ -195,7 +207,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
 
     private void compactNotifications() {
-        Log.i("compactNotifications ", "*************");
+
         NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
         compactBuilder.setSmallIcon(getNotificationIcon());
 
@@ -204,9 +216,8 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
         if (messagesCount > SUMMARY_NOTIFICATION_LIMIT) {
 
-//            if (messagesCount == (SUMMARY_NOTIFICATION_LIMIT + 1)) {
-//                mNotificationManager.cancelAll();
-//            }
+            mNotificationManager.cancelAll();
+
             compactBuilder.setGroup(NOTIFICATION_GROUP_KEY);
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
                     .setSummaryText(messagesCount + " new messages")
@@ -226,18 +237,28 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
             Notification notification = compactBuilder.build();
             mNotificationManager.notify(messagesCount, notification);
 
-            Log.i("mManager.notify ", "GROUP_ALERT_SUMMARY");
-
         } else {
 
             Notification notification = compactBuilder.build();
             mNotificationManager.notify(messagesCount, notification);
-
-            Log.i("mManager.notify ", "GROUP_ALERT_ALL");
         }
 
+        ring();
         clearMessages();
         handlerHasTask = false;
+    }
+
+
+    private void ring() {
+
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @SuppressWarnings("unused")
@@ -273,7 +294,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         super.onTerminate();
     }
 
-
     @Override
     public void onLocationUpdated(Location location) {
         mCurrentLocation = location;
@@ -287,6 +307,21 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
             mCurrentLocation = locationManger.getLastLocation();
             updateUserStatus(mCurrentLocation);
         }
+    }
+
+    @Override
+    public void onSuspended() {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onGeofencesRegisteredSuccessful() {
+
     }
 
     private void updateUserStatus(Location location) {

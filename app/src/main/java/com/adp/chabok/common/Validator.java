@@ -26,7 +26,7 @@ public class Validator {
     );
 
     public static final Pattern IRAN_MOBILE_PATTERN = Pattern.compile(
-            "^(09|9)[0-9]{9}"
+            "^(989|09|9)[0-9]{9}"
     );
 
     public static AlertDialog dialog;
@@ -94,7 +94,7 @@ public class Validator {
             phoneNo = phoneNo.substring(1);
             return createUserId(phoneNo);
         }
-        return "98".concat(phoneNo);
+        return phoneNo.startsWith("989")? phoneNo : "98".concat(phoneNo);
 
     }
 

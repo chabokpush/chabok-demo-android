@@ -67,7 +67,7 @@
                     android:gravity="center"
                     android:hint="@string/contact_info"
                     android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="12"
                     android:maxLines="1"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
