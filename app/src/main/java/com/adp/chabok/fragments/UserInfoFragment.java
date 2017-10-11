@@ -75,7 +75,7 @@ public class UserInfoFragment extends Fragment {
 
                 if (!isLogoZeroScaled) {
                     avatar.startAnimation(scaleAnimation);
-                    registerLayout.animate().translationY(-avatar.getHeight()).setDuration(1200);
+                    registerLayout.animate().translationY(-(avatar.getHeight() + 25)).setDuration(1200);
                     isLogoZeroScaled = true;
 
                 }

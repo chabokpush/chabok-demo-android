@@ -6,13 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.common.Constants;
-import com.adp.chabok.ui.Button;
 
 
 public class ChabokStartFragment extends Fragment {
@@ -29,7 +29,7 @@ public class ChabokStartFragment extends Fragment {
         captainEn.setTypeface(lightTypeface);
 
         RelativeLayout startBtnLayout = view.findViewById(R.id.start_btn_layout);
-        Button startBtn = view.findViewById(R.id.start_btn);
+        ImageView startBtn = view.findViewById(R.id.start_btn);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override

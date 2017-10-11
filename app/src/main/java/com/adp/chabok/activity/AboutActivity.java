@@ -19,6 +19,7 @@ import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.ui.Button;
+import com.adp.chabok.ui.TextView;
 import com.kyleduo.switchbutton.SwitchButton;
 
 public class AboutActivity extends AppCompatActivity {
@@ -33,6 +34,22 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showSettingDialog(view);
+            }
+        });
+
+        Button joinUs = findViewById(R.id.join_us);
+        joinUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSite(view);
+            }
+        });
+
+        TextView phoneNo = findViewById(R.id.phone_no);
+        phoneNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialNumber(view);
             }
         });
 
