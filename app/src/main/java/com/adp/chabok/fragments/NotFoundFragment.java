@@ -41,6 +41,14 @@ public class NotFoundFragment extends Fragment {
             }
         });
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+
+            String message = bundle.getString(MainActivity.DIGGING_RESULT_MESSAGE);
+            msg.setText(getString(R.string.msg_not_found, message));
+
+        }
+
     }
 
 }

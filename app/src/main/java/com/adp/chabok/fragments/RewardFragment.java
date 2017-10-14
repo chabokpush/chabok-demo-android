@@ -44,7 +44,7 @@ public class RewardFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
 
-            String message = bundle.getString(MainActivity.REWARD_MESSAGE);
+            String message = bundle.getString(MainActivity.DIGGING_RESULT_MESSAGE);
             msg.setText(getString(R.string.msg_reward, message));
 
         }

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String REWARD_FRAGMENT = "reward";
     public static final String NOT_FOUND_FRAGMENT = "not-found";
     public static final String INBOX_FRAGMENT = "inbox";
-    public static final String REWARD_MESSAGE = "reward-message";
+    public static final String DIGGING_RESULT_MESSAGE = "digging_result-message";
     private static final String TAG = "MainActivity";
     public static String currentFragmentTag = INBOX_FRAGMENT;
     private SensorManager mSensorManager;
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
             case NOT_FOUND_FRAGMENT:
                 fragment = new NotFoundFragment();
+                fragment.setArguments(bundle);
                 tr.replace(R.id.frame, fragment, NOT_FOUND_FRAGMENT).addToBackStack(InboxFragment.class.getName()).commitAllowingStateLoss();
                 currentFragmentTag = NOT_FOUND_FRAGMENT;
                 break;
@@ -276,15 +277,17 @@ public class MainActivity extends AppCompatActivity {
         if (result != null) {
             try {
                 JSONObject data = result.getData();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(DIGGING_RESULT_MESSAGE, data.getString("msg"));
+
                 Log.d(TAG, "handleMessage: called");
                 if (data.has("found")) {
                     boolean found = data.getBoolean("found");
                     if (found) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(REWARD_MESSAGE, data.getString("msg"));
                         navigateToFragment(REWARD_FRAGMENT, bundle);
                     } else {
-                        navigateToFragment(NOT_FOUND_FRAGMENT, null);
+                        navigateToFragment(NOT_FOUND_FRAGMENT, bundle);
                     }
                 } else {
                     navigateToFragment(NOT_FOUND_FRAGMENT, null);

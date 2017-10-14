@@ -75,7 +75,7 @@
     <string name="msg_plz_wait">لطفاً کمی صبر نمایید</string>
     <string name="msg_app_exit_confirm">آیا مایلید که از برنامه خارج شوید؟</string>
     <string name="msg_reward">%1$s</string>
-    <string name="msg_not_found">باید بیشتر کاوش کنیم این اطراف خبری از گنج نیست، بیشتر در محوطه بچرخ و منتظر راهنمایی‌های ما باش!</string>
+    <string name="msg_not_found">%1$s</string>
 
 
     //----labels
