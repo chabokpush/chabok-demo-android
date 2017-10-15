@@ -48,6 +48,8 @@ import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
 public class ChabokApplication extends Application implements OnLocationUpdateListener {
+
+    private static final String TAG = "ChabokApplication";
     private final static int SUMMARY_NOTIFICATION_LIMIT = 1;
     private static final String NOTIFICATION_GROUP_KEY = "group-key";
     private static ChabokApplication instance;
@@ -297,6 +299,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     @Override
     public void onLocationUpdated(Location location) {
         mCurrentLocation = location;
+        Log.d(TAG, "onLocationUpdated: lat: " + (location != null ? location.getLatitude() : "null"));
         updateUserStatus(location);
     }
 

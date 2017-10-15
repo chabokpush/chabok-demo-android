@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,10 +13,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -36,7 +40,7 @@ import org.json.JSONObject;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
 
     public static final String DISCOVER_FRAGMENT = "discover";
     public static final String REWARD_FRAGMENT = "reward";
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String INBOX_FRAGMENT = "inbox";
     public static final String DIGGING_RESULT_MESSAGE = "digging_result-message";
     private static final String TAG = "MainActivity";
+    private static final String KEY_IS_FIRST_TIME = "key_is_first_time";
     public static String currentFragmentTag = INBOX_FRAGMENT;
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -59,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         ChabokApplication.getInstance().getPushClient().addListener(this);
         ChabokApplication.getInstance().initializeLocationManager();
 
-        checkPermissions();
+        checkIfStartTracking();
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -102,6 +108,34 @@ public class MainActivity extends AppCompatActivity {
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
 
+    }
+
+    private void checkIfStartTracking() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestLocationPermissions();
+        } else {
+            startLocation();
+        }
+    }
+
+    private void startLocation() {
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstTime = mSharedPreferences.getBoolean(KEY_IS_FIRST_TIME, true);
+
+        if (firstTime) {
+            startTracking();
+        } else {
+            Log.d(TAG, "checkPermissions: permissions already granted, call enableLocationOnLaunch");
+            ChabokApplication.getInstance().getLocationManger().enableLocationOnLaunch();
+        }
+    }
+
+    private void startTracking() {
+        Log.d(TAG, "checkIfStartTracking: call startTrackingMe");
+        ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60, 10, 1);
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(KEY_IS_FIRST_TIME, false).apply();
     }
 
     public void navigateToFragment(String tag, Bundle bundle) {
@@ -175,26 +209,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkPermissions() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission check failed. Please handle it in your app before setting up location");
-            String[] permissions = new String[2];
-            permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
-            permissions[1] = Manifest.permission.ACCESS_COARSE_LOCATION;
-            ActivityCompat.requestPermissions(this, permissions, 10);
+            requestLocationPermissions();
 
         } else {
-            Log.d(TAG, "checkPermissions: permissions already granted");
+            Log.d(TAG, "checkPermissions: permissions already granted, call enableLocationOnLaunch");
             ChabokApplication.getInstance().getLocationManger().enableLocationOnLaunch();
         }
     }
 
+    private void requestLocationPermissions() {
+        String[] permissions = new String[2];
+        permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
+        permissions[1] = Manifest.permission.ACCESS_COARSE_LOCATION;
+        ActivityCompat.requestPermissions(this, permissions, 10);
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
-            ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 5 * 60, 50);
+            startLocation();
 
         } else {
             showShouldAllowDialog();
