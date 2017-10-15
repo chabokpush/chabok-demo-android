@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
 
+    private boolean mVisible;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,10 +170,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
 
-
     private void startTracking() {
         Log.d(TAG, "checkIfStartTracking: call startTrackingMe");
-        ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 20);
+        ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 30);
 
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(KEY_IS_FIRST_TIME, false).apply();
     }
@@ -231,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onResume() {
         super.onResume();
+        mVisible = true;
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -238,12 +240,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mSensorListener);
+        mVisible = false;
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         currentFragmentTag = INBOX_FRAGMENT;
+    }
+
+    private void popFragment() {
+        getSupportFragmentManager().popBackStack();
     }
 
     @SuppressWarnings("unused")
@@ -286,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             @Override
             public void onEvent() {
                 dialog.dismiss();
-                getSupportFragmentManager().popBackStack();
+                popFragment();
             }
         });
         dialog.show();
@@ -299,8 +307,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     public void showDiggingResult(EventMessage result) {
 
-        if (!INBOX_FRAGMENT.equals(currentFragmentTag)) {
-            getSupportFragmentManager().popBackStack();
+
+        if (mVisible && !INBOX_FRAGMENT.equals(currentFragmentTag)) {
+            popFragment();
         }
 
         if (result != null) {
