@@ -195,6 +195,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onRequestPermissionsResult: called");
         if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
             ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 5 * 60, 50);
+//            ChabokApplication.getInstance().getLocationManger().startTrackingMe(15 * 60, 10, 0);
+            Log.d(TAG, "startTrackingMe : called");
+
 
         } else {
             showShouldAllowDialog();
