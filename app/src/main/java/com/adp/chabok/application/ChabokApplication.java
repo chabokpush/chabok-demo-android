@@ -30,6 +30,7 @@ import com.adp.chabok.common.Utils;
 import com.adp.chabok.data.ChabokDAO;
 import com.adp.chabok.data.ChabokDAOImpl;
 import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.Callback;
 import com.adpdigital.push.ChabokNotification;
 import com.adpdigital.push.DeliveryMessage;
 import com.adpdigital.push.NotificationHandler;
@@ -80,7 +81,17 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         getPushClient(IntroActivity.class);
         instance = this;
         adpPush.addListener(this);
-        adpPush.enableEventDelivery(EVENT_TREASURE);
+        adpPush.subscribeEvent(EVENT_TREASURE, new Callback() {
+            @Override
+            public void onSuccess(Object o) {
+                Log.d(TAG, "onSuccess: called");
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.d(TAG, "onFailure: called");
+            }
+        });
     }
 
     public void clearMessages() {
@@ -115,8 +126,8 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                 @Override
                 public Class getActivityClass(ChabokNotification chabokNotification) {
-                    if (chabokNotification.getMessage() != null && chabokNotification.getMessage().getTopicName() != null) {
-                        String topic = chabokNotification.getMessage().getTopicName();
+                    if (chabokNotification.getMessage() != null && chabokNotification.getMessage().getChannel() != null) {
+                        String topic = chabokNotification.getMessage().getChannel();
                         return topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME) ? MainActivity.class : WallActivity.class;
                     } else return WallActivity.class;
 
@@ -172,10 +183,10 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
             ComponentName cn = tasks.size() > 0 ? tasks.get(0).getTaskInfo().topActivity : null;
 
             if (cn != null) {
-                return (pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME)
+                return (pushMessage.getChannel().contains(CAPTAIN_CHANNEL_NAME)
                         && cn.getClassName().equals(MainActivity.class.getName())
                         && MainActivity.INBOX_FRAGMENT.equals(MainActivity.currentFragmentTag))
-                        || (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()));
+                        || (pushMessage.getChannel().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()));
             }
         }
 

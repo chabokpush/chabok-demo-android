@@ -44,7 +44,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
     private void handleNewMessage(Context context, PushMessage message) {
 
 
-        String topic = message.getTopicName();
+        String topic = message.getChannel();
 
         String temp = null;
         if (message.getData() != null) {
