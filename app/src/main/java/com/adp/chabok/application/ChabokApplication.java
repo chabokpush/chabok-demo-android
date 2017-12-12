@@ -22,7 +22,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.adp.chabok.R;
-import com.adp.chabok.activity.IntroActivity;
 import com.adp.chabok.activity.MainActivity;
 import com.adp.chabok.activity.WallActivity;
 import com.adp.chabok.common.Constants;
@@ -78,7 +77,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     @Override
     public void onCreate() {
         super.onCreate();
-        getPushClient(IntroActivity.class);
+        getPushClient(MainActivity.class);
         instance = this;
         adpPush.addListener(this);
         adpPush.subscribeEvent(EVENT_TREASURE, new Callback() {

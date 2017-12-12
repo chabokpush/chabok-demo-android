@@ -17,7 +17,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +39,7 @@ import org.json.JSONObject;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     public static final String DISCOVER_FRAGMENT = "discover";
     public static final String REWARD_FRAGMENT = "reward";
@@ -55,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private float mAccelCurrent; // current acceleration including gravity
     private float mAccelLast; // last acceleration including gravity
     private SensorEventListener mSensorListener;
+
+    private boolean mVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 float delta = mAccelCurrent - mAccelLast;
                 mAccel = mAccel * 0.9f + delta;
 
-                if (mAccel > 10) {
+                if (mAccel > 15) {
 
                     if (getFragmentManager().getBackStackEntryCount() == 0 && INBOX_FRAGMENT.equals(currentFragmentTag)) {
                         if (checkLocationAndSetStatus(STATUS_DIGGING)) {
@@ -111,12 +112,32 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void checkIfStartTracking() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestLocationPermissions();
         } else {
             startLocation();
+        }
+    }
+
+    private void requestLocationPermissions() {
+        String[] permissions = new String[2];
+        permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
+        permissions[1] = Manifest.permission.ACCESS_COARSE_LOCATION;
+        ActivityCompat.requestPermissions(this, permissions, 10);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult: called");
+        if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
+            startLocation();
+
+        } else {
+            showShouldAllowDialog();
         }
     }
 
@@ -132,9 +153,27 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }
     }
 
+    private void showShouldAllowDialog() {
+        CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(MainActivity.this, getResources().getString(R.string.should_allow));
+        final AlertDialog dialog = dialogBuilder.create();
+        dialogBuilder.setCustomEventListener(new OnCustomListener() {
+            @Override
+            public void onEvent() {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+    }
+
+
     private void startTracking() {
         Log.d(TAG, "checkIfStartTracking: call startTrackingMe");
-        ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60, 10, 1);
+        ChabokApplication.getInstance().getLocationManger().startTrackingMe(3 * 60 * 60, 10 * 60, 30);
+
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(KEY_IS_FIRST_TIME, false).apply();
     }
 
@@ -193,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onResume() {
         super.onResume();
+        mVisible = true;
         mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -200,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onPause() {
         super.onPause();
         mSensorManager.unregisterListener(mSensorListener);
+        mVisible = false;
+
     }
 
     @Override
@@ -208,53 +250,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         currentFragmentTag = INBOX_FRAGMENT;
     }
 
-    private void checkPermissions() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Permission check failed. Please handle it in your app before setting up location");
-            requestLocationPermissions();
-
-        } else {
-            Log.d(TAG, "checkPermissions: permissions already granted, call enableLocationOnLaunch");
-            ChabokApplication.getInstance().getLocationManger().enableLocationOnLaunch();
-        }
-    }
-
-    private void requestLocationPermissions() {
-        String[] permissions = new String[2];
-        permissions[0] = Manifest.permission.ACCESS_FINE_LOCATION;
-        permissions[1] = Manifest.permission.ACCESS_COARSE_LOCATION;
-        ActivityCompat.requestPermissions(this, permissions, 10);
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG, "onRequestPermissionsResult: called");
-        if (grantResults[0] == PERMISSION_GRANTED && grantResults[1] == PERMISSION_GRANTED) {
-            startLocation();
-
-        } else {
-            showShouldAllowDialog();
-        }
-    }
-
-    private void showShouldAllowDialog() {
-        CustomDialogBuilder dialogBuilder = new CustomDialogBuilder(MainActivity.this, getResources().getString(R.string.should_allow));
-        final AlertDialog dialog = dialogBuilder.create();
-        dialogBuilder.setCustomEventListener(new OnCustomListener() {
-            @Override
-            public void onEvent() {
-                dialog.dismiss();
-                finish();
-            }
-        });
-        dialog.show();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
+    private void popFragment() {
+        getSupportFragmentManager().popBackStack();
     }
 
     @SuppressWarnings("unused")
@@ -297,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             @Override
             public void onEvent() {
                 dialog.dismiss();
-                getSupportFragmentManager().popBackStack();
+                popFragment();
             }
         });
         dialog.show();
@@ -310,8 +307,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     public void showDiggingResult(EventMessage result) {
 
-        if (!INBOX_FRAGMENT.equals(currentFragmentTag)) {
-            getSupportFragmentManager().popBackStack();
+
+        if (mVisible && !INBOX_FRAGMENT.equals(currentFragmentTag)) {
+            popFragment();
         }
 
         if (result != null) {
