@@ -44,7 +44,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
     private void handleNewMessage(Context context, PushMessage message) {
 
 
-        String topic = message.getTopicName();
+        String topic = message.getChannel();
 
         String temp = null;
         if (message.getData() != null) {
@@ -52,7 +52,7 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
         }
         broadcaster = LocalBroadcastManager.getInstance(ChabokApplication.getContext());
 
-        if (topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME)) {
+        if (topic != null && topic.contains(Constants.CAPTAIN_NAME)) {
 
             CaptainMessage newMessage = new CaptainMessage(
                     message.getBody(),
@@ -69,10 +69,8 @@ public class PushMessageReceiver extends WakefulBroadcastReceiver {
 
         } else {
 
-            SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(ChabokApplication.getContext());
-
             String senderId = message.getSenderId() != null ? message.getSenderId().trim() : "";
-            String contactInfo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
+            String contactInfo = AdpPushClient.get().getUserId();
             boolean isMyMessage = senderId.equals(contactInfo);
 
             if (!isMyMessage) {

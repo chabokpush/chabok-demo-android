@@ -6,14 +6,9 @@ import android.widget.ImageView;
 
 import com.adp.chabok.R;
 import com.adp.chabok.application.ChabokApplication;
-import com.adp.chabok.ui.TextView;
 import com.adpdigital.push.AdpPushClient;
 import com.adpdigital.push.Callback;
 import com.adpdigital.push.ConnectionStatus;
-
-import static com.adpdigital.push.ConnectionStatus.CONNECTED;
-import static com.adpdigital.push.ConnectionStatus.CONNECTING;
-import static com.adpdigital.push.ConnectionStatus.DISCONNECTED;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -53,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     private void attachPushClient() {
         final AdpPushClient client = ((ChabokApplication) getApplication()).getPushClient();
         if (client != null) {
-            client.setPushListener(this);
+            client.addListener(this);
         }
         fetchAndUpdateConnectionStatus();
     }

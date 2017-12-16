@@ -15,12 +15,12 @@ public interface Constants {
     String APPLICATION_MEDIUM_FONT = "fonts/iransans_medium.ttf";
     String APPLICATION_LIGHT_FONT = "fonts/iransans_light.ttf";
     String APPLICATION_NORMAL_FONT = "fonts/iransans.ttf";
-    String PREFERENCE_CONTACT_INFO = "contact_info";
     String PREFERENCE_NAME = "name";
     String PREFERENCE_OFF_NOTIFY = "notify";
 
-    String CHANNEL_NAME = "public/wall";
-    String CAPTAIN_CHANNEL_NAME = "captain";
+    String CHANNEL_NAME = "wall";
+    String CAPTAIN_NAME = "captain";
+    String CAPTAIN_CHANNEL_NAME = "private/" + CAPTAIN_NAME;
     String KEY_NAME = "name";
 
     String SEND_BROADCAST = "SEND_BROADCAST_TO_WALL_ACTIVITY";

@@ -111,7 +111,7 @@ public class WallActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put(Constants.KEY_NAME, myPref.getString(Constants.PREFERENCE_NAME, ""));
                 myPushMessage.setData(jsonObject);
-                myPushMessage.setTopicName(Constants.CHANNEL_NAME);
+                myPushMessage.setChannel(Constants.CHANNEL_NAME);
                 myPushMessage.setId(UUID.randomUUID().toString());
                 myPushMessage.setUseAsAlert(true);
                 myPushMessage.setAlertText(myPref.getString(Constants.PREFERENCE_NAME, "") + ": " + msg.getText().toString().trim());

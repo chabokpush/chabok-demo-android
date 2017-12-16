@@ -38,8 +38,8 @@ dependencies {
     compile "com.github.arturogutierrez:badges:$rootProject.badgesVersion"
     compile "me.leolin:ShortcutBadger:$rootProject.shortcutBadgerVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    //compile "com.adpdigital.push:chabok-lib:$rootProject.chabokVersion"
-    compile(name: 'chabok-lib-geo-release-2.8.3', ext: 'aar')
+//    compile 'com.adpdigital.push:chabok-lib-geo:+'
+    compile(name: 'chabok-lib-geo-2.9.0', ext: 'aar')
     compile "com.kyleduo.switchbutton:library:$rootProject.switchbuttonLibrary"
     compile "com.squareup.picasso:picasso:$rootProject.picassoVersion"
 

@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -14,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -41,9 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v4.app.NotificationCompat.GROUP_ALERT_SUMMARY;
-import static com.adp.chabok.common.Constants.CAPTAIN_CHANNEL_NAME;
+import static com.adp.chabok.common.Constants.CAPTAIN_NAME;
 import static com.adp.chabok.common.Constants.CHANNEL_NAME;
-import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
 public class ChabokApplication extends Application implements OnLocationUpdateListener {
@@ -55,7 +52,6 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
     private AdpPushClient adpPush = null;
     private ArrayList<String> lines = new ArrayList<>();
     private boolean buildNotification = true;
-    private SharedPreferences myPref;
 
     private LocationManager locationManger;
     private Location mCurrentLocation;
@@ -79,7 +75,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
         getPushClient(MainActivity.class);
         instance = this;
         adpPush.addListener(this);
-        adpPush.enableEventDelivery(EVENT_TREASURE);
+
     }
 
     public void clearMessages() {
@@ -103,8 +99,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
                 adpPush.addListener(this);
 
 
-                myPref = PreferenceManager.getDefaultSharedPreferences(this);
-                String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
+                String clientNo = adpPush.getUserId();
                 if (!"".equals(clientNo)) {
                     adpPush.register(clientNo, new String[]{CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
                 }
@@ -114,9 +109,9 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
                 @Override
                 public Class getActivityClass(ChabokNotification chabokNotification) {
-                    if (chabokNotification.getMessage() != null && chabokNotification.getMessage().getTopicName() != null) {
-                        String topic = chabokNotification.getMessage().getTopicName();
-                        return topic != null && topic.contains(Constants.CAPTAIN_CHANNEL_NAME) ? MainActivity.class : WallActivity.class;
+                    if (chabokNotification.getMessage() != null && chabokNotification.getMessage().getChannel() != null) {
+                        String topic = chabokNotification.getMessage().getChannel();
+                        return topic != null && topic.contains(Constants.CAPTAIN_NAME) ? MainActivity.class : WallActivity.class;
                     } else return WallActivity.class;
 
                 }
@@ -171,10 +166,10 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
             ComponentName cn = tasks.size() > 0 ? tasks.get(0).getTaskInfo().topActivity : null;
 
             if (cn != null) {
-                return (pushMessage.getTopicName().contains(CAPTAIN_CHANNEL_NAME)
+                return (pushMessage.getChannel().contains(CAPTAIN_NAME)
                         && cn.getClassName().equals(MainActivity.class.getName())
                         && MainActivity.INBOX_FRAGMENT.equals(MainActivity.currentFragmentTag))
-                        || (pushMessage.getTopicName().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()));
+                        || (pushMessage.getChannel().contains(CHANNEL_NAME) && cn.getClassName().equals(WallActivity.class.getName()));
             }
         }
 
@@ -185,7 +180,7 @@ public class ChabokApplication extends Application implements OnLocationUpdateLi
 
         if (pushMessage.getData() != null && pushMessage.getSenderId() != null) {
 
-            if (pushMessage.getSenderId().trim().equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {   // it's users own message
+            if (pushMessage.getSenderId().trim().equals(adpPush.getUserId())) {   // it's users own message
                 return false;
 
             } else if (!pushMessage.getSenderId().trim().equals("")) {  // it's from users and have proper sender name
