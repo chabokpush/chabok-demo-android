@@ -21,6 +21,7 @@ gen/
 
 # Gradle files
 .gradle/
+!gradle-wrapper.jar
 build/
 /*/build/
 
