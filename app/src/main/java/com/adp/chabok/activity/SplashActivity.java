@@ -10,7 +10,9 @@ import android.preference.PreferenceManager;
 import android.widget.TextView;
 
 import com.adp.chabok.R;
+import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
+import com.adpdigital.push.AdpPushClient;
 
 public class SplashActivity extends Activity {
 
@@ -29,9 +31,9 @@ public class SplashActivity extends Activity {
 
             public void run() {
 
-                String clientNo = myPref.getString(Constants.PREFERENCE_CONTACT_INFO, "");
+                String clientNo = AdpPushClient.get().getUserId();
 
-                Intent mainIntent = new Intent(SplashActivity.this, (!"".equals(clientNo)) ? MainActivity.class : IntroActivity.class );
+                Intent mainIntent = new Intent(SplashActivity.this, (clientNo != null && !"".equals(clientNo)) ? MainActivity.class : IntroActivity.class );
                 SplashActivity.this.startActivity(mainIntent);
                 SplashActivity.this.finish();
             }

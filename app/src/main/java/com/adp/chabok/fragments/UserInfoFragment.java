@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 
 import com.adp.chabok.R;
 import com.adp.chabok.activity.IntroActivity;
-import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.common.Validator;
 import com.adp.chabok.ui.Button;
@@ -139,14 +138,15 @@ public class UserInfoFragment extends Fragment {
 
                     SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-                    if ("".equals(myPref.getString(Constants.PREFERENCE_CONTACT_INFO, ""))) {
 
-                        AdpPushClient client = ChabokApplication.getInstance().getPushClient();
+                    String pushClientUserId = AdpPushClient.get().getUserId();
+                    if (pushClientUserId == null || pushClientUserId.isEmpty()) {
+
+                        AdpPushClient client = AdpPushClient.get();
                         String userId = Validator.createUserId(contactInfo.getText().toString());
 
 
                         SharedPreferences.Editor editor = myPref.edit();
-                        editor.putString(Constants.PREFERENCE_CONTACT_INFO, userId);
                         editor.putString(Constants.PREFERENCE_NAME, fullName.getText().toString());
                         editor.apply();
 
@@ -156,7 +156,7 @@ public class UserInfoFragment extends Fragment {
                         userInfo.put("userId", userId);
                         client.setUserInfo(userInfo);
 
-                        client.register(userId , new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
+                        client.register(userId, new String[]{Constants.CHANNEL_NAME, Constants.CAPTAIN_CHANNEL_NAME});
 
                         ((IntroActivity) getActivity()).gotToMain();
 

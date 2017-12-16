@@ -31,12 +31,16 @@ import com.adp.chabok.fragments.NotFoundFragment;
 import com.adp.chabok.fragments.RewardFragment;
 import com.adp.chabok.ui.CustomDialogBuilder;
 import com.adp.chabok.ui.OnCustomListener;
+import com.adpdigital.push.AdpPushClient;
+import com.adpdigital.push.AppState;
+import com.adpdigital.push.Callback;
 import com.adpdigital.push.EventMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.adp.chabok.common.Constants.EVENT_TREASURE;
 import static com.adp.chabok.common.Constants.STATUS_DIGGING;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public static final String DIGGING_RESULT_MESSAGE = "digging_result-message";
     private static final String TAG = "MainActivity";
     private static final String KEY_IS_FIRST_TIME = "key_is_first_time";
+    private static final String SUBSCRIBE_EVENT = "subscribe_event";
     public static String currentFragmentTag = INBOX_FRAGMENT;
     private SensorManager mSensorManager;
     private float mAccel; // acceleration apart from gravity
@@ -265,6 +270,39 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 }
             });
         }
+    }
+
+    public void onEvent(AppState state) {
+        if (state != null && state.equals(AppState.REGISTERED)) {
+
+            subscribeEvent();
+
+        }
+    }
+
+    private void subscribeEvent() {
+
+        final SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean subscribed = mSharedPreferences.getBoolean(SUBSCRIBE_EVENT, false);
+        AdpPushClient client = AdpPushClient.get();
+
+        if (!subscribed && client.isRegistered()) {
+
+
+            client.subscribeEvent(EVENT_TREASURE, client.getInstallationId(), new Callback() {
+                @Override
+                public void onSuccess(Object o) {
+                    PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putBoolean(SUBSCRIBE_EVENT, true).apply();
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Log.d(TAG, "onFailure: called");
+                }
+            });
+
+        }
+
     }
 
     public boolean checkLocationAndSetStatus(String status) {

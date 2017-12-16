@@ -16,10 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.adp.chabok.R;
-import com.adp.chabok.application.ChabokApplication;
 import com.adp.chabok.common.Constants;
 import com.adp.chabok.ui.Button;
 import com.adp.chabok.ui.TextView;
+import com.adpdigital.push.AdpPushClient;
 import com.kyleduo.switchbutton.SwitchButton;
 
 public class AboutActivity extends AppCompatActivity {
@@ -72,7 +72,6 @@ public class AboutActivity extends AppCompatActivity {
         }
 
 
-        final ChabokApplication app = (ChabokApplication) getApplication();
         final SharedPreferences myPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         final SwitchButton switchBtn = dialogView.findViewById(R.id.switch_btn);
@@ -89,10 +88,10 @@ public class AboutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (switchBtn.isChecked()) {
                     myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, false).apply();
-                    app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, "default", true);
+                    AdpPushClient.get().updateNotificationSettings(Constants.CHANNEL_NAME, "default", true);
                 } else {
                     myPref.edit().putBoolean(Constants.PREFERENCE_OFF_NOTIFY, true).apply();
-                    app.getPushClient().updateNotificationSettings(Constants.CHANNEL_NAME, null, false);
+                    AdpPushClient.get().updateNotificationSettings(Constants.CHANNEL_NAME, null, false);
                 }
             }
         });
