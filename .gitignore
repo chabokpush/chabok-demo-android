@@ -24,9 +24,6 @@ gen/
 !gradle-wrapper.jar
 build/
 /*/build/
-gradle/
-gradlew
-gradlew.bat
 
 
 # Local configuration file (sdk path, etc)
