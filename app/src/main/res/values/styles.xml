@@ -1,0 +1,78 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        Customize your theme here.
+        <item name="colorPrimary">@color/my_white</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorBlue1</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Button">
+        <item name="android:textColor">@color/colorGreen2</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="Text.title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">@dimen/text_title_size</item>
+        <item name="android:textColor">@color/textTitle</item>
+        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
+    </style>
+
+    <style name="Text.subtitle">
+        <item name="android:typeface">normal</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:textSize">@dimen/text_sub_title_size</item>
+        <item name="android:textColor">@color/textTitle</item>
+        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
+    </style>
+
+    <style name="Text.senderName">
+        <item name="android:singleLine">false</item>
+        <item name="android:textSize">@dimen/text_sender_name_size</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textTitle</item>
+        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
+    </style>
+
+    <style name="Text.hints">
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:textColor">@color/error_color</item>
+    </style>
+
+    <style name="Text.SettingItem">
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">@dimen/menu_item</item>
+        <item name="android:textColor">@color/textTitle</item>
+        <item name="android:textColorHint">@color/menu_item_hint_text_color</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Text.message_date">
+        <item name="android:textSize">@dimen/text_content_size</item>
+        <item name="android:textColor">@color/textHintColor</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+</resources>

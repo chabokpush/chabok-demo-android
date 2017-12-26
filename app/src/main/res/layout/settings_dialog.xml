@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/setting_menu_item_1_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/settings_bg">
+
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/setting_menu_item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/msg_color"
+            android:text="@string/do_notify"
+            android:textSize="16sp" />
+
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/switch_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            app:kswBackRadius="20dp"
+            app:kswFadeBack="true"
+            app:kswThumbHeight="25dp"
+            app:kswThumbRadius="20dp"
+            app:kswThumbWidth="25dp"
+            app:kswTintColor="@color/switch_btn" />
+
+    </RelativeLayout>
+    
+    <com.adp.chabok.ui.Button
+        android:id="@+id/ok_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:textColor="@color/my_white"
+        android:textSize="16sp"
+        android:text="@string/action_yeah"
+        android:background="@drawable/setting_ok_btn"/>
+
+
+</LinearLayout>

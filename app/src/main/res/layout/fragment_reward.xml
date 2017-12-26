@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/treasure"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="treasure.json"
+        app:lottie_loop="true" />
+
+    <com.adp.chabok.ui.TextView
+        android:id="@+id/reward_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/treasure"
+        android:text="@string/msg_reward"
+        android:layout_margin="38dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/msg_color"
+        android:background="@android:color/transparent"
+        android:textSize="20sp"/>
+
+    <com.adp.chabok.ui.Button
+        android:id="@+id/ok_btn"
+        android:layout_width="163dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:text="@string/action_yeah"
+        android:textSize="18sp"
+        android:textColor="@color/brown_btn_text"
+        android:background="@drawable/brown_button_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="30dp">
+
+
+                <com.adp.chabok.ui.TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/anounce_register"
+                    android:textSize="12dp" />
+
+                <com.adp.chabok.ui.EditText
+                    android:id="@+id/nameEditText"
+                    style="@style/Text.SettingItem"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:gravity="start"
+                    android:hint="@string/hint_name"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:nextFocusForward="@+id/companyEditText" />
+
+                <com.adp.chabok.ui.EditText
+                    android:id="@+id/companyEditText"
+                    style="@style/Text.SettingItem"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:gravity="start"
+                    android:hint="@string/hint_company"
+                    android:inputType="textCapWords"
+                    android:maxLength="30" />
+
+                <com.adp.chabok.ui.EditText
+                    android:id="@+id/emailEditText"
+                    style="@style/Text.SettingItem"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:layout_marginTop="7dp"
+                    android:gravity="start"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="40"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <com.adp.chabok.ui.Button
+        android:id="@+id/doneButton"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/button_style_done"
+        android:text="@string/action_get_activation" />
+
+
+</RelativeLayout>

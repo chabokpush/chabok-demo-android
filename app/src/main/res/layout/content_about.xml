@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/bg"
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_weight="0.1"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_setting" />
+
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/action_bar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_about_chabok"
+            android:textColor="@color/my_white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/chabok_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/chabok_logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|top"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="chabok.json"
+            app:lottie_loop="true" />
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/chabok_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/service_name"
+            android:textAlignment="center"
+            android:textColor="@color/chabok_color"
+            android:textSize="24sp" />
+
+        <com.adp.chabok.ui.TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_horizontal|top"
+            android:text="@string/lbl_app_description"
+            android:textColor="@color/msg_color"
+            android:textSize="14sp" />
+
+
+        <com.adp.chabok.ui.Button
+            android:id="@+id/join_us"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal|top"
+            android:shadowColor="@android:color/transparent"
+            android:background="@drawable/blue_button_bg"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="openSite"
+            android:text="@string/action_join_us"
+            android:textColor="@color/my_white"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="275dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="21dp"
+        android:background="@color/separator" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <com.adp.chabok.ui.TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/lbl_chabok_about"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.adp.chabok.ui.TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            android:drawableEnd="@drawable/ic_location"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_location"
+            android:gravity="right"
+            android:maxLines="2"
+            android:text="@string/lbl_chabok_address"
+            android:textColor="@color/msg_color"
+            android:textSize="12sp" />
+
+
+        <com.adp.chabok.ui.TextView
+            android:id="@+id/phone_no"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_mobile"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/ic_mobile"
+            android:gravity="right"
+            android:onClick="dialNumber"
+            android:text="@string/lbl_chabok_phone"
+            android:textColor="@color/msg_color"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

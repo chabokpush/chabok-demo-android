@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_bg"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/brown_av"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="72dp"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:src="@drawable/brown_selector" />
+
+    <ImageView
+        android:id="@+id/red_av"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="72dp"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:src="@drawable/red_selector" />
+
+    <ImageView
+        android:id="@+id/white_av"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/brown_av"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:src="@drawable/white_selector" />
+
+    <ImageView
+        android:id="@+id/gold_av"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/red_av"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="center"
+        android:src="@drawable/gold_selector" />
+
+
+
+    <com.adp.chabok.ui.Button
+        android:id="@+id/select_btn"
+        android:layout_width="326dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="49dp"
+        android:background="@drawable/blue_button_bg"
+        android:gravity="center"
+        android:text="@string/action_select_captain"
+        android:textAlignment="center"
+        android:textColor="@color/my_white"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <com.adp.chabok.ui.Button
+        android:id="@+id/next_btn"
+        android:layout_width="163dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="49dp"
+        android:background="@drawable/brown_button_bg"
+        android:gravity="center"
+        android:text="@string/action_next"
+        android:textAlignment="center"
+        android:textColor="@color/brown_btn_text"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_bg"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:adjustViewBounds="true"
+                android:scaleType="center" />
+
+            <LinearLayout
+                android:id="@+id/register_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/avatar"
+                android:orientation="vertical">
+
+
+                <com.adp.chabok.ui.EditText
+                    android:id="@+id/full_name"
+                    android:layout_width="300dp"
+                    android:layout_height="58dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="38dp"
+                    android:layout_marginTop="38dp"
+                    android:background="@drawable/white_input_bg"
+                    android:gravity="center"
+                    android:hint="@string/full_name"
+                    android:imeActionId="@+id/contact_info"
+                    android:imeOptions="actionNext"
+                    android:maxLength="30"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/hint_color"
+                    android:textSize="18sp" />
+
+                <com.adp.chabok.ui.EditText
+                    android:id="@+id/contact_info"
+                    android:layout_width="300dp"
+                    android:layout_height="58dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginRight="38dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/white_input_bg"
+                    android:digits="0123456789"
+                    android:gravity="center"
+                    android:hint="@string/contact_info"
+                    android:inputType="phone"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/hint_color"
+                    android:textSize="18sp" />
+
+                <com.adp.chabok.ui.Button
+                    android:id="@+id/lets_go_btn"
+                    android:layout_width="163dp"
+                    android:layout_height="63dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/brown_button_bg"
+                    android:gravity="center"
+                    android:text="@string/action_lets_go"
+                    android:textAlignment="center"
+                    android:textColor="@color/brown_btn_text"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>
